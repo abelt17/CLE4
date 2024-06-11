@@ -1,6 +1,9 @@
 import '../css/style.css'
 import { Actor, Engine, Vector, DisplayMode } from "excalibur"
 import { Resources, ResourceLoader } from './resources.js'
+import { MainMenuScene } from './mainMenu.js';
+import { Level } from './level1.js';
+
 
 export class Game extends Engine {
 
@@ -14,14 +17,13 @@ export class Game extends Engine {
         this.start(ResourceLoader).then(() => this.startGame())
     }
 
-    startGame() {
-        console.log("start de game!")
-        const fish = new Actor()
-        fish.graphics.use(Resources.Fish.toSprite())
-        fish.pos = new Vector(400, 300)
-        fish.vel = new Vector(-10,0)
-        this.add(fish)
+    async startGame() {
+
+        this.add('mainmenu', new MainMenuScene());
+        this.add('level', new Level());
+
+        this.goToScene('mainmenu');
     }
 }
 
-new Game()
+new Game();
