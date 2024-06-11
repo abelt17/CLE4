@@ -3,10 +3,18 @@ import { Resources } from './resources.js';
 
 export class Player extends Actor {
 
+    constructor() {
+        super({
+            width: Resources.Fish.width,
+            height: Resources.Fish.height,
+        })
+    }
+
     onInitialize(engine) {
         this.graphics.use(Resources.Fish.toSprite());
         this.pos = new Vector(400, 400);
         this.vel = new Vector(0, 0);
+
     }
 
     onPreUpdate(engine) {

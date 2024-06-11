@@ -21,8 +21,8 @@ export class Game extends Engine {
     async startGame() {
 
         this.add('mainmenu', new MainMenuScene());
-        this.add('level', new Level1());
-        this.add('level', new Level2());
+        this.add('level1', new Level1());
+        this.add('level2', new Level2());
 
         this.goToScene('mainmenu');
     }

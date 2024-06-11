@@ -40,7 +40,7 @@ class MainMenuScene extends Scene {
         super.update(engine, delta);
 
         if (engine.input.keyboard.wasPressed(Keys.Enter)) {
-            engine.goToScene('level');
+            engine.goToScene('level1');
         }
     }
 }

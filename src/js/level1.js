@@ -8,6 +8,9 @@ export class Level1 extends Scene {
     onActivate(){
         this.background = new Background(Resources.WindowsHills.toSprite(), 750, 370, 1.1, 1);
         this.add(this.background);
+        
+        this.bridge = new Background(Resources.PixelArtBridge.toSprite(), 1000, 370, 0.3, 0.3);
+        this.add(this.bridge);
 
         this.player = new Player();
         this.add(this.player);
