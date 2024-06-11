@@ -20,6 +20,6 @@ export class Level extends Scene {
 
         this.camera.pos = playerPos;
     }
-
+         TEST
 }
 
