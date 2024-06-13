@@ -2,10 +2,12 @@ import { Actor, Vector, CollisionType, Timer } from "excalibur";
 import { Resources } from './resources.js';
 
 export class Enemy extends Actor {
-    constructor(sprite, x, y) {
+    constructor(sprite, x, y, width, height) {
         super({
             pos: new Vector(x, y),
-            collisionType: CollisionType.Passive // Set collision type if needed
+            collisionType: CollisionType.Passive, // Set collision type if needed
+            width: width,
+            height: height
         });
         this.graphics.use(sprite);
 

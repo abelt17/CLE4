@@ -1,6 +1,7 @@
 import { Actor, Vector, Keys, clamp, CollisionType } from "excalibur";
 import { Resources } from './resources.js';
 import { Bridge } from "./bridge.js";
+import { Enemy } from "./enemy.js";
 
 export class Player extends Actor {
 
@@ -34,7 +35,6 @@ export class Player extends Actor {
         if (engine.input.keyboard.isHeld(Keys.A) || engine.input.keyboard.isHeld(Keys.Left)) {
             xspeed = -100
         }
-        
         this.vel = new Vector(xspeed, yspeed);
         this.graphics.flipHorizontal = (this.vel.x > 0)
     }
@@ -50,6 +50,9 @@ export class Player extends Actor {
             } else if (event.other.identifier === "level2_bridge") {
                 this.scene.engine.goToScene('level1');
             }
+        }
+        if (event.other instanceof Enemy) {
+            console.log('enemy hit');
         }
     }
 }
