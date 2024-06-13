@@ -3,8 +3,7 @@ import { Actor, Engine, Vector, DisplayMode } from "excalibur"
 import { Resources, ResourceLoader } from './resources.js'
 import { MainMenuScene } from './mainMenu.js';
 import { IntroScene } from './introScene.js';
-import { Level1 } from './level1.js';
-import { Level2 } from './level2.js';
+import { EnemyFight, Level1, Level2 } from './levels.js';
 
 
 export class Game extends Engine {
@@ -23,8 +22,9 @@ export class Game extends Engine {
 
         this.add('mainmenu', new MainMenuScene());
         this.add('intro', new IntroScene());
-        this.add('level', new Level1());
-        this.add('level', new Level2());
+        this.add('enemyFight', new EnemyFight());
+        this.add('level1', new Level1());
+        this.add('level2', new Level2());
 
         this.goToScene('mainmenu');
     }

@@ -1,18 +1,36 @@
 import { Actor, Vector, Keys, clamp, CollisionType } from "excalibur";
 import { Resources } from './resources.js';
+import { Bridge } from "./bridge.js";
+import { Enemy } from "./enemy.js";
+
+export class StaticPlayer extends Actor {
+    constructor(x, y) {
+        super({
+            width: Resources.Fish.width,
+            height: Resources.Fish.height,
+        })
+        this.graphics.use(Resources.Fish.toSprite());
+        this.pos = new Vector(x, y);
+    }
+
+}
 
 export class Player extends Actor {
 
-    onInitialize(engine) {
+    constructor(x, y) {
+        super({
+            width: Resources.Fish.width,
+            height: Resources.Fish.height,
+        })
         this.graphics.use(Resources.Fish.toSprite());
-        this.pos = new Vector(400, 400);
+        this.pos = new Vector(x, y);
         this.vel = new Vector(0, 0);
     }
-
+    
     onPreUpdate(engine) {
         let xspeed = 0;
         let yspeed = 0;
-
+        
         if (engine.input.keyboard.isHeld(Keys.W) || engine.input.keyboard.isHeld(Keys.Up)) {
             yspeed = -100;
         }
@@ -28,9 +46,33 @@ export class Player extends Actor {
         if (engine.input.keyboard.isHeld(Keys.A) || engine.input.keyboard.isHeld(Keys.Left)) {
             xspeed = -100
         }
-
         this.vel = new Vector(xspeed, yspeed);
         this.graphics.flipHorizontal = (this.vel.x > 0)
     }
+    
+    onInitialize(engine) {
+        this.on('collisionstart', (event) => this.hitSomething(event));
+    }
 
+    hitSomething(event) {
+        if (event.other instanceof Bridge) {
+            if (event.other.identifier === "level1_bridge") {
+                this.scene.engine.goToScene('level2');
+            } else if (event.other.identifier === "level2_bridge") {
+                this.scene.engine.goToScene('level1');
+            }
+        }
+        if (event.other instanceof Enemy) {
+            if (event.other.identifier === "fish") {
+                this.scene.engine.goToScene('enemyFight');
+                const enemyFightScene = this.scene.engine.scenes.enemyFight;
+                enemyFightScene.updateEnemy('fish'); // Change the enemy to fish
+            }
+            if (event.other.identifier === "spider") {
+                this.scene.engine.goToScene('enemyFight');
+                const enemyFightScene = this.scene.engine.scenes.enemyFight;
+                enemyFightScene.updateEnemy('spider'); // Change the enemy to spider
+            }
+        }
+    }
 }
