@@ -2,6 +2,7 @@ import { Actor, Scene, Vector, Color, BoundingBox, Sound, Timer } from "excalibu
 import { Resources, ResourceLoader } from './resources.js';
 import { Player } from './player.js'
 import { Background } from "./background.js";
+import { Bridge } from "./bridge.js";
 
 export class Level1 extends Scene {
 
@@ -9,7 +10,7 @@ export class Level1 extends Scene {
         this.background = new Background(Resources.WindowsHills.toSprite(), 750, 370, 1.1, 1);
         this.add(this.background);
         
-        this.bridge = new Background(Resources.PixelArtBridge.toSprite(), 1000, 370, 0.3, 0.3);
+        this.bridge = new Bridge(Resources.PixelArtBridge.toSprite(), 1000, 370, 0.3, 0.3, 500, 500);
         this.add(this.bridge);
 
         this.player = new Player();

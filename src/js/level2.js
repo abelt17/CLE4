@@ -6,7 +6,7 @@ import { Background } from "./background.js";
 export class Level2 extends Scene {
 
     onActivate(){
-        this.background = new Background(Resources.Fish.toSprite(), 750, 370, 1.1, 1);
+        this.background = new Background(Resources.WindowsHills.toSprite(), 750, 370, 1.1, 1);
         this.add(this.background);
 
         this.player = new Player();
