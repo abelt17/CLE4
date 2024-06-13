@@ -6,6 +6,7 @@ const Resources = {
     WindowsHills: new ImageSource('images/windows-hills.jpg'),
     BridgeHome: new ImageSource('images/bridge_home.jpg'),
     PixelArtBridge: new ImageSource('images/pixel-art-bridge.png'),
+    Spider: new ImageSource('images/spider.png'),
 }
 
 

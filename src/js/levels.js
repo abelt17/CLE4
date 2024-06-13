@@ -15,10 +15,12 @@ export class Level1 extends Scene {
         this.add(this.bridge);
 
         for(let i = 0; i < 10; i++) {
-            this.enemy = new Enemy(Resources.Fish.toSprite(), 100, 100, Resources.Fish.width, Resources.Fish.height);
+            this.enemy = new Enemy(Resources.Fish.toSprite(), 100, 100, Resources.Fish.width, Resources.Fish.height, "fish");
             this.add(this.enemy);
         }
 
+        this.spider = new Enemy(Resources.Spider.toSprite(), 200, 100, Resources.Spider.width, Resources.Spider.height, "spider");
+        this.add(this.spider);
 
         this.player = new Player();
         this.add(this.player);

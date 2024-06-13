@@ -52,7 +52,12 @@ export class Player extends Actor {
             }
         }
         if (event.other instanceof Enemy) {
-            console.log('enemy hit');
+            if (event.other.identifier === "fish") {
+                console.log('fish hit');
+            }
+            if (event.other.identifier === "spider") {
+                console.log('spider hit');
+            }
         }
     }
 }

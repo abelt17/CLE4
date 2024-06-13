@@ -2,7 +2,7 @@ import { Actor, Vector, CollisionType, Timer } from "excalibur";
 import { Resources } from './resources.js';
 
 export class Enemy extends Actor {
-    constructor(sprite, x, y, width, height) {
+    constructor(sprite, x, y, width, height, identifier) {
         super({
             pos: new Vector(x, y),
             collisionType: CollisionType.Passive, // Set collision type if needed
@@ -10,6 +10,8 @@ export class Enemy extends Actor {
             height: height
         });
         this.graphics.use(sprite);
+        this.identifier = identifier; // Add an identifier property
+
 
         this.speed = 50; // Define the speed of the enemy
         this.direction = new Vector(0, 0); // Initialize direction vector
