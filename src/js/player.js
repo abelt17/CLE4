@@ -45,7 +45,11 @@ export class Player extends Actor {
 
     hitSomething(event) {
         if (event.other instanceof Bridge) {
-            this.scene.engine.goToScene('level2');
+            if (event.other.identifier === "level1_bridge") {
+                this.scene.engine.goToScene('level2');
+            } else if (event.other.identifier === "level2_bridge") {
+                this.scene.engine.goToScene('level1');
+            }
         }
     }
 }
