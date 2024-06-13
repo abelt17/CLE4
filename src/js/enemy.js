@@ -39,3 +39,13 @@ export class Enemy extends Actor {
         this.vel = this.direction;
     }
 }
+
+export class StaticEnemy extends Actor {
+    constructor(sprite, x, y) {
+        super({
+            pos: new Vector(x, y),
+        });
+        this.graphics.use(sprite);
+    }
+
+}

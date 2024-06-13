@@ -3,7 +3,23 @@ import { Resources, ResourceLoader } from './resources.js';
 import { Player } from './player.js'
 import { Background } from "./background.js";
 import { Bridge } from "./bridge.js";
-import { Enemy } from "./enemy.js";
+import { Enemy, StaticEnemy } from "./enemy.js";
+
+export class EnemyFight extends Scene {
+
+    updateEnemy(identifier) {
+        this.remove(this.enemy);
+        
+        if (identifier === "fish") {
+            this.enemy = new StaticEnemy(Resources.Fish.toSprite(), 500, 500);
+        } else if (identifier === "spider") {
+            this.enemy = new StaticEnemy(Resources.Spider.toSprite(), 500, 500);
+        }
+        
+        this.add(this.enemy);
+    }
+
+}
 
 export class Level1 extends Scene {
 
@@ -11,7 +27,7 @@ export class Level1 extends Scene {
         this.background = new Background(Resources.WindowsHills.toSprite(), 750, 370, 1.1, 1);
         this.add(this.background);
         
-        this.bridge = new Bridge(Resources.PixelArtBridge.toSprite(), 1000, 370, 0.3, 0.3, 100, 100, "level1_bridge");
+        this.bridge = new Bridge(Resources.PixelArtBridge.toSprite(), 1000, 370, 0.3, 0.3, 500, 500, "level1_bridge");
         this.add(this.bridge);
 
         for(let i = 0; i < 10; i++) {

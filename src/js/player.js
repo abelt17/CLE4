@@ -2,6 +2,7 @@ import { Actor, Vector, Keys, clamp, CollisionType } from "excalibur";
 import { Resources } from './resources.js';
 import { Bridge } from "./bridge.js";
 import { Enemy } from "./enemy.js";
+import { EnemyFight } from "./levels.js";
 
 export class Player extends Actor {
 
@@ -14,7 +15,6 @@ export class Player extends Actor {
         this.pos = new Vector(400, 400);
         this.vel = new Vector(0, 0);
     }
-
     
     onPreUpdate(engine) {
         let xspeed = 0;
@@ -53,10 +53,14 @@ export class Player extends Actor {
         }
         if (event.other instanceof Enemy) {
             if (event.other.identifier === "fish") {
-                console.log('fish hit');
+                this.scene.engine.goToScene('enemyFight');
+                const enemyFightScene = this.scene.engine.scenes.enemyFight;
+                enemyFightScene.updateEnemy('fish'); // Change the enemy to fish
             }
             if (event.other.identifier === "spider") {
-                console.log('spider hit');
+                this.scene.engine.goToScene('enemyFight');
+                const enemyFightScene = this.scene.engine.scenes.enemyFight;
+                enemyFightScene.updateEnemy('spider'); // Change the enemy to spider
             }
         }
     }
