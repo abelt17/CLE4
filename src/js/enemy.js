@@ -41,11 +41,17 @@ export class Enemy extends Actor {
 }
 
 export class StaticEnemy extends Actor {
-    constructor(sprite, x, y) {
+    constructor(sprite, x, y, identifier) {
         super({
             pos: new Vector(x, y),
         });
         this.graphics.use(sprite);
+        this.identifier = identifier; // Add an identifier property
+        // Set health based on the identifier
+        if (identifier === "fish") {
+            this.health = 100;
+        } else if (identifier === "spider") {
+            this.health = 200;
+        }
     }
-
 }

@@ -15,9 +15,9 @@ export class EnemyFight extends Scene {
         
         
         if (identifier === "fish") {
-            this.enemy = new StaticEnemy(Resources.Fish.toSprite(), 1000, 300);
+            this.enemy = new StaticEnemy(Resources.Fish.toSprite(), 1000, 300, "fish");
         } else if (identifier === "spider") {
-            this.enemy = new StaticEnemy(Resources.Spider.toSprite(), 1000, 300);
+            this.enemy = new StaticEnemy(Resources.Spider.toSprite(), 1000, 300, "spider");
         }
         
         this.add(this.enemy);
