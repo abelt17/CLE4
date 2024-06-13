@@ -1,6 +1,6 @@
 import { Actor, Scene, Vector, Color, BoundingBox, Sound, Timer } from "excalibur";
 import { Resources, ResourceLoader } from './resources.js';
-import { Player } from './player.js'
+import { Player, StaticPlayer } from './player.js'
 import { Background } from "./background.js";
 import { Bridge } from "./bridge.js";
 import { Enemy, StaticEnemy } from "./enemy.js";
@@ -8,12 +8,16 @@ import { Enemy, StaticEnemy } from "./enemy.js";
 export class EnemyFight extends Scene {
 
     updateEnemy(identifier) {
-        this.remove(this.enemy);
+        this.remove(this.enemy, this.player);
+        
+        this.player = new StaticPlayer(400, 600);
+        this.add(this.player);
+        
         
         if (identifier === "fish") {
-            this.enemy = new StaticEnemy(Resources.Fish.toSprite(), 500, 500);
+            this.enemy = new StaticEnemy(Resources.Fish.toSprite(), 1000, 300);
         } else if (identifier === "spider") {
-            this.enemy = new StaticEnemy(Resources.Spider.toSprite(), 500, 500);
+            this.enemy = new StaticEnemy(Resources.Spider.toSprite(), 1000, 300);
         }
         
         this.add(this.enemy);
@@ -38,7 +42,7 @@ export class Level1 extends Scene {
         this.spider = new Enemy(Resources.Spider.toSprite(), 200, 100, Resources.Spider.width, Resources.Spider.height, "spider");
         this.add(this.spider);
 
-        this.player = new Player();
+        this.player = new Player(400, 400);
         this.add(this.player);
     }
 
@@ -61,7 +65,7 @@ export class Level2 extends Scene {
         this.bridge = new Bridge(Resources.PixelArtBridge.toSprite(), 1000, 370, 0.3, 0.3, 500, 500, "level2_bridge");
         this.add(this.bridge);
 
-        this.player = new Player();
+        this.player = new Player(400, 400);
         this.add(this.player);
     }
 

@@ -2,17 +2,28 @@ import { Actor, Vector, Keys, clamp, CollisionType } from "excalibur";
 import { Resources } from './resources.js';
 import { Bridge } from "./bridge.js";
 import { Enemy } from "./enemy.js";
-import { EnemyFight } from "./levels.js";
 
-export class Player extends Actor {
-
-    constructor() {
+export class StaticPlayer extends Actor {
+    constructor(x, y) {
         super({
             width: Resources.Fish.width,
             height: Resources.Fish.height,
         })
         this.graphics.use(Resources.Fish.toSprite());
-        this.pos = new Vector(400, 400);
+        this.pos = new Vector(x, y);
+    }
+
+}
+
+export class Player extends Actor {
+
+    constructor(x, y) {
+        super({
+            width: Resources.Fish.width,
+            height: Resources.Fish.height,
+        })
+        this.graphics.use(Resources.Fish.toSprite());
+        this.pos = new Vector(x, y);
         this.vel = new Vector(0, 0);
     }
     
