@@ -7,7 +7,7 @@ import { Enemy } from "./enemy.js";
 
 export class Level1 extends Scene {
 
-    onActivate(){
+    onInitialize(){
         this.background = new Background(Resources.WindowsHills.toSprite(), 750, 370, 1.1, 1);
         this.add(this.background);
         
@@ -36,7 +36,7 @@ export class Level1 extends Scene {
 
 export class Level2 extends Scene {
 
-    onActivate(){
+    onInitialize(){
         this.background = new Background(Resources.WindowsHills.toSprite(), 750, 370, 1.1, 1);
         this.add(this.background);
 

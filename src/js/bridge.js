@@ -15,5 +15,3 @@ export class Bridge extends Actor {
         this.identifier = identifier; // Add an identifier property
     }
 }
-
-

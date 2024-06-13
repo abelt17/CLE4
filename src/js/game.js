@@ -3,7 +3,6 @@ import { Actor, Engine, Vector, DisplayMode } from "excalibur"
 import { Resources, ResourceLoader } from './resources.js'
 import { MainMenuScene } from './mainMenu.js';
 import { Level1, Level2 } from './levels.js';
-// import { Level2 } from './level2.js';
 
 
 export class Game extends Engine {
