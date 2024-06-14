@@ -46,25 +46,30 @@ export class EnemyFight extends Scene {
 }
 
 export class Level1 extends Scene {
-
     onInitialize() {
+
         this.background = new Background(Resources.WindowsHills.toSprite(), 750, 370, 1.1, 1);
         this.add(this.background);
 
         this.bridge = new Bridge(Resources.PixelArtBridge.toSprite(), 1000, 370, 0.3, 0.3, 500, 500, "level1_bridge");
         this.add(this.bridge);
 
+        this.spawnEnemies();
+
+        this.player = new Player(400, 400);
+        this.add(this.player);
+    }
+
+    spawnEnemies() {
         for (let i = 0; i < 10; i++) {
-            this.enemy = new Enemy(Resources.Fish.toSprite(), 100, 100, Resources.Fish.width, Resources.Fish.height, "fish");
+            this.enemy = new Enemy(Resources.Fish.toSprite(), 100 + i * 50, 100, Resources.Fish.width, Resources.Fish.height, "fish");
             this.add(this.enemy);
         }
 
         this.spider = new Enemy(Resources.Spider.toSprite(), 200, 100, Resources.Spider.width, Resources.Spider.height, "spider");
         this.add(this.spider);
-
-        this.player = new Player(400, 400);
-        this.add(this.player);
     }
+
 
     onPreUpdate(engine, delta) {
         super.onPreUpdate(engine, delta);

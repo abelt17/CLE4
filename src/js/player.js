@@ -37,19 +37,19 @@ export class Player extends Actor {
         let yspeed = 0;
         
         if (engine.input.keyboard.isHeld(Keys.W) || engine.input.keyboard.isHeld(Keys.Up)) {
-            yspeed = -100;
+            yspeed = -200;
         }
 
         if (engine.input.keyboard.isHeld(Keys.S) || engine.input.keyboard.isHeld(Keys.Down)) {
-            yspeed = 100;
+            yspeed = 200;
         }
 
         if (engine.input.keyboard.isHeld(Keys.D) || engine.input.keyboard.isHeld(Keys.Right)) {
-            xspeed = 100
+            xspeed = 200
         }
 
         if (engine.input.keyboard.isHeld(Keys.A) || engine.input.keyboard.isHeld(Keys.Left)) {
-            xspeed = -100
+            xspeed = -200
         }
         this.vel = new Vector(xspeed, yspeed);
         this.graphics.flipHorizontal = (this.vel.x > 0)
