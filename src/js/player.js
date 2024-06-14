@@ -3,6 +3,11 @@ import { Resources } from './resources.js';
 import { Bridge } from "./bridge.js";
 import { Enemy } from "./enemy.js";
 
+export const PlayerData = {
+    health: 100,
+    xp: 0,
+};
+
 export class StaticPlayer extends Actor {
     constructor(x, y) {
         super({
@@ -63,16 +68,11 @@ export class Player extends Actor {
             }
         }
         if (event.other instanceof Enemy) {
-            if (event.other.identifier === "fish") {
-                this.scene.engine.goToScene('enemyFight');
-                const enemyFightScene = this.scene.engine.scenes.enemyFight;
-                enemyFightScene.updateEnemy('fish'); // Change the enemy to fish
-            }
-            if (event.other.identifier === "spider") {
-                this.scene.engine.goToScene('enemyFight');
-                const enemyFightScene = this.scene.engine.scenes.enemyFight;
-                enemyFightScene.updateEnemy('spider'); // Change the enemy to spider
-            }
+            const enemyType = event.other.identifier; // save the enemy in a variable
+            this.scene.engine.goToScene('enemyFight');
+            this.scene.engine.currentEnemy = event.other; // Track the current enemy
+            const enemyFightScene = this.scene.engine.scenes.enemyFight;
+            enemyFightScene.updateEnemy(enemyType); // Change the enemy
         }
     }
 }

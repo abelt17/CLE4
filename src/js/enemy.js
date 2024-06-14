@@ -1,5 +1,4 @@
 import { Actor, Vector, CollisionType, Timer } from "excalibur";
-import { Resources } from './resources.js';
 
 export class Enemy extends Actor {
     constructor(sprite, x, y, width, height, identifier) {
