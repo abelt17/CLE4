@@ -90,10 +90,10 @@ export class Level1 extends Scene {
             this.engine.enemyState = false;
         }
 
-        this.background = new Background(Resources.WindowsHills.toSprite(), 750, 370, 1.1, 1);
+        this.background = new Background(Resources.Zone1.toSprite(), 750, 370, 1.5, 1.5);
         this.add(this.background);
 
-        this.bridge = new Bridge(Resources.PixelArtBridge.toSprite(), 1000, 370, 0.3, 0.3, 500, 500, "level1_bridge");
+        this.bridge = new Bridge(Resources.PixelArtBridge.toSprite(), 1400, 370, 0.3, 0.3, 500, 500, "level1_bridge");
         this.add(this.bridge);
 
         this.spawnEnemies();
