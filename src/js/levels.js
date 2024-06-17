@@ -1,37 +1,75 @@
 import { Actor, Scene, Vector, Color, BoundingBox, Sound, Timer, Keys } from "excalibur";
 import { Resources, ResourceLoader } from './resources.js';
-import { Player, StaticPlayer, PlayerData } from './player.js'
+import { Player, StaticPlayer, PlayerData, Cursor } from './player.js'
 import { Background } from "./background.js";
 import { Bridge } from "./bridge.js";
 import { Enemy, StaticEnemy } from "./enemy.js";
+import { Attacks } from "./fightOverlay.js";
+import { eventEmitter } from './eventEmitter.js';
+
 
 export class EnemyFight extends Scene {
+    constructor() {
+        super();
+        // Other initialization code
+        eventEmitter.on('attackHit', (data) => {
+            this.handleAttackHit(data.identifier);
+        });
+    }
 
     updateEnemy(identifier) {
-        this.remove(this.enemy, this.player);
+        this.remove(this.cursor);
+        this.remove(this.enemy);
+        this.remove(this.player);
+        this.remove(this.attack1);
+        this.remove(this.attack2);
 
         this.player = new StaticPlayer(400, 600);
         this.add(this.player);
-
 
         if (identifier === "fish") {
             this.enemy = new StaticEnemy(Resources.Fish.toSprite(), 1000, 300, "fish");
         } else if (identifier === "spider") {
             this.enemy = new StaticEnemy(Resources.Spider.toSprite(), 1000, 300, "spider");
         }
-
         this.add(this.enemy);
+        
+        this.attack1 = new Attacks(200, 200, "attack1");
+        this.attack2 = new Attacks(500, 200, "attack2");
+        this.add(this.attack1);
+        this.add(this.attack2);
+
+        this.cursor = new Cursor(640, 360);
+        this.add(this.cursor);
+
     }
 
-    update(engine, delta) {
-        super.update(engine, delta);
+    handleAttackHit(identifier) {
+        switch (identifier) {
+            case "attack1":
+                // Example: Decrease health for attack1
+                if (this.enemy && this.enemy.identifier === "fish") {
+                    this.enemy.health -= Math.floor(Math.random() * 5) + 15;
+                } else if (this.enemy && this.enemy.identifier === "spider") {
+                    this.enemy.health -= Math.floor(Math.random() * 5) + 15;
+                }
+                break;
+            case "attack2":
+                // Example: Decrease health for attack2
+                if (this.enemy && this.enemy.identifier === "fish") {
+                    this.enemy.health -= Math.floor(Math.random() * 40) + 2;
+                } else if (this.enemy && this.enemy.identifier === "spider") {
+                    this.enemy.health -= Math.floor(Math.random() * 40) + 2;
+                }
+                break;
+            default:
+                break;
+        }
 
-        if (engine.input.keyboard.wasPressed(Keys.Enter)) {
-            this.enemy.health -= 50;
-            console.log(this.enemy.health)
-            if (this.enemy.health <= 0) {
-                this.onEnemyDefeated();
-            }
+        console.log(`Enemy health: ${this.enemy.health}`);
+
+        if (this.enemy && this.enemy.health <= 0) {
+            this.onEnemyDefeated();
         }
     }
 

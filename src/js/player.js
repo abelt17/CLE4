@@ -1,11 +1,14 @@
-import { Actor, Vector, Keys, clamp, CollisionType } from "excalibur";
+import { Actor, Vector, Keys, clamp, CollisionType, Color } from "excalibur";
 import { Resources } from './resources.js';
 import { Bridge } from "./bridge.js";
 import { Enemy } from "./enemy.js";
+import { Attacks } from './fightOverlay.js';
+import { eventEmitter } from './eventEmitter.js';
 
 export const PlayerData = {
     health: 100,
     xp: 0,
+    gold: 0,
 };
 
 export class StaticPlayer extends Actor {
@@ -31,11 +34,11 @@ export class Player extends Actor {
         this.pos = new Vector(x, y);
         this.vel = new Vector(0, 0);
     }
-    
+
     onPreUpdate(engine) {
         let xspeed = 0;
         let yspeed = 0;
-        
+
         if (engine.input.keyboard.isHeld(Keys.W) || engine.input.keyboard.isHeld(Keys.Up)) {
             yspeed = -200;
         }
@@ -54,7 +57,7 @@ export class Player extends Actor {
         this.vel = new Vector(xspeed, yspeed);
         this.graphics.flipHorizontal = (this.vel.x > 0)
     }
-    
+
     onInitialize(engine) {
         this.on('collisionstart', (event) => this.hitSomething(event));
     }
@@ -75,4 +78,55 @@ export class Player extends Actor {
             enemyFightScene.updateEnemy(enemyType); // Change the enemy
         }
     }
+}
+
+export class Cursor extends Actor {
+    constructor(x, y) {
+        super({
+            width: Resources.Cursor.width,
+            height: Resources.Cursor.height,
+        })
+        this.graphics.use(Resources.Cursor.toSprite());
+        this.pos = new Vector(x, y);
+        this.vel = new Vector(0, 0);
+        this.scale = new Vector(0.01, 0.01);
+    }
+
+    onPreUpdate(engine) {
+        let xspeed = 0;
+        let yspeed = 0;
+
+        if (engine.input.keyboard.isHeld(Keys.W) || engine.input.keyboard.isHeld(Keys.Up)) {
+            yspeed = -200;
+        }
+
+        if (engine.input.keyboard.isHeld(Keys.S) || engine.input.keyboard.isHeld(Keys.Down)) {
+            yspeed = 200;
+        }
+
+        if (engine.input.keyboard.isHeld(Keys.D) || engine.input.keyboard.isHeld(Keys.Right)) {
+            xspeed = 200
+        }
+
+        if (engine.input.keyboard.isHeld(Keys.A) || engine.input.keyboard.isHeld(Keys.Left)) {
+            xspeed = -200
+        }
+        this.vel = new Vector(xspeed, yspeed);
+
+    }
+
+    onInitialize(engine) {
+        this.on('collisionstart', (event) => this.hitSomething(event));
+    }
+
+    hitSomething(event) {
+        if (event.other instanceof Attacks) {
+            if (event.other.identifier === "attack1") {
+                eventEmitter.emit('attackHit', { identifier: 'attack1' });
+            } else if (event.other.identifier === "attack2") {
+                eventEmitter.emit('attackHit', { identifier: 'attack2' });
+            }
+        }
+    }   
+
 }

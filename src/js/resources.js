@@ -7,6 +7,7 @@ const Resources = {
     BridgeHome: new ImageSource('images/bridge_home.jpg'),
     PixelArtBridge: new ImageSource('images/pixel-art-bridge.png'),
     Spider: new ImageSource('images/spider.png'),
+    Cursor: new ImageSource('images/black-dot.png'),
 }
 
 
