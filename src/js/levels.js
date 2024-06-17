@@ -48,6 +48,10 @@ export class EnemyFight extends Scene {
 export class Level1 extends Scene {
     onInitialize() {
 
+        if (this.engine.enemyState === undefined) {
+            this.engine.enemyState = false;
+        }
+
         this.background = new Background(Resources.WindowsHills.toSprite(), 750, 370, 1.1, 1);
         this.add(this.background);
 
@@ -58,6 +62,20 @@ export class Level1 extends Scene {
 
         this.player = new Player(400, 400);
         this.add(this.player);
+    }
+
+    onActivate() {
+        if(this.engine.enemyState) {
+            this.removeEnemies();
+            this.spawnEnemies();
+            this.engine.enemyState = false; // Reset the respawn flag
+        }
+    }
+
+    removeEnemies() {
+        for (let enemy of this.engine.currentScene.actors.filter(actor => actor instanceof Enemy)) {
+            this.remove(enemy);
+        }
     }
 
     spawnEnemies() {
@@ -98,6 +116,12 @@ export class Level2 extends Scene {
 
         this.player = new Player(400, 400);
         this.add(this.player);
+    }
+
+    onActivate() {
+        if (this.engine.enemyState !== undefined) {
+            this.engine.enemyState = true;
+        }
     }
 
     onPreUpdate(engine, delta) {
