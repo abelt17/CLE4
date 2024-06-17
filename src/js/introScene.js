@@ -7,7 +7,7 @@ export class IntroScene extends Scene {
         this.background = new Background(Resources.BridgeHome.toSprite(), 750, 370, 0.4, 0.25);
         this.add(this.background);
 
-        this.scrollSpeed = 300; // Pixels per second
+        this.scrollSpeed = 300; // Pixels per second (Put back to 30)
         this.labels = [];
         this.scrollingComplete = false;
 
@@ -16,7 +16,7 @@ export class IntroScene extends Scene {
             "",
             "You wake up in your cardboard box",
             "from someone poking you.",
-            "Your open your eyes and see it's professor Acacia.",
+            "You open your eyes and see it's professor Acacia.",
             "",
             "Professor Acacia is a known Critter researcher,",
             "but he isn't that great in combat, so his",
@@ -31,7 +31,6 @@ export class IntroScene extends Scene {
             "for working for him.",
             "",
             "You follow him to his lab...",
-            "",
             ""
         ];
 
@@ -65,7 +64,7 @@ export class IntroScene extends Scene {
         const totalScrollTime = (720 + storyText.length * 50) / this.scrollSpeed;
         this.timer = new Timer({
             fcn: () => {
-                console.log('Timer executed: Showing "Press ENTER to continue"');
+                console.log('SKKKRT Showing "Press ENTER to continue".');
                 this.continueLabel.visible = true;
             },
             interval: totalScrollTime * 1000, // Convert seconds to milliseconds
@@ -75,7 +74,6 @@ export class IntroScene extends Scene {
         this.add(this.timer);
         this.timer.start();
         
-        // Adding the continueLabel last to ensure it's on top
         this.add(this.continueLabel);
     }
 
@@ -85,17 +83,17 @@ export class IntroScene extends Scene {
         if (!this.scrollingComplete) {
             // Creates scrolling effect.
             this.labels.forEach(label => {
-                label.pos.y -= this.scrollSpeed * (delta / 1000); // Use delta in seconds
+                label.pos.y -= this.scrollSpeed * (delta / 1000); // Uses delta in seconds
             });
 
             // Checks if the scrolling is complete.
             if (this.labels[this.labels.length - 1].pos.y <= 80) {
                 this.scrollingComplete = true;
-                console.log('Scrolling complete');
+                console.log('SKKKRT Scrolling complete.');
             }
         } else if (!this.continueLabel.visible) {
             this.continueLabel.visible = true; // Ensure visibility is set
-            console.log('Showing "Press ENTER to continue"');
+            console.log('SKKKRT Showing "Press ENTER to continue" visibility is set.');
         }
 
         if (this.continueLabel.visible && engine.input.keyboard.wasPressed(Keys.Enter)) {
