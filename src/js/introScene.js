@@ -7,7 +7,7 @@ export class IntroScene extends Scene {
         this.background = new Background(Resources.BridgeHome.toSprite(), 750, 370, 0.4, 0.25);
         this.add(this.background);
 
-        this.scrollSpeed = 300; // Pixels per second
+        this.scrollSpeed = 300; // Pixels per second (Put back to 30)
         this.labels = [];
         this.scrollingComplete = false;
 
@@ -16,7 +16,7 @@ export class IntroScene extends Scene {
             "",
             "You wake up in your cardboard box",
             "from someone poking you.",
-            "Your open your eyes and see it's professor Acacia.",
+            "You open your eyes and see it's professor Acacia.",
             "",
             "Professor Acacia is a known Critter researcher,",
             "but he isn't that great in combat, so his",
@@ -83,7 +83,7 @@ export class IntroScene extends Scene {
         if (!this.scrollingComplete) {
             // Creates scrolling effect.
             this.labels.forEach(label => {
-                label.pos.y -= this.scrollSpeed * (delta / 1000); // Use delta in seconds
+                label.pos.y -= this.scrollSpeed * (delta / 1000); // Uses delta in seconds
             });
 
             // Checks if the scrolling is complete.
