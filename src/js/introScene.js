@@ -7,7 +7,7 @@ export class IntroScene extends Scene {
         this.background = new Background(Resources.BridgeHome.toSprite(), 750, 370, 0.4, 0.25);
         this.add(this.background);
 
-        this.scrollSpeed = 30; // Pixels per second
+        this.scrollSpeed = 300; // Pixels per second
         this.labels = [];
         this.scrollingComplete = false;
 
