@@ -80,12 +80,10 @@ export class EnemyFight extends Scene {
 
         console.log(PlayerData.xp);
     }
-
 }
 
 export class Level1 extends Scene {
-    onInitialize() {
-
+    onInitialize(engine) {
         if (this.engine.enemyState === undefined) {
             this.engine.enemyState = false;
         }
@@ -100,14 +98,33 @@ export class Level1 extends Scene {
 
         this.player = new Player(400, 400);
         this.add(this.player);
+
+        // Create the fade-in actor
+        const screenWidth = engine.drawWidth;
+        const screenHeight = engine.drawHeight;
+
+        console.log(` SKKKRT Screen Width: ${screenWidth}, Screen Height: ${screenHeight}`);
+
+        this.fadeInActor = new Actor({
+            pos: new Vector(0, 0), // Top-left corner of the screen
+            width: screenWidth,
+            height: screenHeight,
+            color: Color.Black,
+            opacity: 1 // Starts fully opaque for fade-in effect
+        });
+        this.fadeInActor.anchor.setTo(0, 0); // Ensures the anchor is at the top-left
+        this.add(this.fadeInActor);
     }
 
     onActivate() {
-        if(this.engine.enemyState) {
+        if (this.engine.enemyState) {
             this.removeEnemies();
             this.spawnEnemies();
             this.engine.enemyState = false; // Reset the respawn flag
         }
+
+        // Fades in the scene when activated
+        this.fadeInActor.actions.fade(0, 1000, EasingFunctions.EaseInOutCubic);
     }
 
     removeEnemies() {
@@ -126,7 +143,6 @@ export class Level1 extends Scene {
         this.add(this.spider);
     }
 
-
     onPreUpdate(engine, delta) {
         super.onPreUpdate(engine, delta);
 
@@ -138,13 +154,10 @@ export class Level1 extends Scene {
             this.remove(engine.defeatedEnemy);
             engine.defeatedEnemy = null; // Reset after removal
         }
-
     }
-
 }
 
 export class Level2 extends Scene {
-
     onInitialize() {
         this.background = new Background(Resources.WindowsHills.toSprite(), 750, 370, 1.1, 1);
         this.add(this.background);
@@ -169,5 +182,4 @@ export class Level2 extends Scene {
 
         this.camera.pos = playerPos;
     }
-
 }

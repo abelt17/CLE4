@@ -1,4 +1,4 @@
-import { Actor, Scene, Vector, Color, Label, Font, Keys, Timer } from "excalibur";
+import { Actor, Scene, Vector, Color, Label, Font, Keys, Timer, EasingFunctions } from "excalibur";
 import { Resources, ResourceLoader } from './resources.js';
 import { Background } from "./background.js";
 
@@ -73,8 +73,18 @@ export class IntroScene extends Scene {
 
         this.add(this.timer);
         this.timer.start();
-        
+
         this.add(this.continueLabel);
+
+        // Create the fade-out actor
+        this.fadeOutActor = new Actor({
+            pos: new Vector(640, 360),
+            width: 1280,
+            height: 720,
+            color: Color.Black,
+            opacity: 0
+        });
+        this.add(this.fadeOutActor);
     }
 
     update(engine, delta) {
@@ -97,7 +107,9 @@ export class IntroScene extends Scene {
         }
 
         if (this.continueLabel.visible && engine.input.keyboard.wasPressed(Keys.Enter)) {
-            engine.goToScene('level1');
+            this.fadeOutActor.actions.fade(1, 1000, EasingFunctions.EaseInOutCubic).callMethod(() => {
+                engine.goToScene('level1');
+            });
         }
     }
 }
