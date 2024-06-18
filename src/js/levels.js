@@ -8,13 +8,102 @@ import { Attacks } from "./fightOverlay.js";
 import { eventEmitter } from './eventEmitter.js';
 
 
+// export class EnemyFight extends Scene {
+//     constructor() {
+//         super();
+//         // Other initialization code
+//         eventEmitter.on('attackHit', (data) => {
+//             this.handleAttackHit(data.identifier);
+//         });
+//         this.currentTurn = 'player'; // Start with the player's turn
+
+//     }
+
+//     updateEnemy(identifier) {
+//         this.remove(this.cursor);
+//         this.remove(this.enemy);
+//         this.remove(this.player);
+//         this.remove(this.attack1);
+//         this.remove(this.attack2);
+
+//         this.player = new StaticPlayer(400, 600);
+//         this.add(this.player);
+
+//         if (identifier === "fish") {
+//             this.enemy = new StaticEnemy(Resources.Fish.toSprite(), 1000, 300, "fish");
+//         } else if (identifier === "spider") {
+//             this.enemy = new StaticEnemy(Resources.Spider.toSprite(), 1000, 300, "spider");
+//         }
+//         this.add(this.enemy);
+
+//         this.attack1 = new Attacks(200, 200, "attack1");
+//         this.attack2 = new Attacks(500, 200, "attack2");
+//         this.add(this.attack1);
+//         this.add(this.attack2);
+
+//         this.cursor = new Cursor(640, 360);
+//         this.add(this.cursor);
+
+//     }
+
+//     handleAttackHit(identifier) {
+//         switch (identifier) {
+//             case "attack1":
+//                 // Example: Decrease health for attack1
+//                 if (this.enemy && this.enemy.identifier === "fish") {
+//                     this.enemy.health -= Math.floor(Math.random() * 5) + 15;
+//                 } else if (this.enemy && this.enemy.identifier === "spider") {
+//                     this.enemy.health -= Math.floor(Math.random() * 5) + 15;
+//                 }
+//                 break;
+//             case "attack2":
+//                 // Example: Decrease health for attack2
+//                 if (this.enemy && this.enemy.identifier === "fish") {
+//                     this.enemy.health -= Math.floor(Math.random() * 40) + 2;
+//                 } else if (this.enemy && this.enemy.identifier === "spider") {
+//                     this.enemy.health -= Math.floor(Math.random() * 40) + 2;
+//                 }
+//                 break;
+//             default:
+//                 break;
+//         }
+
+//         console.log(`Enemy health: ${this.enemy.health}`);
+
+//         if (this.enemy && this.enemy.health <= 0) {
+//             this.onEnemyDefeated();
+//         }
+//     }
+
+//     enemyAttack() {
+//         if (this.enemy) {
+//             const damage = Math.floor(Math.random() * 20) + 1;
+//             PlayerData.health -= damage;
+//             console.log(`Player health: ${PlayerData.health}`);
+//             if (PlayerData.health <= 0) {
+//                 console.log('Player defeated!');
+//                 // Handle player defeat
+//             }
+//         }
+//     }
+
+//     onEnemyDefeated() {
+//         PlayerData.xp += 10;
+//         this.engine.goToScene('level1');
+//         this.engine.defeatedEnemy = this.engine.currentEnemy; // Track the defeated enemy
+
+//         console.log(PlayerData.xp);
+//     }
+
+// }
 export class EnemyFight extends Scene {
     constructor() {
         super();
-        // Other initialization code
+        // Listen for attack events
         eventEmitter.on('attackHit', (data) => {
             this.handleAttackHit(data.identifier);
         });
+        this.currentTurn = 'player'; // Start with the player's turn
     }
 
     updateEnemy(identifier) {
@@ -33,7 +122,7 @@ export class EnemyFight extends Scene {
             this.enemy = new StaticEnemy(Resources.Spider.toSprite(), 1000, 300, "spider");
         }
         this.add(this.enemy);
-        
+
         this.attack1 = new Attacks(200, 200, "attack1");
         this.attack2 = new Attacks(500, 200, "attack2");
         this.add(this.attack1);
@@ -41,46 +130,86 @@ export class EnemyFight extends Scene {
 
         this.cursor = new Cursor(640, 360);
         this.add(this.cursor);
-
     }
 
     handleAttackHit(identifier) {
-        switch (identifier) {
-            case "attack1":
-                // Example: Decrease health for attack1
-                if (this.enemy && this.enemy.identifier === "fish") {
-                    this.enemy.health -= Math.floor(Math.random() * 5) + 15;
-                } else if (this.enemy && this.enemy.identifier === "spider") {
-                    this.enemy.health -= Math.floor(Math.random() * 5) + 15;
-                }
-                break;
-            case "attack2":
-                // Example: Decrease health for attack2
-                if (this.enemy && this.enemy.identifier === "fish") {
-                    this.enemy.health -= Math.floor(Math.random() * 40) + 2;
-                } else if (this.enemy && this.enemy.identifier === "spider") {
-                    this.enemy.health -= Math.floor(Math.random() * 40) + 2;
-                }
-                break;
-            default:
-                break;
-        }
-
-        console.log(`Enemy health: ${this.enemy.health}`);
-
-        if (this.enemy && this.enemy.health <= 0) {
-            this.onEnemyDefeated();
+        if (this.currentTurn === 'player') {
+            this.processPlayerAttack(identifier);
+        } else if (this.currentTurn === 'enemy') {
+            this.enemyAttack();
         }
     }
 
+    processPlayerAttack(identifier) {
+        let hitChance;
+        let damage;
+    
+        if (identifier === "attack1") {
+            hitChance = 0.8; // 80% chance to hit for attack1
+            damage = Math.floor(Math.random() * 5) + 15 + PlayerData.attackDamage;
+        } else if (identifier === "attack2") {
+            hitChance = 0.6; // 60% chance to hit for attack2
+            damage = Math.floor(Math.random() * 40) + 2 + PlayerData.attackDamage;
+        }
+    
+        if (Math.random() < hitChance) { // Check if the attack hits
+            if (this.enemy) {
+                this.enemy.health -= damage;
+                console.log(`Enemy health: ${this.enemy.health}`);
+            }
+    
+            if (this.enemy && this.enemy.health <= 0) {
+                this.onEnemyDefeated();
+                return;
+            }
+        } else {
+            console.log(`${identifier} missed!`);
+        }
+    
+        this.currentTurn = 'enemy'; // Switch to enemy's turn
+        setTimeout(() => this.enemyAttack(), 1000); // Delay for 1 second before enemy attacks
+    }
+    
+    enemyAttack() {
+        const hitChance = 0.75; // 75% chance to hit for enemy's attack
+        if (Math.random() < hitChance) { // Check if the attack hits
+            let damage;
+            if (this.enemy.identifier === "fish") {
+                damage = Math.floor(Math.random() * 20) + 1; // Damage for fish
+            } else if (this.enemy.identifier === "spider") {
+                damage = Math.floor(Math.random() * 40) + 10; // Higher damage for spider
+            }
+            
+            PlayerData.health -= damage;
+            console.log(`Player health: ${PlayerData.health}`);
+    
+            if (PlayerData.health <= 0) {
+                console.log('Player defeated!');
+                // PlayerData.previousHealth = PlayerData.health; // Store current health before dying
+                this.engine.goToScene('deathScreen');    
+            }
+        } else {
+            console.log("Enemy's attack missed!");
+        }
+    
+        setTimeout(() => {
+            this.currentTurn = 'player'; // Switch back to player's turn after a delay
+        }, 1000); // Delay for 1 second before switching back to player's turn
+    }
+    
     onEnemyDefeated() {
-        PlayerData.xp += 10;
+        let xpGained;
+        if (this.enemy.identifier === "fish") {
+            xpGained = 100; // XP for defeating a fish
+        } else if (this.enemy.identifier === "spider") {
+            xpGained = 10; // XP for defeating a spider
+        }
+
+        PlayerData.addXP(xpGained);
+
         this.engine.goToScene('level1');
         this.engine.defeatedEnemy = this.engine.currentEnemy; // Track the defeated enemy
-
-        console.log(PlayerData.xp);
     }
-
 }
 
 export class Level1 extends Scene {
@@ -103,7 +232,7 @@ export class Level1 extends Scene {
     }
 
     onActivate() {
-        if(this.engine.enemyState) {
+        if (this.engine.enemyState) {
             this.removeEnemies();
             this.spawnEnemies();
             this.engine.enemyState = false; // Reset the respawn flag

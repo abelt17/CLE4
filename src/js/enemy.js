@@ -53,4 +53,10 @@ export class StaticEnemy extends Actor {
             this.health = 200;
         }
     }
+    
+    attack(player) {
+        const damage = Math.floor(Math.random() * 20) + 1; // Random damage between 1 and 20
+        player.takeDamage(damage);
+    }
+
 }

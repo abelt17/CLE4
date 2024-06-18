@@ -4,6 +4,7 @@ import { Resources, ResourceLoader } from './resources.js'
 import { MainMenuScene } from './mainMenu.js';
 import { IntroScene } from './introScene.js';
 import { EnemyFight, Level1, Level2 } from './levels.js';
+import { DeathScreen } from './deathScreen.js';
 
 
 export class Game extends Engine {
@@ -22,6 +23,7 @@ export class Game extends Engine {
 
         this.add('mainmenu', new MainMenuScene());
         this.add('intro', new IntroScene());
+        this.add('deathScreen', new DeathScreen());
         this.add('enemyFight', new EnemyFight());
         this.add('level1', new Level1());
         this.add('level2', new Level2());

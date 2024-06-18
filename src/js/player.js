@@ -7,8 +7,35 @@ import { eventEmitter } from './eventEmitter.js';
 
 export const PlayerData = {
     health: 100,
+    maxHealth: 100,
     xp: 0,
-    gold: 0,
+    level: 1,
+    xpThreshold: 100,
+    attackDamage: 10,
+    previousHealth: 100,
+    
+    addXP(amount) {
+        this.xp += amount;
+        console.log(`Gained ${amount} XP, total XP: ${this.xp}`);
+        this.checkLevelUp();
+    },
+    
+    checkLevelUp() {
+        while (this.xp >= this.xpThreshold) {
+            this.levelUp();
+        }
+    },
+    
+    levelUp() {
+        this.xp -= this.xpThreshold;
+        this.level++;
+        this.xpThreshold += 100; // Increase the XP threshold for the next level
+        this.maxHealth += 20; // Increase max health
+        this.health = this.maxHealth; // Restore health to max
+        this.attackDamage += 5; // Increase attack damage
+        
+        console.log(`Leveled up to level ${this.level}! Health: ${this.health}, Attack Damage: ${this.attackDamage}, Next Level XP: ${this.xpThreshold}`);
+    },
 };
 
 export class StaticPlayer extends Actor {
@@ -20,6 +47,16 @@ export class StaticPlayer extends Actor {
         this.graphics.use(Resources.Fish.toSprite());
         this.pos = new Vector(x, y);
     }
+
+    takeDamage(amount) {
+        PlayerData.health -= amount;
+        console.log(`Player health: ${PlayerData.health}`);
+        if (PlayerData.health <= 0) {
+            console.log('Player defeated!');
+            // Handle player defeat logic here
+        }
+    }
+
 
 }
 
