@@ -8,94 +8,6 @@ import { Attacks } from "./fightOverlay.js";
 import { eventEmitter } from './eventEmitter.js';
 
 
-// export class EnemyFight extends Scene {
-//     constructor() {
-//         super();
-//         // Other initialization code
-//         eventEmitter.on('attackHit', (data) => {
-//             this.handleAttackHit(data.identifier);
-//         });
-//         this.currentTurn = 'player'; // Start with the player's turn
-
-//     }
-
-//     updateEnemy(identifier) {
-//         this.remove(this.cursor);
-//         this.remove(this.enemy);
-//         this.remove(this.player);
-//         this.remove(this.attack1);
-//         this.remove(this.attack2);
-
-//         this.player = new StaticPlayer(400, 600);
-//         this.add(this.player);
-
-//         if (identifier === "fish") {
-//             this.enemy = new StaticEnemy(Resources.Fish.toSprite(), 1000, 300, "fish");
-//         } else if (identifier === "spider") {
-//             this.enemy = new StaticEnemy(Resources.Spider.toSprite(), 1000, 300, "spider");
-//         }
-//         this.add(this.enemy);
-
-//         this.attack1 = new Attacks(200, 200, "attack1");
-//         this.attack2 = new Attacks(500, 200, "attack2");
-//         this.add(this.attack1);
-//         this.add(this.attack2);
-
-//         this.cursor = new Cursor(640, 360);
-//         this.add(this.cursor);
-
-//     }
-
-//     handleAttackHit(identifier) {
-//         switch (identifier) {
-//             case "attack1":
-//                 // Example: Decrease health for attack1
-//                 if (this.enemy && this.enemy.identifier === "fish") {
-//                     this.enemy.health -= Math.floor(Math.random() * 5) + 15;
-//                 } else if (this.enemy && this.enemy.identifier === "spider") {
-//                     this.enemy.health -= Math.floor(Math.random() * 5) + 15;
-//                 }
-//                 break;
-//             case "attack2":
-//                 // Example: Decrease health for attack2
-//                 if (this.enemy && this.enemy.identifier === "fish") {
-//                     this.enemy.health -= Math.floor(Math.random() * 40) + 2;
-//                 } else if (this.enemy && this.enemy.identifier === "spider") {
-//                     this.enemy.health -= Math.floor(Math.random() * 40) + 2;
-//                 }
-//                 break;
-//             default:
-//                 break;
-//         }
-
-//         console.log(`Enemy health: ${this.enemy.health}`);
-
-//         if (this.enemy && this.enemy.health <= 0) {
-//             this.onEnemyDefeated();
-//         }
-//     }
-
-//     enemyAttack() {
-//         if (this.enemy) {
-//             const damage = Math.floor(Math.random() * 20) + 1;
-//             PlayerData.health -= damage;
-//             console.log(`Player health: ${PlayerData.health}`);
-//             if (PlayerData.health <= 0) {
-//                 console.log('Player defeated!');
-//                 // Handle player defeat
-//             }
-//         }
-//     }
-
-//     onEnemyDefeated() {
-//         PlayerData.xp += 10;
-//         this.engine.goToScene('level1');
-//         this.engine.defeatedEnemy = this.engine.currentEnemy; // Track the defeated enemy
-
-//         console.log(PlayerData.xp);
-//     }
-
-// }
 export class EnemyFight extends Scene {
     constructor() {
         super();
@@ -181,7 +93,7 @@ export class EnemyFight extends Scene {
     processPlayerAttack(identifier) {
         let hitChance;
         let damage;
-    
+
         if (identifier === "attack1") {
             hitChance = 0.8; // 80% chance to hit for attack1
             damage = Math.floor(Math.random() * 5) + 15 + PlayerData.attackDamage;
@@ -189,13 +101,13 @@ export class EnemyFight extends Scene {
             hitChance = 0.6; // 60% chance to hit for attack2
             damage = Math.floor(Math.random() * 40) + 2 + PlayerData.attackDamage;
         }
-    
+
         if (Math.random() < hitChance) { // Check if the attack hits
             if (this.enemy) {
                 this.enemy.health -= damage;
                 console.log(`Enemy health: ${this.enemy.health}`);
             }
-    
+
             if (this.enemy && this.enemy.health <= 0) {
                 this.onEnemyDefeated();
                 return;
@@ -203,11 +115,11 @@ export class EnemyFight extends Scene {
         } else {
             console.log(`${identifier} missed!`);
         }
-    
+
         this.currentTurn = 'enemy'; // Switch to enemy's turn
         setTimeout(() => this.enemyAttack(), 1000); // Delay for 1 second before enemy attacks
     }
-    
+
     enemyAttack() {
         const hitChance = 0.75; // 75% chance to hit for enemy's attack
         if (Math.random() < hitChance) { // Check if the attack hits
@@ -217,24 +129,24 @@ export class EnemyFight extends Scene {
             } else if (this.enemy.identifier === "spider") {
                 damage = Math.floor(Math.random() * 40) + 10; // Higher damage for spider
             }
-            
+
             PlayerData.health -= damage;
             console.log(`Player health: ${PlayerData.health}`);
-    
+
             if (PlayerData.health <= 0) {
                 console.log('Player defeated!');
                 // PlayerData.previousHealth = PlayerData.health; // Store current health before dying
-                this.engine.goToScene('deathScreen');    
+                this.engine.goToScene('deathScreen');
             }
         } else {
             console.log("Enemy's attack missed!");
         }
-    
+
         setTimeout(() => {
             this.currentTurn = 'player'; // Switch back to player's turn after a delay
         }, 1000); // Delay for 1 second before switching back to player's turn
     }
-    
+
     onEnemyDefeated() {
         let xpGained;
         if (this.enemy.identifier === "fish") {
@@ -273,34 +185,19 @@ export class Level1 extends Scene {
 
         this.player = new Player(400, 400);
         this.add(this.player);
-
-        // Creates the fade-in actor
-        // const screenWidth = engine.drawWidth;
-        // const screenHeight = engine.drawHeight;
-
-        // console.log(` SKKKRT Screen Width: ${screenWidth}, Screen Height: ${screenHeight}`);
-
-        // this.fadeInActor = new Actor({
-        //     pos: new Vector(0, 0), // Top-left corner of the screen
-        //     width: screenWidth,
-        //     height: screenHeight,
-        //     color: Color.Black,
-        //     opacity: 1
-        // });
-        // this.fadeInActor.anchor.setTo(0, 0); // Ensures the anchor is at the top-left
-        // this.add(this.fadeInActor);
     }
 
     onActivate() {
         if (this.engine.enemyState) {
-        if (this.engine.enemyState) {
-            this.removeEnemies();
-            this.spawnEnemies();
-            this.engine.enemyState = false; // Reset the respawn flag
-        }
+            if (this.engine.enemyState) {
+                this.removeEnemies();
+                this.spawnEnemies();
+                this.engine.enemyState = false; // Reset the respawn flag
+            }
 
-        // Fades in the scene when activated
-        this.fadeInActor.actions.fade(0, 1000, EasingFunctions.EaseInOutCubic);
+            // Fades in the scene when activated
+            this.fadeInActor.actions.fade(0, 1000, EasingFunctions.EaseInOutCubic);
+        }
     }
 
     removeEnemies() {
@@ -332,6 +229,7 @@ export class Level1 extends Scene {
         }
     }
 }
+
 
 export class Level2 extends Scene {
     onInitialize() {
