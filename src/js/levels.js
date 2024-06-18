@@ -7,6 +7,19 @@ import { Enemy, StaticEnemy } from "./enemy.js";
 import { Attacks } from "./fightOverlay.js";
 import { eventEmitter } from './eventEmitter.js';
 
+// export class ColliderGroup extends Actor {
+//     onInitialize(engine) {
+//         let landscape = new CompositeCollider([
+//             Shape.Edge(new Vector(0, 0), new Vector(120, 30)),
+//             Shape.Edge(new Vector(120, 30), new Vector(240, 50)),
+//             Shape.Edge(new Vector(240, 50), new Vector(320, 10)),
+//             Shape.Edge(new Vector(320, 10), new Vector(430, 35))
+//         ])
+//         this.body.collisionType= CollisionType.Fixed
+//         this.collider.set(landscape)
+//         this.pos= new Vector(400, 350)
+//     }
+// }
 
 export class EnemyFight extends Scene {
     constructor() {
@@ -185,6 +198,22 @@ export class Level1 extends Scene {
 
         this.player = new Player(400, 400);
         this.add(this.player);
+
+        // Creates the fade-in actor
+        // const screenWidth = engine.drawWidth;
+        // const screenHeight = engine.drawHeight;
+
+        // console.log(` SKKKRT Screen Width: ${screenWidth}, Screen Height: ${screenHeight}`);
+
+        // this.fadeInActor = new Actor({
+        //     pos: new Vector(0, 0), // Top-left corner of the screen
+        //     width: screenWidth,
+        //     height: screenHeight,
+        //     color: Color.Black,
+        //     opacity: 1
+        // });
+        // this.fadeInActor.anchor.setTo(0, 0); // Ensures the anchor is at the top-left
+        // this.add(this.fadeInActor);
     }
 
     onActivate() {
