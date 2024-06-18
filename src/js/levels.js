@@ -7,14 +7,31 @@ import { Enemy, StaticEnemy } from "./enemy.js";
 import { Attacks } from "./fightOverlay.js";
 import { eventEmitter } from './eventEmitter.js';
 
-
 export class EnemyFight extends Scene {
     constructor() {
         super();
-        // Other initialization code
         eventEmitter.on('attackHit', (data) => {
             this.handleAttackHit(data.identifier);
         });
+    }
+
+    onInitialize(engine) {
+        super.onInitialize(engine);
+
+        // Create the fade-in actor
+        const screenWidth = engine.drawWidth;
+        const screenHeight = engine.drawHeight;
+
+        this.fadeInActor = new Actor({
+            pos: new Vector(0, 0), // Top-left corner of the screen
+            width: screenWidth,
+            height: screenHeight,
+            color: Color.Black,
+            opacity: 1, // Start opacity
+            z: 1000 // High z index to ensure it is on top
+        });
+        this.fadeInActor.anchor.setTo(0, 0); // Ensures the anchor is at the top-left
+        this.add(this.fadeInActor);
     }
 
     updateEnemy(identifier) {
@@ -41,7 +58,6 @@ export class EnemyFight extends Scene {
 
         this.cursor = new Cursor(640, 360);
         this.add(this.cursor);
-
     }
 
     handleAttackHit(identifier) {
@@ -75,10 +91,17 @@ export class EnemyFight extends Scene {
 
     onEnemyDefeated() {
         PlayerData.xp += 10;
-        this.engine.goToScene('level1');
-        this.engine.defeatedEnemy = this.engine.currentEnemy; // Track the defeated enemy
+        this.fadeInActor.actions.fade(1, 1000, EasingFunctions.EaseInOutCubic).callMethod(() => {
+            this.engine.goToScene('level1');
+            this.engine.defeatedEnemy = this.engine.currentEnemy; // Track the defeated enemy
+        });
 
         console.log(PlayerData.xp);
+    }
+
+    onActivate() {
+        this.fadeInActor.opacity = 1; // Ensures it starts fully opaque
+        this.fadeInActor.actions.fade(0, 1000, EasingFunctions.EaseInOutCubic);
     }
 }
 
@@ -110,7 +133,7 @@ export class Level1 extends Scene {
             width: screenWidth,
             height: screenHeight,
             color: Color.Black,
-            opacity: 1 // Starts fully opaque for fade-in effect
+            opacity: 1
         });
         this.fadeInActor.anchor.setTo(0, 0); // Ensures the anchor is at the top-left
         this.add(this.fadeInActor);

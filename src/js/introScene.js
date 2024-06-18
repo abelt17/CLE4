@@ -102,7 +102,7 @@ export class IntroScene extends Scene {
                 console.log('SKKKRT Scrolling complete.');
             }
         } else if (!this.continueLabel.visible) {
-            this.continueLabel.visible = true; // Ensure visibility is set
+            this.continueLabel.visible = true; // Ensures visibility is set
             console.log('SKKKRT Showing "Press ENTER to continue" visibility is set.');
         }
 
