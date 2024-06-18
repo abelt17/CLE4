@@ -122,21 +122,21 @@ export class Level1 extends Scene {
         this.player = new Player(400, 400);
         this.add(this.player);
 
-        // Create the fade-in actor
-        const screenWidth = engine.drawWidth;
-        const screenHeight = engine.drawHeight;
+        // Creates the fade-in actor
+        // const screenWidth = engine.drawWidth;
+        // const screenHeight = engine.drawHeight;
 
-        console.log(` SKKKRT Screen Width: ${screenWidth}, Screen Height: ${screenHeight}`);
+        // console.log(` SKKKRT Screen Width: ${screenWidth}, Screen Height: ${screenHeight}`);
 
-        this.fadeInActor = new Actor({
-            pos: new Vector(0, 0), // Top-left corner of the screen
-            width: screenWidth,
-            height: screenHeight,
-            color: Color.Black,
-            opacity: 1
-        });
-        this.fadeInActor.anchor.setTo(0, 0); // Ensures the anchor is at the top-left
-        this.add(this.fadeInActor);
+        // this.fadeInActor = new Actor({
+        //     pos: new Vector(0, 0), // Top-left corner of the screen
+        //     width: screenWidth,
+        //     height: screenHeight,
+        //     color: Color.Black,
+        //     opacity: 1
+        // });
+        // this.fadeInActor.anchor.setTo(0, 0); // Ensures the anchor is at the top-left
+        // this.add(this.fadeInActor);
     }
 
     onActivate() {
