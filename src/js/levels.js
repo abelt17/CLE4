@@ -1,4 +1,4 @@
-import { Actor, Scene, Vector, Color, BoundingBox, Sound, Timer, Keys } from "excalibur";
+import { Actor, Scene, Vector, Color, BoundingBox, Sound, Timer, Keys, EasingFunctions } from "excalibur";
 import { Resources, ResourceLoader } from './resources.js';
 import { Player, StaticPlayer, PlayerData, Cursor } from './player.js'
 import { Background } from "./background.js";
@@ -106,6 +106,44 @@ export class EnemyFight extends Scene {
         this.currentTurn = 'player'; // Start with the player's turn
     }
 
+    onInitialize(engine) {
+        super.onInitialize(engine);
+
+        // Create the fade-in actor
+        const screenWidth = engine.drawWidth;
+        const screenHeight = engine.drawHeight;
+
+        this.fadeInActor = new Actor({
+            pos: new Vector(0, 0), // Top-left corner of the screen
+            width: screenWidth,
+            height: screenHeight,
+            color: Color.Black,
+            opacity: 1, // Start opacity
+            z: 1000 // High z index to ensure it is on top
+        });
+        this.fadeInActor.anchor.setTo(0, 0); // Ensures the anchor is at the top-left
+        this.add(this.fadeInActor);
+    }
+
+    onInitialize(engine) {
+        super.onInitialize(engine);
+
+        // Create the fade-in actor
+        const screenWidth = engine.drawWidth;
+        const screenHeight = engine.drawHeight;
+
+        this.fadeInActor = new Actor({
+            pos: new Vector(0, 0), // Top-left corner of the screen
+            width: screenWidth,
+            height: screenHeight,
+            color: Color.Black,
+            opacity: 1, // Start opacity
+            z: 1000 // High z index to ensure it is on top
+        });
+        this.fadeInActor.anchor.setTo(0, 0); // Ensures the anchor is at the top-left
+        this.add(this.fadeInActor);
+    }
+
     updateEnemy(identifier) {
         this.remove(this.cursor);
         this.remove(this.enemy);
@@ -207,36 +245,62 @@ export class EnemyFight extends Scene {
 
         PlayerData.addXP(xpGained);
 
-        this.engine.goToScene('level1');
-        this.engine.defeatedEnemy = this.engine.currentEnemy; // Track the defeated enemy
+        this.fadeInActor.actions.fade(1, 1000, EasingFunctions.EaseInOutCubic).callMethod(() => {
+            this.engine.goToScene('level1');
+            this.engine.defeatedEnemy = this.engine.currentEnemy; // Track the defeated enemy
+        });
+    }
+
+    onActivate() {
+        this.fadeInActor.opacity = 1; // Ensures it starts fully opaque
+        this.fadeInActor.actions.fade(0, 1000, EasingFunctions.EaseInOutCubic);
     }
 }
 
 export class Level1 extends Scene {
-    onInitialize() {
-
+    onInitialize(engine) {
         if (this.engine.enemyState === undefined) {
             this.engine.enemyState = false;
         }
 
-        this.background = new Background(Resources.WindowsHills.toSprite(), 750, 370, 1.1, 1);
+        this.background = new Background(Resources.Zone1.toSprite(), 750, 370, 1.5, 1.5);
         this.add(this.background);
 
-        this.bridge = new Bridge(Resources.PixelArtBridge.toSprite(), 1000, 370, 0.3, 0.3, 500, 500, "level1_bridge");
+        this.bridge = new Bridge(Resources.PixelArtBridge.toSprite(), 1400, 370, 0.3, 0.3, 500, 500, "level1_bridge");
         this.add(this.bridge);
 
         this.spawnEnemies();
 
         this.player = new Player(400, 400);
         this.add(this.player);
+
+        // Creates the fade-in actor
+        // const screenWidth = engine.drawWidth;
+        // const screenHeight = engine.drawHeight;
+
+        // console.log(` SKKKRT Screen Width: ${screenWidth}, Screen Height: ${screenHeight}`);
+
+        // this.fadeInActor = new Actor({
+        //     pos: new Vector(0, 0), // Top-left corner of the screen
+        //     width: screenWidth,
+        //     height: screenHeight,
+        //     color: Color.Black,
+        //     opacity: 1
+        // });
+        // this.fadeInActor.anchor.setTo(0, 0); // Ensures the anchor is at the top-left
+        // this.add(this.fadeInActor);
     }
 
     onActivate() {
+        if (this.engine.enemyState) {
         if (this.engine.enemyState) {
             this.removeEnemies();
             this.spawnEnemies();
             this.engine.enemyState = false; // Reset the respawn flag
         }
+
+        // Fades in the scene when activated
+        this.fadeInActor.actions.fade(0, 1000, EasingFunctions.EaseInOutCubic);
     }
 
     removeEnemies() {
@@ -255,7 +319,6 @@ export class Level1 extends Scene {
         this.add(this.spider);
     }
 
-
     onPreUpdate(engine, delta) {
         super.onPreUpdate(engine, delta);
 
@@ -267,13 +330,10 @@ export class Level1 extends Scene {
             this.remove(engine.defeatedEnemy);
             engine.defeatedEnemy = null; // Reset after removal
         }
-
     }
-
 }
 
 export class Level2 extends Scene {
-
     onInitialize() {
         this.background = new Background(Resources.WindowsHills.toSprite(), 750, 370, 1.1, 1);
         this.add(this.background);
@@ -298,5 +358,4 @@ export class Level2 extends Scene {
 
         this.camera.pos = playerPos;
     }
-
 }
