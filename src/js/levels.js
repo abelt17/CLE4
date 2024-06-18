@@ -1,4 +1,4 @@
-import { Actor, Scene, Vector, Color, BoundingBox, Sound, Timer, Keys } from "excalibur";
+import { Actor, Scene, Vector, Color, BoundingBox, Sound, Timer, Keys, EasingFunctions } from "excalibur";
 import { Resources, ResourceLoader } from './resources.js';
 import { Player, StaticPlayer, PlayerData, Cursor } from './player.js'
 import { Background } from "./background.js";
