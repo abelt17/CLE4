@@ -5,17 +5,18 @@ import { MainMenuScene } from './mainMenu.js';
 import { IntroScene } from './introScene.js';
 import { EnemyFight, Level1, Level2 } from './levels.js';
 import { DeathScreen } from './deathScreen.js';
+import { SelectScene } from './selectScreen.js';
 
 
 export class Game extends Engine {
 
     constructor() {
-        super({ 
+        super({
             width: 1280,
             height: 720,
             maxFps: 60,
             displayMode: DisplayMode.FitScreen
-         })
+        })
         this.start(ResourceLoader).then(() => this.startGame())
     }
 
@@ -27,6 +28,7 @@ export class Game extends Engine {
         this.add('enemyFight', new EnemyFight());
         this.add('level1', new Level1());
         this.add('level2', new Level2());
+        this.add('selectScene', new SelectScene());
 
         this.goToScene('mainmenu');
     }

@@ -108,7 +108,7 @@ export class IntroScene extends Scene {
 
         if (this.continueLabel.visible && engine.input.keyboard.wasPressed(Keys.Enter)) {
             this.fadeOutActor.actions.fade(1, 1000, EasingFunctions.EaseInOutCubic).callMethod(() => {
-                engine.goToScene('level1');
+                engine.goToScene('selectScene');
             });
         }
     }
