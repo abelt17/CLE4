@@ -47,10 +47,10 @@ export class StaticEnemy extends Actor {
         this.graphics.use(sprite);
         this.identifier = identifier; // Add an identifier property
         // Set health based on the identifier
-        if (identifier === "fish") {
-            this.health = 100;
-        } else if (identifier === "spider") {
+        if (identifier === "incinerose") {
             this.health = 200;
+        } else if (identifier === "chomperdaisy") {
+            this.health = 100;
         }
     }
     

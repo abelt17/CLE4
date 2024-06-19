@@ -158,10 +158,10 @@ export class Cursor extends Actor {
 
     hitSomething(event) {
         if (event.other instanceof Attacks) {
-            if (event.other.identifier === "attack1") {
-                eventEmitter.emit('attackHit', { identifier: 'attack1' });
-            } else if (event.other.identifier === "attack2") {
-                eventEmitter.emit('attackHit', { identifier: 'attack2' });
+            if (event.other.identifier === "Blast") {
+                eventEmitter.emit('attackHit', { identifier: 'Blast' });
+            } else if (event.other.identifier === "Obliterate") {
+                eventEmitter.emit('attackHit', { identifier: 'Obliterate' });
             }
         }
     }   

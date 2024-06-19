@@ -9,8 +9,15 @@ const Resources = {
     Spider: new ImageSource('images/spider.png'),
     Cursor: new ImageSource('images/black-dot.png'),
     Zone1: new ImageSource('images/zone1.png'),
+<<<<<<< HEAD
     Podiums: new ImageSource('images/podiums.jpg'),
     Jake: new ImageSource('images/jake.png')
+
+    Bazookerlilly: new ImageSource('images/bazookerlilly.png'),
+    Chomperdaisy: new ImageSource('images/chomperdaisy.png'),
+    Incinerose: new ImageSource('images/incinerose.png'),
+    Sparringspar: new ImageSource('images/sparringspar.png'),
+>>>>>>> c37df18e98dbd469ed9dee679087058f9b213c7a
 }
 
 
