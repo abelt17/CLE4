@@ -1,6 +1,6 @@
 import { Actor, Scene, Vector, Color, BoundingBox, Sound, Timer, Keys, EasingFunctions, Label, TextAlign } from "excalibur";
 import { Resources, ResourceLoader } from './resources.js';
-import { Player, StaticPlayer, PlayerData, Cursor } from './player.js'
+import { Player, StaticPlayer, PlayerData, Cursor, previousScene } from './player.js'
 import { Background } from "./background.js";
 import { Bridge } from "./bridge.js";
 import { Enemy, StaticEnemy } from "./enemy.js";
@@ -76,6 +76,10 @@ export class EnemyFight extends Scene {
         this.remove(this.player);
         this.remove(this.attack1);
         this.remove(this.attack2);
+        this.remove(this.background);
+
+        this.background = new Background(Resources.FightScene.toSprite(), 640, 360, 1, 1);
+        this.add(this.background);
 
 
 
@@ -213,6 +217,8 @@ export class Level1 extends Scene {
             this.engine.enemyState = false;
         }
 
+        previousScene.scene = 'level1'
+
         this.background = new Background(Resources.Level1bg.toSprite(), 0, 0, 2, 2);
         this.add(this.background);
 
@@ -245,7 +251,7 @@ export class Level1 extends Scene {
             this.spawnEnemies();
             this.engine.enemyState = false; // Reset the respawn flag
         }
-
+            previousScene.scene = 'level1'
         // Fade in the scene when activated
         this.fadeInActor.actions.fade(0, 1000, EasingFunctions.EaseInOutCubic);
     }
@@ -286,6 +292,9 @@ export class Level1 extends Scene {
 
 export class Level2 extends Scene {
     onInitialize(engine) {
+
+        previousScene.scene = 'level2'
+
         this.background = new Background(Resources.WindowsHills.toSprite(), 750, 370, 1.1, 1);
         this.add(this.background);
 
@@ -324,6 +333,8 @@ export class Level2 extends Scene {
 
         // Fade in the scene when activated
         this.fadeInActor.actions.fade(0, 1000, EasingFunctions.EaseInOutCubic);
+        previousScene.scene = 'level2'
+
     }
 
     onPreUpdate(engine, delta) {

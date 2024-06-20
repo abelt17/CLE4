@@ -1,4 +1,5 @@
 import { ImageSource, Sound, Resource, Loader } from 'excalibur'
+import { PlayerInfo } from './playerInfo'
 
 // voeg hier jouw eigen resources toe
 const Resources = {
@@ -19,6 +20,8 @@ const Resources = {
     Critter2: new ImageSource('images/critter2.png'),
     Critter3: new ImageSource('images/critter3.png'),
     Villa: new ImageSource('images/villa-baobab.png'),
+    FightScene: new ImageSource('images/Placeholder_FightScene_Background.png'),
+    PlayerInfoBG: new ImageSource('images/bg-playerinfo.png'),
 }
 
 
