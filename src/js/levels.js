@@ -79,6 +79,8 @@ export class EnemyFight extends Scene {
             this.enemy = new StaticEnemy(Resources.Incinerose.toSprite(), 1000, 300, "incinerose");
         } else if (identifier === "chomperdaisy") {
             this.enemy = new StaticEnemy(Resources.Chomperdaisy.toSprite(), 1000, 300, "chomperdaisy");
+        }else if (identifier === "bazookerlilly") {
+            this.enemy = new StaticEnemy(Resources.Bazookerlilly.toSprite(), 1000, 300, "bazookerlilly");
         }
         this.add(this.enemy);
         
@@ -104,6 +106,8 @@ export class EnemyFight extends Scene {
                         damage = Math.floor(Math.random() * 5) + 5 + PlayerData.attackDamage;
                     } else if (this.enemy && this.enemy.identifier === "chomperdaisy") {
                         damage = Math.floor(Math.random() * 5) + 5 + PlayerData.attackDamage;
+                    }else if (this.enemy && this.enemy.identifier === "bazookerlilly") {
+                        damage = Math.floor(Math.random() * 5) + 5 + PlayerData.attackDamage;
                     }
                     this.enemy.health -= damage;
                     this.attackMessage = `Player attacked with ${identifier} and dealt ${damage} damage!`;
@@ -117,6 +121,8 @@ export class EnemyFight extends Scene {
                     if (this.enemy && this.enemy.identifier === "incinerose") {
                         damage = Math.floor(Math.random() * 30) + 1 + PlayerData.attackDamage;
                     } else if (this.enemy && this.enemy.identifier === "chomperdaisy") {
+                        damage = Math.floor(Math.random() * 30) + 1 + PlayerData.attackDamage;
+                    } else if (this.enemy && this.enemy.identifier === "bazookerlilly") {
                         damage = Math.floor(Math.random() * 30) + 1 + PlayerData.attackDamage;
                     }
                     this.enemy.health -= damage;
@@ -151,6 +157,8 @@ export class EnemyFight extends Scene {
                         damage = Math.floor(Math.random() * 10) + 5;
                     } else if (this.enemy.identifier === "chomperdaisy") {
                         damage = Math.floor(Math.random() * 20) + 10;
+                    } else if (this.enemy.identifier === "bazookerlilly") {
+                        damage = Math.floor(Math.random() * 30) + 10;
                     }
                     PlayerData.health -= damage;
                     this.attackMessage = `${this.enemy.identifier} attacked and dealt ${damage} damage!`;
@@ -180,6 +188,8 @@ export class EnemyFight extends Scene {
             xpGained = 100; // XP for defeating a incinerose
         } else if (this.enemy.identifier === "chomperdaisy") {
             xpGained = 50; // XP for defeating a chomperdaisy
+        } else if (this.enemy.identifier === "bazookerlilly") {
+            xpGained = 150;
         }
     
         PlayerData.addXP(xpGained);
@@ -278,6 +288,8 @@ export class Level2 extends Scene {
         this.bridge = new Bridge(Resources.PixelArtBridge.toSprite(), 1000, 370, 0.3, 0.3, 500, 500, "level2_bridge");
         this.add(this.bridge);
 
+        this.spawnEnemies()
+
         this.player = new Player(400, 400);
         this.add(this.player);
 
@@ -291,6 +303,13 @@ export class Level2 extends Scene {
         });
         this.fadeInActor.anchor.setTo(0.5, 0.5);
         this.add(this.fadeInActor);
+    }
+
+    spawnEnemies() {
+        for (let i = 0; i < 4; i++) {
+            this.bazookerlilly = new Enemy(Resources.Bazookerlilly.toSprite(), Math.floor(Math.random() * 1000), Math.floor(Math.random() * 1000), Resources.Bazookerlilly.width - 100, Resources.Bazookerlilly.height - 100, "bazookerlilly")
+            this.add(this.bazookerlilly)
+        }
     }
 
     onActivate() {

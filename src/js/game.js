@@ -6,6 +6,8 @@ import { IntroScene } from './introScene.js';
 import { EnemyFight, Level1, Level2 } from './levels.js';
 import { DeathScreen } from './deathScreen.js';
 import { SelectScene } from './selectScreen.js';
+import { PlayerInfo } from './playerInfo.js';
+
 
 
 export class Game extends Engine {
@@ -21,7 +23,7 @@ export class Game extends Engine {
     }
 
     async startGame() {
-
+        this.add('playerInfo', new PlayerInfo());
         this.add('mainmenu', new MainMenuScene());
         this.add('intro', new IntroScene());
         this.add('deathScreen', new DeathScreen());
