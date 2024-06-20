@@ -74,14 +74,15 @@ export class StaticPlayer extends Actor {
         super({
             width: width,
             height: height,
+            pos: new Vector(390, 585),
         });
 
         if (selectedCritter === 'critter1') {
-            this.graphics.use(critter1.getSprite(0, 0));
+            this.graphics.use(critter1.getSprite(1, 0));
         } else if (selectedCritter === 'critter2') {
-            this.graphics.use(critter2.getSprite(0, 0));
+            this.graphics.use(critter2.getSprite(1, 0));
         } else if (selectedCritter === 'critter3') {
-            this.graphics.use(critter3.getSprite(0, 0));
+            this.graphics.use(critter3.getSprite(1, 0));
         } else {
             this.graphics.use(Resources.Critter1.toSprite());
             console.log("Staticplayer actor failed to select");
