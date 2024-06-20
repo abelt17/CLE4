@@ -7,17 +7,18 @@ import { Enemy, StaticEnemy } from "./enemy.js";
 import { Attacks } from "./fightOverlay.js";
 import { eventEmitter } from './eventEmitter.js';
 
+// ColliderGroup class definition
 // export class ColliderGroup extends Actor {
 //     onInitialize(engine) {
 //         let landscape = new CompositeCollider([
-//             Shape.Edge(new Vector(0, 0), new Vector(120, 30)),
-//             Shape.Edge(new Vector(120, 30), new Vector(240, 50)),
-//             Shape.Edge(new Vector(240, 50), new Vector(320, 10)),
-//             Shape.Edge(new Vector(320, 10), new Vector(430, 35))
-//         ])
-//         this.body.collisionType= CollisionType.Fixed
-//         this.collider.set(landscape)
-//         this.pos= new Vector(400, 350)
+//             Shape.Edge(new Vector(51, -327), new Vector(1447, -327)),
+//             Shape.Edge(new Vector(1447, -327), new Vector(1447, 1066)),
+//             Shape.Edge(new Vector(1447, 1066), new Vector(51, 1066)),
+//             Shape.Edge(new Vector(51, 1066), new Vector(51, -327))
+//         ]);
+//         this.body.collisionType = CollisionType.Fixed;
+//         this.collider.set(landscape);
+//         this.pos = new Vector(400, 350);
 //     }
 // }
 

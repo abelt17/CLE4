@@ -1,4 +1,4 @@
-import { Actor, Scene, Vector, Color, Label, Font, Keys, EasingFunctions } from "excalibur";
+import { Actor, Scene, Vector, Color, Label, Font, Keys, SpriteSheet } from "excalibur";
 import { Resources } from './resources.js';
 import { Background } from "./background.js";
 
@@ -8,26 +8,61 @@ export class SelectScene extends Scene {
         this.background = new Background(Resources.Podiums.toSprite(), 640, 370, 2.2, 2.1);
         this.add(this.background);
 
+        const critter1 = SpriteSheet.fromImageSource({
+            image: Resources.Critter1,
+            grid: {
+                rows: 6,
+                columns: 8,
+                spriteWidth: 187.5,
+                spriteHeight: 250
+            }
+        });
+
+        const critter2 = SpriteSheet.fromImageSource({
+            image: Resources.Critter2,
+            grid: {
+                rows: 6,
+                columns: 8,
+                spriteWidth: 187.5,
+                spriteHeight: 250
+            }
+        });
+
+        const critter3 = SpriteSheet.fromImageSource({
+            image: Resources.Critter3,
+            grid: {
+                rows: 6,
+                columns: 8,
+                spriteWidth: 187.5,
+                spriteHeight: 250
+            }
+        });
+
+        const scale = new Vector(0.6, 0.6);
+
         const sprite1 = new Actor({
             pos: new Vector(260, 450),
-            scale: new Vector(0.1, 0.1)
+            scale: scale
+
         });
-        sprite1.graphics.use(Resources.Jake.toSprite());
+        sprite1.graphics.use(critter1.getSprite(0, 0));
 
         const sprite2 = new Actor({
             pos: new Vector(630, 420),
-            scale: new Vector(0.1, 0.1)
+            scale: scale
         });
-        sprite2.graphics.use(Resources.Jake.toSprite());
+
+        sprite2.graphics.use(critter2.getSprite(0, 0));
 
         const sprite3 = new Actor({
             pos: new Vector(1000, 480),
-            scale: new Vector(0.1, 0.1)
+            scale: scale
         });
-        sprite3.graphics.use(Resources.Jake.toSprite());
+
+        sprite3.graphics.use(critter3.getSprite(0, 0));
 
         const label1 = new Label({
-            text: "Critter1",
+            text: "A",
             pos: new Vector(260, 350),
             color: Color.Black,
             font: new Font({
@@ -37,7 +72,7 @@ export class SelectScene extends Scene {
         });
 
         const label2 = new Label({
-            text: "Critter2",
+            text: "S",
             pos: new Vector(630, 320),
             color: Color.Black,
             font: new Font({
@@ -47,7 +82,7 @@ export class SelectScene extends Scene {
         });
 
         const label3 = new Label({
-            text: "Critter3",
+            text: "D",
             pos: new Vector(1000, 380),
             color: Color.Black,
             font: new Font({

@@ -1,4 +1,4 @@
-import { Scene, Color, Label, TextAlign, Engine, Keys, Vector } from 'excalibur';
+import { Scene, Color, Label, TextAlign, Engine, Keys, Vector, Font, EasingFunctions } from 'excalibur';
 import { PlayerData } from './player.js';
 
 export class DeathScreen extends Scene {
@@ -7,17 +7,38 @@ export class DeathScreen extends Scene {
 
         // Create a red background
         this.backgroundColor = Color.Red.clone();
+        this.labels = [];
+
+        const deathText = [
+            "You died, press ENTER to respawn."
+        ];
 
         // Create a label for the death message
-        const deathLabel = new Label({
-            text: 'You died, press Enter to respawn',
-            fontColor: Color.White,
-            fontSize: 72,
-            // textAlign: TextAlign.Center,
-            pos: new Vector(500, 300)
-        });
-        this.add(deathLabel);
+        deathText.forEach((text, index) => {
+            const deathLabel = new Label({
+                text: text,
+                // textAlign: TextAlign.Center,
+                pos: new Vector(80, 360),
+                font: new Font({
+                    family: 'Arial',
+                    size: 70,
+                    color: Color.White
+                })
+            });
 
+            this.labels.push(deathLabel);
+            this.add(deathLabel);
+        });
+
+        // Create the fade-out actor
+        // this.fadeOutActor = new Actor({
+        //     pos: new Vector(640, 360),
+        //     width: 1280,
+        //     height: 720,
+        //     color: Color.Black,
+        //     opacity: 0
+        // });
+        // this.add(this.fadeOutActor);
     }
 
     onPreUpdate(engine) {
@@ -28,6 +49,15 @@ export class DeathScreen extends Scene {
             }
         });
     }
+
+    // update(engine) {
+    //     super.update(engine);
+    //     if (engine.input.keyboard.wasPressed(Keys.Enter)) {
+    //         this.fadeOutActor.actions.fade(1, 1000, EasingFunctions.EaseInOutCubic).callMethod(() => {
+    //             engine.goToScene('selectScene');
+    //         });
+    //     }
+    // }
 
     respawnPlayer() {
         // Reset player's health to its previous value
