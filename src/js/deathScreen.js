@@ -29,6 +29,16 @@ export class DeathScreen extends Scene {
             this.labels.push(deathLabel);
             this.add(deathLabel);
         });
+
+        // Create the fade-out actor
+        // this.fadeOutActor = new Actor({
+        //     pos: new Vector(640, 360),
+        //     width: 1280,
+        //     height: 720,
+        //     color: Color.Black,
+        //     opacity: 0
+        // });
+        // this.add(this.fadeOutActor);
     }
 
     onPreUpdate(engine) {
@@ -39,6 +49,15 @@ export class DeathScreen extends Scene {
             }
         });
     }
+
+    // update(engine) {
+    //     super.update(engine);
+    //     if (engine.input.keyboard.wasPressed(Keys.Enter)) {
+    //         this.fadeOutActor.actions.fade(1, 1000, EasingFunctions.EaseInOutCubic).callMethod(() => {
+    //             engine.goToScene('selectScene');
+    //         });
+    //     }
+    // }
 
     respawnPlayer() {
         // Reset player's health to its previous value
