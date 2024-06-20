@@ -1,4 +1,4 @@
-import { Actor, Scene, Vector, Color, BoundingBox, Sound, Timer, Keys, EasingFunctions, Label, TextAlign } from "excalibur";
+import { Actor, Scene, Vector, Color, BoundingBox, Sound, Timer, Keys, EasingFunctions, Label, TextAlign, Shape, CollisionType } from "excalibur";
 import { Resources, ResourceLoader } from './resources.js';
 import { Player, StaticPlayer, PlayerData, Cursor, previousScene } from './player.js'
 import { Background } from "./background.js";
@@ -228,6 +228,8 @@ export class Level1 extends Scene {
         this.villa = new Bridge(Resources.Villa.toSprite(), -780, -600, 1, 1, 100, 100, "villa-baobab");
         this.add(this.villa);
 
+        this.addBorders();
+
         this.spawnEnemies();
 
         this.player = new Player(400, 400, engine.selectedCritter);
@@ -243,6 +245,42 @@ export class Level1 extends Scene {
         });
         this.fadeInActor.anchor.setTo(0.5, 0.5);
         this.add(this.fadeInActor);
+    }
+
+    addBorders() {
+        const borders = [
+            // Top edge
+            new Actor({
+                pos: new Vector(0, -2000),
+                collider: Shape.Edge(new Vector(-2000, 0), new Vector(2000, 0)),
+                collisionType: CollisionType.Fixed,
+                color: Color.Red // Color or Transparency
+            }),
+            // Bottom edge
+            new Actor({
+                pos: new Vector(0, 2000),
+                collider: Shape.Edge(new Vector(-2000, 0), new Vector(2000, 0)),
+                collisionType: CollisionType.Fixed,
+                color: Color.Red // Color or Transparency
+            }),
+            // Left edge
+            new Actor({
+                pos: new Vector(-2000, 0),
+                collider: Shape.Edge(new Vector(0, -2000), new Vector(0, 2000)),
+                collisionType: CollisionType.Fixed,
+                color: Color.Red // Color or Transparency
+            }),
+            // Right edge
+            new Actor({
+                pos: new Vector(2000, 0),
+                collider: Shape.Edge(new Vector(0, -2000), new Vector(0, 2000)),
+                collisionType: CollisionType.Fixed,
+                color: Color.Red // Color or Transparency
+            })
+        ];
+
+        // Add all borders to the scene
+        borders.forEach(border => this.add(border));
     }
 
     onActivate() {

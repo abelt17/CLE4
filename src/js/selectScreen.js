@@ -109,19 +109,19 @@ export class SelectScene extends Scene {
         this.add(this.fadeOutActor);
 
         this.on('preupdate', (evt) => {
-            if (engine.input.keyboard.isHeld(Keys.A) || engine.input.keyboard.isHeld(Keys.Left)) {
+            if (engine.input.keyboard.wasPressed(Keys.A) || engine.input.keyboard.wasPressed(Keys.Left)) {
                 console.log("Critter1 selected");
                 this.fadeOutActor.actions.fade(1, 1000, EasingFunctions.EaseInOutCubic).callMethod(() => {
                     engine.selectedCritter = 'critter1';
                     engine.goToScene('level1');
                 });
-            } else if (engine.input.keyboard.isHeld(Keys.W) || engine.input.keyboard.isHeld(Keys.Up)) {
+            } else if (engine.input.keyboard.wasPressed(Keys.W) || engine.input.keyboard.wasPressed(Keys.Up)) {
                 console.log("Critter2 selected");
                 this.fadeOutActor.actions.fade(1, 1000, EasingFunctions.EaseInOutCubic).callMethod(() => {
                     engine.selectedCritter = 'critter2';
                     engine.goToScene('level1');
                 });
-            } else if (engine.input.keyboard.isHeld(Keys.D) || engine.input.keyboard.isHeld(Keys.Right)) {
+            } else if (engine.input.keyboard.wasPressed(Keys.D) || engine.input.keyboard.wasPressed(Keys.Right)) {
                 console.log("Critter3 selected");
                 this.fadeOutActor.actions.fade(1, 1000, EasingFunctions.EaseInOutCubic).callMethod(() => {
                     engine.selectedCritter = 'critter3';
