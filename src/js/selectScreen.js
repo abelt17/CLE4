@@ -38,22 +38,25 @@ export class SelectScene extends Scene {
             }
         });
 
+        const scale = new Vector(0.6, 0.6);
+
         const sprite1 = new Actor({
             pos: new Vector(260, 450),
-            scale: new Vector(0.1, 0.1)
+            scale: scale
+
         });
         sprite1.graphics.use(critter1.getSprite(0, 0));
 
         const sprite2 = new Actor({
             pos: new Vector(630, 420),
-            scale: new Vector(0.1, 0.1)
+            scale: scale
         });
 
         sprite2.graphics.use(critter2.getSprite(0, 0));
 
         const sprite3 = new Actor({
             pos: new Vector(1000, 480),
-            scale: new Vector(0.1, 0.1)
+            scale: scale
         });
 
         sprite3.graphics.use(critter3.getSprite(0, 0));
