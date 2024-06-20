@@ -237,10 +237,10 @@ export class Level1 extends Scene {
 
     onActivate() {
         if (this.engine.enemyState) {
-                this.removeEnemies();
-                this.spawnEnemies();
-                this.engine.enemyState = false; // Reset the respawn flag
-            }
+            this.removeEnemies();
+            this.spawnEnemies();
+            this.engine.enemyState = false; // Reset the respawn flag
+        }
 
         // Fade in the scene when activated
         this.fadeInActor.actions.fade(0, 1000, EasingFunctions.EaseInOutCubic);
