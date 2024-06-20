@@ -19,6 +19,7 @@ export class Game extends Engine {
             maxFps: 60,
             displayMode: DisplayMode.FitScreen
         })
+        this.selectedCritter = 'critter1';
         this.start(ResourceLoader).then(() => this.startGame())
     }
 
@@ -28,9 +29,10 @@ export class Game extends Engine {
         this.add('intro', new IntroScene());
         this.add('deathScreen', new DeathScreen());
         this.add('enemyFight', new EnemyFight());
+        this.add('selectScene', new SelectScene());
         this.add('level1', new Level1());
         this.add('level2', new Level2());
-        this.add('selectScene', new SelectScene());
+
 
         this.goToScene('mainmenu');
     }

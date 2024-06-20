@@ -61,6 +61,11 @@ export class EnemyFight extends Scene {
         this.add(this.playerHealthLabel);
     }
 
+    onInitialize(engine) {
+        this.player = new StaticPlayer(400, 600, engine.selectedCritter);
+        this.add(this.player);
+    }
+
     onActivate() {
         this.updateLabels(); // Update labels when the scene activates
     }
@@ -71,19 +76,22 @@ export class EnemyFight extends Scene {
         this.remove(this.player);
         this.remove(this.attack1);
         this.remove(this.attack2);
+        this.remove(this.background);
 
-        this.player = new StaticPlayer(400, 600);
-        this.add(this.player);
+        this.background = new Background(Resources.FightScene.toSprite(), 640, 360, 1, 1);
+        this.add(this.background);
+
+
 
         if (identifier === "incinerose") {
             this.enemy = new StaticEnemy(Resources.Incinerose.toSprite(), 1000, 300, "incinerose");
         } else if (identifier === "chomperdaisy") {
             this.enemy = new StaticEnemy(Resources.Chomperdaisy.toSprite(), 1000, 300, "chomperdaisy");
-        }else if (identifier === "bazookerlilly") {
+        } else if (identifier === "bazookerlilly") {
             this.enemy = new StaticEnemy(Resources.Bazookerlilly.toSprite(), 1000, 300, "bazookerlilly");
         }
         this.add(this.enemy);
-        
+
         this.attack1 = new Attacks(200, 200, "Blast");
         this.attack2 = new Attacks(500, 200, "Obliterate");
         this.add(this.attack1);
@@ -106,7 +114,7 @@ export class EnemyFight extends Scene {
                         damage = Math.floor(Math.random() * 5) + 5 + PlayerData.attackDamage;
                     } else if (this.enemy && this.enemy.identifier === "chomperdaisy") {
                         damage = Math.floor(Math.random() * 5) + 5 + PlayerData.attackDamage;
-                    }else if (this.enemy && this.enemy.identifier === "bazookerlilly") {
+                    } else if (this.enemy && this.enemy.identifier === "bazookerlilly") {
                         damage = Math.floor(Math.random() * 5) + 5 + PlayerData.attackDamage;
                     }
                     this.enemy.health -= damage;
@@ -191,13 +199,13 @@ export class EnemyFight extends Scene {
         } else if (this.enemy.identifier === "bazookerlilly") {
             xpGained = 150;
         }
-    
+
         PlayerData.addXP(xpGained);
-        
+
         this.engine.goToScene('level1');
         this.engine.defeatedEnemy = this.engine.currentEnemy; // Track the defeated enemy
     }
-    
+
     onPlayerDefeated() {
         this.engine.goToScene('deathScreen');
     }
@@ -222,37 +230,30 @@ export class Level1 extends Scene {
 
         this.spawnEnemies();
 
-        this.player = new Player(0, 400);
+        this.player = new Player(400, 400, engine.selectedCritter);
         this.add(this.player);
 
-        // Creates the fade-in actor
-        // const screenWidth = engine.drawWidth;
-        // const screenHeight = engine.drawHeight;
-
-        // console.log(` SKKKRT Screen Width: ${screenWidth}, Screen Height: ${screenHeight}`);
-
-        // this.fadeInActor = new Actor({
-        //     pos: new Vector(0, 0), // Top-left corner of the screen
-        //     width: screenWidth,
-        //     height: screenHeight,
-        //     color: Color.Black,
-        //     opacity: 1
-        // });
-        // this.fadeInActor.anchor.setTo(0, 0); // Ensures the anchor is at the top-left
-        // this.add(this.fadeInActor);
+        // Create the fade-in actor
+        this.fadeInActor = new Actor({
+            pos: new Vector(640, 360),
+            width: 4000,
+            height: 3000,
+            color: Color.Black,
+            opacity: 1
+        });
+        this.fadeInActor.anchor.setTo(0.5, 0.5);
+        this.add(this.fadeInActor);
     }
 
     onActivate() {
         if (this.engine.enemyState) {
-            if (this.engine.enemyState) {
-                this.removeEnemies();
-                this.spawnEnemies();
-                this.engine.enemyState = false; // Reset the respawn flag
-            }
-            previousScene.scene = 'level1'
-            // Fades in the scene when activated
-            // this.fadeInActor.actions.fade(0, 1000, EasingFunctions.EaseInOutCubic);
+            this.removeEnemies();
+            this.spawnEnemies();
+            this.engine.enemyState = false; // Reset the respawn flag
         }
+            previousScene.scene = 'level1'
+        // Fade in the scene when activated
+        this.fadeInActor.actions.fade(0, 1000, EasingFunctions.EaseInOutCubic);
     }
 
     removeEnemies() {
@@ -263,7 +264,6 @@ export class Level1 extends Scene {
 
     spawnEnemies() {
         for (let i = 0; i < 3; i++) {
-
             this.incinerose = new Enemy(Resources.Incinerose.toSprite(), Math.floor(Math.random() * 1000), Math.floor(Math.random() * 1000), Resources.Incinerose.width - 100, Resources.Incinerose.height - 100, "incinerose");
             this.add(this.incinerose);
         }
@@ -280,6 +280,7 @@ export class Level1 extends Scene {
         const playerPos = this.player.pos;
 
         this.camera.pos = playerPos;
+
         // Remove defeated enemy
         if (engine.defeatedEnemy) {
             this.remove(engine.defeatedEnemy);
@@ -290,7 +291,7 @@ export class Level1 extends Scene {
 
 
 export class Level2 extends Scene {
-    onInitialize() {
+    onInitialize(engine) {
 
         previousScene.scene = 'level2'
 
@@ -300,10 +301,22 @@ export class Level2 extends Scene {
         this.bridge = new Bridge(Resources.PixelArtBridge.toSprite(), 1000, 370, 0.3, 0.3, 500, 500, "level2_bridge");
         this.add(this.bridge);
 
+
         this.spawnEnemies()
 
-        this.player = new Player(400, 400);
+        this.player = new Player(400, 400, engine.selectedCritter);
         this.add(this.player);
+
+        // Create the fade-in actor
+        this.fadeInActor = new Actor({
+            pos: new Vector(640, 360),
+            width: 4000,
+            height: 3000,
+            color: Color.Black,
+            opacity: 1
+        });
+        this.fadeInActor.anchor.setTo(0.5, 0.5);
+        this.add(this.fadeInActor);
     }
 
     spawnEnemies() {
@@ -317,6 +330,9 @@ export class Level2 extends Scene {
         if (this.engine.enemyState !== undefined) {
             this.engine.enemyState = true;
         }
+
+        // Fade in the scene when activated
+        this.fadeInActor.actions.fade(0, 1000, EasingFunctions.EaseInOutCubic);
         previousScene.scene = 'level2'
 
     }

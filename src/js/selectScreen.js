@@ -1,10 +1,12 @@
 import { Actor, Scene, Vector, Color, Label, Font, Keys, SpriteSheet, EasingFunctions } from "excalibur";
 import { Resources } from './resources.js';
 import { Background } from "./background.js";
+import { Player } from './player.js';
+
+export let selectedCritter = '';
 
 export class SelectScene extends Scene {
     onInitialize(engine) {
-
         this.background = new Background(Resources.Podiums.toSprite(), 640, 370, 2.2, 2.1);
         this.add(this.background);
 
@@ -44,20 +46,19 @@ export class SelectScene extends Scene {
             pos: new Vector(260, 450),
             scale: scale
         });
+
         sprite1.graphics.use(critter1.getSprite(0, 0));
 
         const sprite2 = new Actor({
             pos: new Vector(630, 420),
             scale: scale
         });
-
         sprite2.graphics.use(critter2.getSprite(0, 0));
 
         const sprite3 = new Actor({
             pos: new Vector(1000, 480),
             scale: scale
         });
-
         sprite3.graphics.use(critter3.getSprite(0, 0));
 
         const label1 = new Label({
@@ -71,7 +72,7 @@ export class SelectScene extends Scene {
         });
 
         const label2 = new Label({
-            text: "S",
+            text: "W",
             pos: new Vector(630, 320),
             color: Color.Black,
             font: new Font({
@@ -111,19 +112,26 @@ export class SelectScene extends Scene {
             if (engine.input.keyboard.isHeld(Keys.A) || engine.input.keyboard.isHeld(Keys.Left)) {
                 console.log("Critter1 selected");
                 this.fadeOutActor.actions.fade(1, 1000, EasingFunctions.EaseInOutCubic).callMethod(() => {
+                    engine.selectedCritter = 'critter1';
                     engine.goToScene('level1');
                 });
             } else if (engine.input.keyboard.isHeld(Keys.W) || engine.input.keyboard.isHeld(Keys.Up)) {
                 console.log("Critter2 selected");
                 this.fadeOutActor.actions.fade(1, 1000, EasingFunctions.EaseInOutCubic).callMethod(() => {
+                    engine.selectedCritter = 'critter2';
                     engine.goToScene('level1');
                 });
             } else if (engine.input.keyboard.isHeld(Keys.D) || engine.input.keyboard.isHeld(Keys.Right)) {
                 console.log("Critter3 selected");
                 this.fadeOutActor.actions.fade(1, 1000, EasingFunctions.EaseInOutCubic).callMethod(() => {
+                    engine.selectedCritter = 'critter3';
                     engine.goToScene('level1');
                 });
             }
         });
+    }
+    selectCritterAndGoToLevel(engine, critterKey) {
+        engine.selectedCritter = critterKey;
+        engine.goToScene('level1');
     }
 }
