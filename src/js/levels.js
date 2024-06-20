@@ -79,7 +79,7 @@ export class EnemyFight extends Scene {
             this.enemy = new StaticEnemy(Resources.Incinerose.toSprite(), 1000, 300, "incinerose");
         } else if (identifier === "chomperdaisy") {
             this.enemy = new StaticEnemy(Resources.Chomperdaisy.toSprite(), 1000, 300, "chomperdaisy");
-        }else if (identifier === "bazookerlilly") {
+        } else if (identifier === "bazookerlilly") {
             this.enemy = new StaticEnemy(Resources.Bazookerlilly.toSprite(), 1000, 300, "bazookerlilly");
         }
         this.add(this.enemy);
@@ -106,7 +106,7 @@ export class EnemyFight extends Scene {
                         damage = Math.floor(Math.random() * 5) + 5 + PlayerData.attackDamage;
                     } else if (this.enemy && this.enemy.identifier === "chomperdaisy") {
                         damage = Math.floor(Math.random() * 5) + 5 + PlayerData.attackDamage;
-                    }else if (this.enemy && this.enemy.identifier === "bazookerlilly") {
+                    } else if (this.enemy && this.enemy.identifier === "bazookerlilly") {
                         damage = Math.floor(Math.random() * 5) + 5 + PlayerData.attackDamage;
                     }
                     this.enemy.health -= damage;
@@ -288,13 +288,10 @@ export class Level2 extends Scene {
         this.bridge = new Bridge(Resources.PixelArtBridge.toSprite(), 1000, 370, 0.3, 0.3, 500, 500, "level2_bridge");
         this.add(this.bridge);
 
-<<<<<<< HEAD
-        this.player = new Player(400, 400, engine.selectedCritter);
-=======
+
         this.spawnEnemies()
 
-        this.player = new Player(400, 400);
->>>>>>> 85b6b2be3f43462333462ff71ef91e0e3b38f6fa
+        this.player = new Player(400, 400, engine.selectedCritter);
         this.add(this.player);
 
         // Create the fade-in actor
