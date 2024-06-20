@@ -4,7 +4,6 @@ import { Background } from "./background.js";
 
 export class SelectScene extends Scene {
     onInitialize(engine) {
-
         this.background = new Background(Resources.Podiums.toSprite(), 640, 370, 2.2, 2.1);
         this.add(this.background);
 
@@ -50,14 +49,12 @@ export class SelectScene extends Scene {
             pos: new Vector(630, 420),
             scale: scale
         });
-
         sprite2.graphics.use(critter2.getSprite(0, 0));
 
         const sprite3 = new Actor({
             pos: new Vector(1000, 480),
             scale: scale
         });
-
         sprite3.graphics.use(critter3.getSprite(0, 0));
 
         const label1 = new Label({

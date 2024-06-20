@@ -213,34 +213,27 @@ export class Level1 extends Scene {
         this.player = new Player(400, 400);
         this.add(this.player);
 
-        // Creates the fade-in actor
-        // const screenWidth = engine.drawWidth;
-        // const screenHeight = engine.drawHeight;
-
-        // console.log(` SKKKRT Screen Width: ${screenWidth}, Screen Height: ${screenHeight}`);
-
-        // this.fadeInActor = new Actor({
-        //     pos: new Vector(0, 0), // Top-left corner of the screen
-        //     width: screenWidth,
-        //     height: screenHeight,
-        //     color: Color.Black,
-        //     opacity: 1
-        // });
-        // this.fadeInActor.anchor.setTo(0, 0); // Ensures the anchor is at the top-left
-        // this.add(this.fadeInActor);
+        // Create the fade-in actor
+        this.fadeInActor = new Actor({
+            pos: new Vector(640, 360),
+            width: 4000,
+            height: 3000,
+            color: Color.Black,
+            opacity: 1
+        });
+        this.fadeInActor.anchor.setTo(0.5, 0.5);
+        this.add(this.fadeInActor);
     }
 
     onActivate() {
         if (this.engine.enemyState) {
-            if (this.engine.enemyState) {
-                this.removeEnemies();
-                this.spawnEnemies();
-                this.engine.enemyState = false; // Reset the respawn flag
-            }
-
-            // Fades in the scene when activated
-            // this.fadeInActor.actions.fade(0, 1000, EasingFunctions.EaseInOutCubic);
+            this.removeEnemies();
+            this.spawnEnemies();
+            this.engine.enemyState = false; // Reset the respawn flag
         }
+
+        // Fade in the scene when activated
+        this.fadeInActor.actions.fade(0, 1000, EasingFunctions.EaseInOutCubic);
     }
 
     removeEnemies() {
@@ -251,7 +244,6 @@ export class Level1 extends Scene {
 
     spawnEnemies() {
         for (let i = 0; i < 3; i++) {
-
             this.incinerose = new Enemy(Resources.Incinerose.toSprite(), Math.floor(Math.random() * 1000), Math.floor(Math.random() * 1000), Resources.Incinerose.width - 100, Resources.Incinerose.height - 100, "incinerose");
             this.add(this.incinerose);
         }
@@ -268,6 +260,7 @@ export class Level1 extends Scene {
         const playerPos = this.player.pos;
 
         this.camera.pos = playerPos;
+
         // Remove defeated enemy
         if (engine.defeatedEnemy) {
             this.remove(engine.defeatedEnemy);
@@ -287,12 +280,26 @@ export class Level2 extends Scene {
 
         this.player = new Player(400, 400);
         this.add(this.player);
+
+        // Create the fade-in actor
+        this.fadeInActor = new Actor({
+            pos: new Vector(640, 360),
+            width: 4000,
+            height: 3000,
+            color: Color.Black,
+            opacity: 1
+        });
+        this.fadeInActor.anchor.setTo(0.5, 0.5);
+        this.add(this.fadeInActor);
     }
 
     onActivate() {
         if (this.engine.enemyState !== undefined) {
             this.engine.enemyState = true;
         }
+
+        // Fade in the scene when activated
+        this.fadeInActor.actions.fade(0, 1000, EasingFunctions.EaseInOutCubic);
     }
 
     onPreUpdate(engine, delta) {
