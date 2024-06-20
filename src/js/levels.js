@@ -76,6 +76,10 @@ export class EnemyFight extends Scene {
         this.remove(this.player);
         this.remove(this.attack1);
         this.remove(this.attack2);
+        this.remove(this.background);
+
+        this.background = new Background(Resources.FightScene.toSprite(), 640, 360, 1, 1);
+        this.add(this.background);
 
 
 
