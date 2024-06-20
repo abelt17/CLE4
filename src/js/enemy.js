@@ -51,6 +51,8 @@ export class StaticEnemy extends Actor {
             this.health = 200;
         } else if (identifier === "chomperdaisy") {
             this.health = 100;
+        } else if (identifier === "bazookerlilly") {
+            this.health = 300;
         }
     }
     

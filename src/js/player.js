@@ -91,10 +91,6 @@ export class StaticPlayer extends Actor {
     takeDamage(amount) {
         PlayerData.health -= amount;
         console.log(`Player health: ${PlayerData.health}`);
-        if (PlayerData.health <= 0) {
-            console.log('Player defeated!');
-            // Handle player defeat logic here
-        }
     }
 
 
@@ -139,6 +135,11 @@ export class Player extends Actor {
         if (engine.input.keyboard.isHeld(Keys.A) || engine.input.keyboard.isHeld(Keys.Left)) {
             xspeed = -200
         }
+
+        if (engine.input.keyboard.isHeld(Keys.ControlLeft) || engine.input.keyboard.isHeld(Keys.ControlRight)) {
+            this.scene.engine.goToScene('playerInfo');
+        }
+
         this.vel = new Vector(xspeed, yspeed);
         this.graphics.flipHorizontal = (this.vel.x > 0)
     }
@@ -153,8 +154,16 @@ export class Player extends Actor {
                 this.scene.engine.goToScene('level2');
             } else if (event.other.identifier === "level2_bridge") {
                 this.scene.engine.goToScene('level1');
+            } else if (event.other.identifier === "level3_bridge") {
+                this.scene.engine.goToScene('level3');
+            } else if (event.other.identifier === "level4_bridge") {
+                this.scene.engine.goToScene('level2');
+            } else if (event.other.identifier === "villa-baobab") {
+                this.scene.engine.goToScene('villa-baobab');
             }
-        }
+
+
+        } 
         if (event.other instanceof Enemy) {
             const enemyType = event.other.identifier; // save the enemy in a variable
             this.scene.engine.goToScene('enemyFight');

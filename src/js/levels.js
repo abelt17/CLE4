@@ -79,6 +79,8 @@ export class EnemyFight extends Scene {
             this.enemy = new StaticEnemy(Resources.Incinerose.toSprite(), 1000, 300, "incinerose");
         } else if (identifier === "chomperdaisy") {
             this.enemy = new StaticEnemy(Resources.Chomperdaisy.toSprite(), 1000, 300, "chomperdaisy");
+        }else if (identifier === "bazookerlilly") {
+            this.enemy = new StaticEnemy(Resources.Bazookerlilly.toSprite(), 1000, 300, "bazookerlilly");
         }
         this.add(this.enemy);
 
@@ -104,6 +106,8 @@ export class EnemyFight extends Scene {
                         damage = Math.floor(Math.random() * 5) + 5 + PlayerData.attackDamage;
                     } else if (this.enemy && this.enemy.identifier === "chomperdaisy") {
                         damage = Math.floor(Math.random() * 5) + 5 + PlayerData.attackDamage;
+                    }else if (this.enemy && this.enemy.identifier === "bazookerlilly") {
+                        damage = Math.floor(Math.random() * 5) + 5 + PlayerData.attackDamage;
                     }
                     this.enemy.health -= damage;
                     this.attackMessage = `Player attacked with ${identifier} and dealt ${damage} damage!`;
@@ -117,6 +121,8 @@ export class EnemyFight extends Scene {
                     if (this.enemy && this.enemy.identifier === "incinerose") {
                         damage = Math.floor(Math.random() * 30) + 1 + PlayerData.attackDamage;
                     } else if (this.enemy && this.enemy.identifier === "chomperdaisy") {
+                        damage = Math.floor(Math.random() * 30) + 1 + PlayerData.attackDamage;
+                    } else if (this.enemy && this.enemy.identifier === "bazookerlilly") {
                         damage = Math.floor(Math.random() * 30) + 1 + PlayerData.attackDamage;
                     }
                     this.enemy.health -= damage;
@@ -151,6 +157,8 @@ export class EnemyFight extends Scene {
                         damage = Math.floor(Math.random() * 10) + 5;
                     } else if (this.enemy.identifier === "chomperdaisy") {
                         damage = Math.floor(Math.random() * 20) + 10;
+                    } else if (this.enemy.identifier === "bazookerlilly") {
+                        damage = Math.floor(Math.random() * 30) + 10;
                     }
                     PlayerData.health -= damage;
                     this.attackMessage = `${this.enemy.identifier} attacked and dealt ${damage} damage!`;
@@ -180,6 +188,8 @@ export class EnemyFight extends Scene {
             xpGained = 100; // XP for defeating a incinerose
         } else if (this.enemy.identifier === "chomperdaisy") {
             xpGained = 50; // XP for defeating a chomperdaisy
+        } else if (this.enemy.identifier === "bazookerlilly") {
+            xpGained = 150;
         }
 
         PlayerData.addXP(xpGained);
@@ -199,45 +209,41 @@ export class Level1 extends Scene {
             this.engine.enemyState = false;
         }
 
-        this.background = new Background(Resources.Zone1.toSprite(), 750, 370, 2, 2);
+        this.background = new Background(Resources.Level1bg.toSprite(), 0, 0, 2, 2);
         this.add(this.background);
 
-        this.bridge = new Bridge(Resources.PixelArtBridge.toSprite(), 1400, 370, 0.3, 0.3, 500, 500, "level1_bridge");
+        this.bridge = new Bridge(Resources.PixelArtBridge.toSprite(), 3600, 1200, 2, 2, 500, 500, "level1_bridge");
         this.add(this.bridge);
+
+        this.villa = new Bridge(Resources.Villa.toSprite(), -780, -600, 1, 1, 100, 100, "villa-baobab");
+        this.add(this.villa);
 
         this.spawnEnemies();
 
         this.player = new Player(400, 400, engine.selectedCritter);
         this.add(this.player);
 
-        // Creates the fade-in actor
-        // const screenWidth = engine.drawWidth;
-        // const screenHeight = engine.drawHeight;
-
-        // console.log(` SKKKRT Screen Width: ${screenWidth}, Screen Height: ${screenHeight}`);
-
-        // this.fadeInActor = new Actor({
-        //     pos: new Vector(0, 0), // Top-left corner of the screen
-        //     width: screenWidth,
-        //     height: screenHeight,
-        //     color: Color.Black,
-        //     opacity: 1
-        // });
-        // this.fadeInActor.anchor.setTo(0, 0); // Ensures the anchor is at the top-left
-        // this.add(this.fadeInActor);
+        // Create the fade-in actor
+        this.fadeInActor = new Actor({
+            pos: new Vector(640, 360),
+            width: 4000,
+            height: 3000,
+            color: Color.Black,
+            opacity: 1
+        });
+        this.fadeInActor.anchor.setTo(0.5, 0.5);
+        this.add(this.fadeInActor);
     }
 
     onActivate() {
         if (this.engine.enemyState) {
-            if (this.engine.enemyState) {
                 this.removeEnemies();
                 this.spawnEnemies();
                 this.engine.enemyState = false; // Reset the respawn flag
             }
 
-            // Fades in the scene when activated
-            // this.fadeInActor.actions.fade(0, 1000, EasingFunctions.EaseInOutCubic);
-        }
+        // Fade in the scene when activated
+        this.fadeInActor.actions.fade(0, 1000, EasingFunctions.EaseInOutCubic);
     }
 
     removeEnemies() {
@@ -248,7 +254,6 @@ export class Level1 extends Scene {
 
     spawnEnemies() {
         for (let i = 0; i < 3; i++) {
-
             this.incinerose = new Enemy(Resources.Incinerose.toSprite(), Math.floor(Math.random() * 1000), Math.floor(Math.random() * 1000), Resources.Incinerose.width - 100, Resources.Incinerose.height - 100, "incinerose");
             this.add(this.incinerose);
         }
@@ -265,6 +270,7 @@ export class Level1 extends Scene {
         const playerPos = this.player.pos;
 
         this.camera.pos = playerPos;
+
         // Remove defeated enemy
         if (engine.defeatedEnemy) {
             this.remove(engine.defeatedEnemy);
@@ -282,14 +288,41 @@ export class Level2 extends Scene {
         this.bridge = new Bridge(Resources.PixelArtBridge.toSprite(), 1000, 370, 0.3, 0.3, 500, 500, "level2_bridge");
         this.add(this.bridge);
 
+<<<<<<< HEAD
         this.player = new Player(400, 400, engine.selectedCritter);
+=======
+        this.spawnEnemies()
+
+        this.player = new Player(400, 400);
+>>>>>>> 85b6b2be3f43462333462ff71ef91e0e3b38f6fa
         this.add(this.player);
+
+        // Create the fade-in actor
+        this.fadeInActor = new Actor({
+            pos: new Vector(640, 360),
+            width: 4000,
+            height: 3000,
+            color: Color.Black,
+            opacity: 1
+        });
+        this.fadeInActor.anchor.setTo(0.5, 0.5);
+        this.add(this.fadeInActor);
+    }
+
+    spawnEnemies() {
+        for (let i = 0; i < 4; i++) {
+            this.bazookerlilly = new Enemy(Resources.Bazookerlilly.toSprite(), Math.floor(Math.random() * 1000), Math.floor(Math.random() * 1000), Resources.Bazookerlilly.width - 100, Resources.Bazookerlilly.height - 100, "bazookerlilly")
+            this.add(this.bazookerlilly)
+        }
     }
 
     onActivate() {
         if (this.engine.enemyState !== undefined) {
             this.engine.enemyState = true;
         }
+
+        // Fade in the scene when activated
+        this.fadeInActor.actions.fade(0, 1000, EasingFunctions.EaseInOutCubic);
     }
 
     onPreUpdate(engine, delta) {

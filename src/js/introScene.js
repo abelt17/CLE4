@@ -16,7 +16,7 @@ export class IntroScene extends Scene {
             "",
             "You wake up in your cardboard box",
             "from someone poking you.",
-            "You open your eyes and see it's professor Acacia.",
+            "You open your eyes and see it's professor Baobab.",
             "",
             "Professor Acacia is a known Critter researcher,",
             "but he isn't that great in combat, so his",
@@ -51,7 +51,7 @@ export class IntroScene extends Scene {
 
         this.continueLabel = new Label({
             text: "Press ENTER to continue",
-            pos: new Vector(640, 360), // Text in the middle of the screen.
+            pos: new Vector(400, 360), // Text in the middle of the screen.
             font: new Font({
                 family: 'Arial',
                 size: 24,
@@ -106,7 +106,7 @@ export class IntroScene extends Scene {
             console.log('SKKKRT Showing "Press ENTER to continue" visibility is set.');
         }
 
-        if (this.continueLabel.visible && engine.input.keyboard.wasPressed(Keys.Enter)) {
+        if (/*this.continueLabel.visible &&*/ engine.input.keyboard.wasPressed(Keys.Enter)) {
             this.fadeOutActor.actions.fade(1, 1000, EasingFunctions.EaseInOutCubic).callMethod(() => {
                 engine.goToScene('selectScene');
             });
