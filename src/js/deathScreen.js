@@ -18,7 +18,7 @@ export class DeathScreen extends Scene {
             const deathLabel = new Label({
                 text: text,
                 // textAlign: TextAlign.Center,
-                pos: new Vector(80, 360),
+                pos: new Vector(80, 320),
                 font: new Font({
                     family: 'Arial',
                     size: 70,

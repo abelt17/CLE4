@@ -51,7 +51,7 @@ export class IntroScene extends Scene {
 
         this.continueLabel = new Label({
             text: "Press ENTER to continue",
-            pos: new Vector(640, 360), // Text in the middle of the screen.
+            pos: new Vector(400, 360), // Text in the middle of the screen.
             font: new Font({
                 family: 'Arial',
                 size: 24,
