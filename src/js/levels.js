@@ -198,11 +198,14 @@ export class Level1 extends Scene {
             this.engine.enemyState = false;
         }
 
-        this.background = new Background(Resources.Zone1.toSprite(), 750, 370, 2, 2);
+        this.background = new Background(Resources.Level1bg.toSprite(), 0, 0, 2, 2);
         this.add(this.background);
 
-        this.bridge = new Bridge(Resources.PixelArtBridge.toSprite(), 1400, 370, 0.3, 0.3, 500, 500, "level1_bridge");
+        this.bridge = new Bridge(Resources.PixelArtBridge.toSprite(), 3600, 1200, 2, 2, 500, 500, "level1_bridge");
         this.add(this.bridge);
+
+        this.villa = new Bridge(Resources.Villa.toSprite(), -780, -600, 1, 1, 100, 100, "villa-baobab");
+        this.add(this.villa);
 
         this.spawnEnemies();
 
