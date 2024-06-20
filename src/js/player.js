@@ -1,44 +1,51 @@
-import { Actor, Vector, Keys, clamp, CollisionType, Color, SpriteSheet } from "excalibur";
-import { Resources } from './resources.js';
+import { Actor, Vector, Keys, SpriteSheet } from "excalibur";
 import { Bridge } from "./bridge.js";
 import { Enemy } from "./enemy.js";
 import { Attacks } from './fightOverlay.js';
 import { eventEmitter } from './eventEmitter.js';
 
-const critter1 = SpriteSheet.fromImageSource({
-    image: Resources.Critter1,
-    grid: {
-        rows: 6,
-        columns: 8,
-        spriteWidth: 187.5,
-        spriteHeight: 250
-    }
-});
+let critter1, critter2, critter3, Resources;
 
-const critter2 = SpriteSheet.fromImageSource({
-    image: Resources.Critter2,
-    grid: {
-        rows: 6,
-        columns: 8,
-        spriteWidth: 187.5,
-        spriteHeight: 250
-    }
-});
+async function initializeSpriteSheets() {
+    const res = await import('./resources.js');
+    Resources = res.Resources;
 
-const critter3 = SpriteSheet.fromImageSource({
-    image: Resources.Critter3,
-    grid: {
-        rows: 6,
-        columns: 8,
-        spriteWidth: 187.5,
-        spriteHeight: 250
-    }
-});
+    critter1 = SpriteSheet.fromImageSource({
+        image: Resources.Critter1,
+        grid: {
+            rows: 6,
+            columns: 8,
+            spriteWidth: 187.5,
+            spriteHeight: 250
+        }
+    });
 
+    critter2 = SpriteSheet.fromImageSource({
+        image: Resources.Critter2,
+        grid: {
+            rows: 6,
+            columns: 8,
+            spriteWidth: 187.5,
+            spriteHeight: 250
+        }
+    });
+
+    critter3 = SpriteSheet.fromImageSource({
+        image: Resources.Critter3,
+        grid: {
+            rows: 6,
+            columns: 8,
+            spriteWidth: 187.5,
+            spriteHeight: 250
+        }
+    });
+}
+
+initializeSpriteSheets();
 
 export let previousScene = {
     scene: '',
-}
+};
 
 export const PlayerData = {
     health: 100,
@@ -88,7 +95,7 @@ export class StaticPlayer extends Actor {
             this.graphics.use(critter3.getSprite(0, 0));
         } else {
             this.graphics.use(Resources.Critter1.toSprite());
-            console.log("Staticplayer actor failed to select");
+            console.log("StaticPlayer actor failed to select");
         }
     }
 
@@ -96,12 +103,9 @@ export class StaticPlayer extends Actor {
         PlayerData.health -= amount;
         console.log(`Player health: ${PlayerData.health}`);
     }
-
-
 }
 
 export class Player extends Actor {
-
     constructor(width, height, selectedCritter) {
         super({
             width: width,
@@ -116,7 +120,7 @@ export class Player extends Actor {
             this.graphics.use(critter3.getSprite(0, 0));
         } else {
             this.graphics.use(Resources.Critter3.toSprite());
-            console.log("player actor failed to select critter");
+            console.log("Player actor failed to select critter");
         }
     }
 
@@ -133,11 +137,11 @@ export class Player extends Actor {
         }
 
         if (engine.input.keyboard.isHeld(Keys.D) || engine.input.keyboard.isHeld(Keys.Right)) {
-            xspeed = 200
+            xspeed = 200;
         }
 
         if (engine.input.keyboard.isHeld(Keys.A) || engine.input.keyboard.isHeld(Keys.Left)) {
-            xspeed = -200
+            xspeed = -200;
         }
 
         if (engine.input.keyboard.wasPressed(Keys.ControlLeft) || engine.input.keyboard.wasPressed(Keys.ControlRight)) {
@@ -146,7 +150,7 @@ export class Player extends Actor {
         }
 
         this.vel = new Vector(xspeed, yspeed);
-        this.graphics.flipHorizontal = (this.vel.x > 0)
+        this.graphics.flipHorizontal = (this.vel.x > 0);
     }
 
     onInitialize(engine) {
@@ -160,20 +164,19 @@ export class Player extends Actor {
                 PlayerData.previousScene = 'level2';
             } else if (event.other.identifier === "level2_bridge") {
                 this.scene.engine.goToScene('level1');
-                PlayerData.previousScene = 'level1'
+                PlayerData.previousScene = 'level1';
             } else if (event.other.identifier === "level3_bridge") {
                 this.scene.engine.goToScene('level3');
                 PlayerData.previousScene = 'level3';
             } else if (event.other.identifier === "level4_bridge") {
-                this.scene.engine.goToScene('level2');  
+                this.scene.engine.goToScene('level2');
                 PlayerData.previousScene = 'level2';
             } else if (event.other.identifier === "villa-baobab") {
                 this.scene.engine.goToScene('villa-baobab');
                 PlayerData.previousScene = 'villa-baobab';
             }
-
-
         }
+
         if (event.other instanceof Enemy) {
             const enemyType = event.other.identifier; // save the enemy in a variable
             this.scene.engine.goToScene('enemyFight');
@@ -189,7 +192,7 @@ export class Cursor extends Actor {
         super({
             width: Resources.Cursor.width,
             height: Resources.Cursor.height,
-        })
+        });
         this.graphics.use(Resources.Cursor.toSprite());
         this.pos = new Vector(x, y);
         this.vel = new Vector(0, 0);
@@ -209,14 +212,13 @@ export class Cursor extends Actor {
         }
 
         if (engine.input.keyboard.isHeld(Keys.D) || engine.input.keyboard.isHeld(Keys.Right)) {
-            xspeed = 200
+            xspeed = 200;
         }
 
         if (engine.input.keyboard.isHeld(Keys.A) || engine.input.keyboard.isHeld(Keys.Left)) {
-            xspeed = -200
+            xspeed = -200;
         }
         this.vel = new Vector(xspeed, yspeed);
-
     }
 
     onInitialize(engine) {
@@ -232,5 +234,4 @@ export class Cursor extends Actor {
             }
         }
     }
-
 }
