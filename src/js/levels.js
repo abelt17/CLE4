@@ -61,6 +61,11 @@ export class EnemyFight extends Scene {
         this.add(this.playerHealthLabel);
     }
 
+    onInitialize(engine) {
+        this.player = new StaticPlayer(400, 600, engine.selectedCritter);
+        this.add(this.player);
+    }
+
     onActivate() {
         this.updateLabels(); // Update labels when the scene activates
     }
@@ -72,8 +77,7 @@ export class EnemyFight extends Scene {
         this.remove(this.attack1);
         this.remove(this.attack2);
 
-        this.player = new StaticPlayer(400, 600);
-        this.add(this.player);
+
 
         if (identifier === "incinerose") {
             this.enemy = new StaticEnemy(Resources.Incinerose.toSprite(), 1000, 300, "incinerose");

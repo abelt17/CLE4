@@ -77,11 +77,11 @@ export class StaticPlayer extends Actor {
         });
 
         if (selectedCritter === 'critter1') {
-            this.graphics.use(Resources.Critter1.toSprite());
+            this.graphics.use(critter1.getSprite(0, 0));
         } else if (selectedCritter === 'critter2') {
-            this.graphics.use(Resources.Critter2.toSprite());
+            this.graphics.use(critter2.getSprite(0, 0));
         } else if (selectedCritter === 'critter3') {
-            this.graphics.use(Resources.Critter3.toSprite());
+            this.graphics.use(critter3.getSprite(0, 0));
         } else {
             this.graphics.use(Resources.Critter1.toSprite());
             console.log("Staticplayer actor failed to select");
@@ -163,7 +163,7 @@ export class Player extends Actor {
             }
 
 
-        } 
+        }
         if (event.other instanceof Enemy) {
             const enemyType = event.other.identifier; // save the enemy in a variable
             this.scene.engine.goToScene('enemyFight');

@@ -19,6 +19,7 @@ export class Game extends Engine {
             maxFps: 60,
             displayMode: DisplayMode.FitScreen
         })
+        this.selectedCritter = 'critter1';
         this.start(ResourceLoader).then(() => this.startGame())
     }
 
