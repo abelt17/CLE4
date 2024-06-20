@@ -15,6 +15,9 @@ const Resources = {
     Chomperdaisy: new ImageSource('images/chomperdaisy.png'),
     Incinerose: new ImageSource('images/incinerose.png'),
     Sparringspar: new ImageSource('images/sparringspar.png'),
+    Critter1: new ImageSource('images/critter1.png'),
+    Critter2: new ImageSource('images/critter2.png'),
+    Critter3: new ImageSource('images/critter3.png'),
 }
 
 
