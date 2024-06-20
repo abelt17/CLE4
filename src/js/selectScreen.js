@@ -101,12 +101,18 @@ export class SelectScene extends Scene {
         this.on('preupdate', (evt) => {
             if (engine.input.keyboard.isHeld(Keys.A) || engine.input.keyboard.isHeld(Keys.Left)) {
                 console.log("Critter1 selected");
+                // this.fadeOutActor.actions.fade(1, 1000, EasingFunctions.EaseInOutCubic).callMethod(() => {
+                // });
                 engine.goToScene('level1');
             } else if (engine.input.keyboard.isHeld(Keys.W) || engine.input.keyboard.isHeld(Keys.Up)) {
                 console.log("Critter2 selected");
+                // this.fadeOutActor.actions.fade(1, 1000, EasingFunctions.EaseInOutCubic).callMethod(() => {
+                // });
                 engine.goToScene('level1');
             } else if (engine.input.keyboard.isHeld(Keys.D) || engine.input.keyboard.isHeld(Keys.Right)) {
                 console.log("Critter3 selected");
+                // this.fadeOutActor.actions.fade(1, 1000, EasingFunctions.EaseInOutCubic).callMethod(() => {
+                // });
                 engine.goToScene('level1');
             }
         });
