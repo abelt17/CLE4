@@ -61,7 +61,7 @@ export class DeathScreen extends Scene {
 
     respawnPlayer() {
         // Reset player's health to its previous value
-        PlayerData.health = PlayerData.previousHealth;
+        PlayerData.health = PlayerData.maxHealth;
 
         // Go back to the game scene (replace 'GameScene' with your actual game scene class)
         this.engine.goToScene('level1');

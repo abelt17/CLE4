@@ -5,6 +5,10 @@ import { Enemy } from "./enemy.js";
 import { Attacks } from './fightOverlay.js';
 import { eventEmitter } from './eventEmitter.js';
 
+export let previousScene = {
+    scene: '',
+}
+
 export const PlayerData = {
     health: 100,
     maxHealth: 100,
@@ -88,7 +92,8 @@ export class Player extends Actor {
             xspeed = -200
         }
 
-        if (engine.input.keyboard.isHeld(Keys.ControlLeft) || engine.input.keyboard.isHeld(Keys.ControlRight)) {
+        if (engine.input.keyboard.wasPressed(Keys.ControlLeft) || engine.input.keyboard.wasPressed(Keys.ControlRight)) {
+            PlayerData.previousScene = engine.currentScene.key;
             this.scene.engine.goToScene('playerInfo');
         }
 
@@ -104,14 +109,19 @@ export class Player extends Actor {
         if (event.other instanceof Bridge) {
             if (event.other.identifier === "level1_bridge") {
                 this.scene.engine.goToScene('level2');
+                PlayerData.previousScene = 'level2';
             } else if (event.other.identifier === "level2_bridge") {
                 this.scene.engine.goToScene('level1');
+                PlayerData.previousScene = 'level1'
             } else if (event.other.identifier === "level3_bridge") {
                 this.scene.engine.goToScene('level3');
+                PlayerData.previousScene = 'level3';
             } else if (event.other.identifier === "level4_bridge") {
-                this.scene.engine.goToScene('level2');
+                this.scene.engine.goToScene('level2');  
+                PlayerData.previousScene = 'level2';
             } else if (event.other.identifier === "villa-baobab") {
                 this.scene.engine.goToScene('villa-baobab');
+                PlayerData.previousScene = 'villa-baobab';
             }
 
 

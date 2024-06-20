@@ -1,6 +1,6 @@
 import { Actor, Scene, Vector, Color, BoundingBox, Sound, Timer, Keys, EasingFunctions, Label, TextAlign } from "excalibur";
 import { Resources, ResourceLoader } from './resources.js';
-import { Player, StaticPlayer, PlayerData, Cursor } from './player.js'
+import { Player, StaticPlayer, PlayerData, Cursor, previousScene } from './player.js'
 import { Background } from "./background.js";
 import { Bridge } from "./bridge.js";
 import { Enemy, StaticEnemy } from "./enemy.js";
@@ -209,6 +209,8 @@ export class Level1 extends Scene {
             this.engine.enemyState = false;
         }
 
+        previousScene.scene = 'level1'
+
         this.background = new Background(Resources.Level1bg.toSprite(), 0, 0, 2, 2);
         this.add(this.background);
 
@@ -220,7 +222,7 @@ export class Level1 extends Scene {
 
         this.spawnEnemies();
 
-        this.player = new Player(400, 400);
+        this.player = new Player(0, 400);
         this.add(this.player);
 
         // Creates the fade-in actor
@@ -247,7 +249,7 @@ export class Level1 extends Scene {
                 this.spawnEnemies();
                 this.engine.enemyState = false; // Reset the respawn flag
             }
-
+            previousScene.scene = 'level1'
             // Fades in the scene when activated
             // this.fadeInActor.actions.fade(0, 1000, EasingFunctions.EaseInOutCubic);
         }
@@ -289,6 +291,9 @@ export class Level1 extends Scene {
 
 export class Level2 extends Scene {
     onInitialize() {
+
+        previousScene.scene = 'level2'
+
         this.background = new Background(Resources.WindowsHills.toSprite(), 750, 370, 1.1, 1);
         this.add(this.background);
 
@@ -312,6 +317,8 @@ export class Level2 extends Scene {
         if (this.engine.enemyState !== undefined) {
             this.engine.enemyState = true;
         }
+        previousScene.scene = 'level2'
+
     }
 
     onPreUpdate(engine, delta) {
