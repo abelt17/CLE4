@@ -1,9 +1,40 @@
-import { Actor, Vector, Keys, clamp, CollisionType, Color } from "excalibur";
+import { Actor, Vector, Keys, clamp, CollisionType, Color, SpriteSheet } from "excalibur";
 import { Resources } from './resources.js';
 import { Bridge } from "./bridge.js";
 import { Enemy } from "./enemy.js";
 import { Attacks } from './fightOverlay.js';
 import { eventEmitter } from './eventEmitter.js';
+
+const critter1 = SpriteSheet.fromImageSource({
+    image: Resources.Critter1,
+    grid: {
+        rows: 6,
+        columns: 8,
+        spriteWidth: 187.5,
+        spriteHeight: 250
+    }
+});
+
+const critter2 = SpriteSheet.fromImageSource({
+    image: Resources.Critter2,
+    grid: {
+        rows: 6,
+        columns: 8,
+        spriteWidth: 187.5,
+        spriteHeight: 250
+    }
+});
+
+const critter3 = SpriteSheet.fromImageSource({
+    image: Resources.Critter3,
+    grid: {
+        rows: 6,
+        columns: 8,
+        spriteWidth: 187.5,
+        spriteHeight: 250
+    }
+});
+
 
 export const PlayerData = {
     health: 100,
@@ -13,19 +44,19 @@ export const PlayerData = {
     xpThreshold: 100,
     attackDamage: 10,
     previousHealth: 100,
-    
+
     addXP(amount) {
         this.xp += amount;
         console.log(`Gained ${amount} XP, total XP: ${this.xp}`);
         this.checkLevelUp();
     },
-    
+
     checkLevelUp() {
         while (this.xp >= this.xpThreshold) {
             this.levelUp();
         }
     },
-    
+
     levelUp() {
         this.xp -= this.xpThreshold;
         this.level++;
@@ -33,19 +64,28 @@ export const PlayerData = {
         this.maxHealth += 20; // Increase max health
         this.health = this.maxHealth; // Restore health to max
         this.attackDamage += 5; // Increase attack damage
-        
+
         console.log(`Leveled up to level ${this.level}! Health: ${this.health}, Attack Damage: ${this.attackDamage}, Next Level XP: ${this.xpThreshold}`);
     },
 };
 
 export class StaticPlayer extends Actor {
-    constructor(x, y) {
+    constructor(width, height, selectedCritter) {
         super({
-            width: Resources.Fish.width,
-            height: Resources.Fish.height,
-        })
-        this.graphics.use(Resources.Fish.toSprite());
-        this.pos = new Vector(x, y);
+            width: width,
+            height: height,
+        });
+
+        if (selectedCritter === 'critter1') {
+            this.graphics.use(Resources.Critter1.toSprite());
+        } else if (selectedCritter === 'critter2') {
+            this.graphics.use(Resources.Critter2.toSprite());
+        } else if (selectedCritter === 'critter3') {
+            this.graphics.use(Resources.Critter3.toSprite());
+        } else {
+            this.graphics.use(Resources.Critter1.toSprite());
+            console.log("Staticplayer actor failed to select");
+        }
     }
 
     takeDamage(amount) {
@@ -62,14 +102,22 @@ export class StaticPlayer extends Actor {
 
 export class Player extends Actor {
 
-    constructor(x, y) {
+    constructor(width, height, selectedCritter) {
         super({
-            width: Resources.Fish.width,
-            height: Resources.Fish.height,
-        })
-        this.graphics.use(Resources.Fish.toSprite());
-        this.pos = new Vector(x, y);
-        this.vel = new Vector(0, 0);
+            width: width,
+            height: height,
+        });
+
+        if (selectedCritter === 'critter1') {
+            this.graphics.use(critter1.getSprite(0, 0));
+        } else if (selectedCritter === 'critter2') {
+            this.graphics.use(critter2.getSprite(0, 0));
+        } else if (selectedCritter === 'critter3') {
+            this.graphics.use(critter3.getSprite(0, 0));
+        } else {
+            this.graphics.use(Resources.Critter3.toSprite());
+            console.log("player actor failed to select critter");
+        }
     }
 
     onPreUpdate(engine) {
@@ -164,6 +212,6 @@ export class Cursor extends Actor {
                 eventEmitter.emit('attackHit', { identifier: 'Obliterate' });
             }
         }
-    }   
+    }
 
 }

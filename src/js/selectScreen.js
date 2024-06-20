@@ -1,6 +1,9 @@
 import { Actor, Scene, Vector, Color, Label, Font, Keys, SpriteSheet } from "excalibur";
 import { Resources } from './resources.js';
 import { Background } from "./background.js";
+import { Player } from './player.js';
+
+export let selectedCritter = '';
 
 export class SelectScene extends Scene {
     onInitialize(engine) {
@@ -43,8 +46,8 @@ export class SelectScene extends Scene {
         const sprite1 = new Actor({
             pos: new Vector(260, 450),
             scale: scale
-
         });
+
         sprite1.graphics.use(critter1.getSprite(0, 0));
 
         const sprite2 = new Actor({
@@ -72,7 +75,7 @@ export class SelectScene extends Scene {
         });
 
         const label2 = new Label({
-            text: "S",
+            text: "W",
             pos: new Vector(630, 320),
             color: Color.Black,
             font: new Font({
@@ -101,14 +104,21 @@ export class SelectScene extends Scene {
         this.on('preupdate', (evt) => {
             if (engine.input.keyboard.isHeld(Keys.A) || engine.input.keyboard.isHeld(Keys.Left)) {
                 console.log("Critter1 selected");
+                engine.selectedCritter = 'critter1';
                 engine.goToScene('level1');
             } else if (engine.input.keyboard.isHeld(Keys.W) || engine.input.keyboard.isHeld(Keys.Up)) {
                 console.log("Critter2 selected");
+                engine.selectedCritter = 'critter2';
                 engine.goToScene('level1');
             } else if (engine.input.keyboard.isHeld(Keys.D) || engine.input.keyboard.isHeld(Keys.Right)) {
                 console.log("Critter3 selected");
+                engine.selectedCritter = 'critter3';
                 engine.goToScene('level1');
             }
         });
+    }
+    selectCritterAndGoToLevel(engine, critterKey) {
+        engine.selectedCritter = critterKey;
+        engine.goToScene('level1');
     }
 }

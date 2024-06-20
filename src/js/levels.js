@@ -81,7 +81,7 @@ export class EnemyFight extends Scene {
             this.enemy = new StaticEnemy(Resources.Chomperdaisy.toSprite(), 1000, 300, "chomperdaisy");
         }
         this.add(this.enemy);
-        
+
         this.attack1 = new Attacks(200, 200, "Blast");
         this.attack2 = new Attacks(500, 200, "Obliterate");
         this.add(this.attack1);
@@ -181,13 +181,13 @@ export class EnemyFight extends Scene {
         } else if (this.enemy.identifier === "chomperdaisy") {
             xpGained = 50; // XP for defeating a chomperdaisy
         }
-    
+
         PlayerData.addXP(xpGained);
-        
+
         this.engine.goToScene('level1');
         this.engine.defeatedEnemy = this.engine.currentEnemy; // Track the defeated enemy
     }
-    
+
     onPlayerDefeated() {
         this.engine.goToScene('deathScreen');
     }
@@ -207,7 +207,7 @@ export class Level1 extends Scene {
 
         this.spawnEnemies();
 
-        this.player = new Player(400, 400);
+        this.player = new Player(400, 400, engine.selectedCritter);
         this.add(this.player);
 
         // Creates the fade-in actor
@@ -275,14 +275,14 @@ export class Level1 extends Scene {
 
 
 export class Level2 extends Scene {
-    onInitialize() {
+    onInitialize(engine) {
         this.background = new Background(Resources.WindowsHills.toSprite(), 750, 370, 1.1, 1);
         this.add(this.background);
 
         this.bridge = new Bridge(Resources.PixelArtBridge.toSprite(), 1000, 370, 0.3, 0.3, 500, 500, "level2_bridge");
         this.add(this.bridge);
 
-        this.player = new Player(400, 400);
+        this.player = new Player(400, 400, engine.selectedCritter);
         this.add(this.player);
     }
 
