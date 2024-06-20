@@ -1,4 +1,4 @@
-import { Actor, Scene, Vector, Color, Label, Font, Keys, SpriteSheet } from "excalibur";
+import { Actor, Scene, Vector, Color, Label, Font, Keys, SpriteSheet, EasingFunctions } from "excalibur";
 import { Resources } from './resources.js';
 import { Background } from "./background.js";
 
@@ -43,7 +43,6 @@ export class SelectScene extends Scene {
         const sprite1 = new Actor({
             pos: new Vector(260, 450),
             scale: scale
-
         });
         sprite1.graphics.use(critter1.getSprite(0, 0));
 
@@ -98,16 +97,32 @@ export class SelectScene extends Scene {
         this.add(label2);
         this.add(label3);
 
+        // Create the fade-out actor
+        this.fadeOutActor = new Actor({
+            pos: new Vector(640, 360),
+            width: 1280,
+            height: 720,
+            color: Color.Black,
+            opacity: 0
+        });
+        this.add(this.fadeOutActor);
+
         this.on('preupdate', (evt) => {
             if (engine.input.keyboard.isHeld(Keys.A) || engine.input.keyboard.isHeld(Keys.Left)) {
                 console.log("Critter1 selected");
-                engine.goToScene('level1');
+                this.fadeOutActor.actions.fade(1, 1000, EasingFunctions.EaseInOutCubic).callMethod(() => {
+                    engine.goToScene('level1');
+                });
             } else if (engine.input.keyboard.isHeld(Keys.W) || engine.input.keyboard.isHeld(Keys.Up)) {
                 console.log("Critter2 selected");
-                engine.goToScene('level1');
+                this.fadeOutActor.actions.fade(1, 1000, EasingFunctions.EaseInOutCubic).callMethod(() => {
+                    engine.goToScene('level1');
+                });
             } else if (engine.input.keyboard.isHeld(Keys.D) || engine.input.keyboard.isHeld(Keys.Right)) {
                 console.log("Critter3 selected");
-                engine.goToScene('level1');
+                this.fadeOutActor.actions.fade(1, 1000, EasingFunctions.EaseInOutCubic).callMethod(() => {
+                    engine.goToScene('level1');
+                });
             }
         });
     }
