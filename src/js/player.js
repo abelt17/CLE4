@@ -185,7 +185,6 @@ export class Player extends Actor {
         }
 
         this.vel = new Vector(xspeed, yspeed);
-        this.graphics.flipHorizontal = (this.vel.x > 0);
     }
 
     onInitialize(engine) {
