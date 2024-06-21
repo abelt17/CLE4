@@ -12,7 +12,12 @@ export class ColliderGroup extends Actor {
     onInitialize(engine) {
         let landscape = new CompositeCollider([
             Shape.Edge(new Vector(-2400, 1650), new Vector(1600, 1650)),
-            Shape.Edge(new Vector(1600, 1650), new Vector(1600, -2350)),
+            Shape.Edge(new Vector(1600, 1650), new Vector(1600, 930)), // Bridge
+            Shape.Edge(new Vector(1600, 930), new Vector(2500, 930)), // Bridge
+            Shape.Edge(new Vector(3000, 930), new Vector(3000, 480)), // Bridge
+            Shape.Edge(new Vector(3000, 480), new Vector(1600, 480)), // Bridge
+
+            Shape.Edge(new Vector(1600, 480), new Vector(1600, -2350)),
             Shape.Edge(new Vector(1600, -2350), new Vector(-2400, -2350)),
             Shape.Edge(new Vector(-2400, -2350), new Vector(-2400, 1650))
         ]);
@@ -250,7 +255,7 @@ export class Level1 extends Scene {
 
         this.spawnEnemies();
 
-        this.player = new Player(400, 400, engine.selectedCritter);
+        this.player = new Player(180, 200, engine.selectedCritter);
         this.add(this.player);
 
         // Create the fade-in actor

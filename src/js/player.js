@@ -113,39 +113,71 @@ export class Player extends Actor {
             height: height,
         });
 
-        this.body.collisionType = CollisionType.Active;
+        this.selectedCritter = selectedCritter;
 
-        if (selectedCritter === 'critter1') {
-            this.graphics.use(critter1.getSprite(0, 0));
-        } else if (selectedCritter === 'critter2') {
-            this.graphics.use(critter2.getSprite(0, 0));
-        } else if (selectedCritter === 'critter3') {
-            this.graphics.use(critter3.getSprite(0, 0));
+        this.animationFrames = {
+            backward: [{ row: 4, column: 0 }, { row: 5, column: 0 }, { row: 6, column: 0 }, { row: 7, column: 0 }],
+            forward: [{ row: 0, column: 1 }, { row: 1, column: 1 }, { row: 2, column: 1 }, { row: 3, column: 1 }],
+            right: [{ row: 4, column: 1 }, { row: 5, column: 1 }, { row: 6, column: 1 }, { row: 7, column: 1 }],
+            left: [{ row: 0, column: 2 }, { row: 1, column: 2 }, { row: 2, column: 2 }, { row: 3, column: 2 }]
+        };
+
+        this.currentAnimationFrame = 0;
+        this.setSpriteByDirection('backward');
+        this.body.collisionType = CollisionType.Active;
+    }
+
+    setSpriteByDirection(direction) {
+        let frame = this.animationFrames[direction][this.currentAnimationFrame];
+
+        if (this.selectedCritter === 'critter1') {
+            this.graphics.use(critter1.getSprite(frame.row, frame.column));
+        } else if (this.selectedCritter === 'critter2') {
+            this.graphics.use(critter2.getSprite(frame.row, frame.column));
+        } else if (this.selectedCritter === 'critter3') {
+            this.graphics.use(critter3.getSprite(frame.row, frame.column));
         } else {
             this.graphics.use(Resources.Critter3.toSprite());
             console.log("Player actor failed to select critter");
         }
     }
 
+    updateAnimation(direction) {
+        this.currentAnimationFrame++;
+        if (this.currentAnimationFrame >= this.animationFrames[direction].length) {
+            this.currentAnimationFrame = 0;
+        }
+        this.setSpriteByDirection(direction);
+    }
+
     onPreUpdate(engine) {
         let xspeed = 0;
         let yspeed = 0;
+        let direction = '';
 
         if (engine.input.keyboard.isHeld(Keys.W) || engine.input.keyboard.isHeld(Keys.Up)) {
             yspeed = -200;
+            direction = 'forward';
         }
 
         if (engine.input.keyboard.isHeld(Keys.S) || engine.input.keyboard.isHeld(Keys.Down)) {
             yspeed = 200;
+            direction = 'backward';
         }
 
         if (engine.input.keyboard.isHeld(Keys.D) || engine.input.keyboard.isHeld(Keys.Right)) {
             xspeed = 200;
+            direction = 'right';
         }
 
         if (engine.input.keyboard.isHeld(Keys.A) || engine.input.keyboard.isHeld(Keys.Left)) {
             xspeed = -200;
+            direction = 'left';
         }
+        if (direction !== '') {
+            this.updateAnimation(direction);
+        }
+
 
         if (engine.input.keyboard.wasPressed(Keys.ControlLeft) || engine.input.keyboard.wasPressed(Keys.ControlRight)) {
             PlayerData.previousScene = engine.currentScene.key;
