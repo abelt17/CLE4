@@ -1,6 +1,6 @@
 import { Actor, Vector, Keys, SpriteSheet, CollisionType, Shape } from "excalibur";
 import { Bridge } from "./bridge.js";
-import { Enemy } from "./enemy.js";
+import { Enemy, Boss } from "./enemy.js";
 import { Attacks } from './fightOverlay.js';
 import { eventEmitter } from './eventEmitter.js';
 
@@ -211,7 +211,7 @@ export class Player extends Actor {
             }
         }
 
-        if (event.other instanceof Enemy) {
+        if (event.other instanceof Enemy || event.other instanceof Boss) {
             const enemyType = event.other.identifier; // save the enemy in a variable
             this.scene.engine.goToScene('enemyFight');
             this.scene.engine.currentEnemy = event.other; // Track the current enemy

@@ -1,9 +1,9 @@
-import { Actor, Scene, Vector, Color, BoundingBox, Sound, Font, Keys, EasingFunctions, Label, TextAlign, Shape, CollisionType, CompositeCollider } from "excalibur";
+import { Actor, Scene, Vector, Color, BoundingBox, Sound, Font, Keys, EasingFunctions, Label, TextAlign, Shape, CollisionType, CompositeCollider, KillEvent } from "excalibur";
 import { Resources, ResourceLoader } from './resources.js';
 import { Player, StaticPlayer, PlayerData, Cursor, previousScene } from './player.js';
 import { Background } from "./background.js";
 import { Bridge } from "./bridge.js";
-import { Enemy, StaticEnemy } from "./enemy.js";
+import { Boss, Enemy, StaticEnemy } from "./enemy.js";
 import { Attacks } from "./fightOverlay.js";
 import { eventEmitter } from './eventEmitter.js';
 
@@ -107,6 +107,10 @@ export class EnemyFight extends Scene {
             this.enemy = new StaticEnemy(Resources.Chomperdaisy.toSprite(), 1000, 300, "chomperdaisy", this);
         } else if (identifier === "bazookerlilly") {
             this.enemy = new StaticEnemy(Resources.Bazookerlilly.toSprite(), 1000, 300, "bazookerlilly", this);
+        } else if (identifier === "thegnome") {
+            this.enemy = new StaticEnemy(Resources.thegnome.toSprite(), 1000, 300, "thegnome", this);
+        } else if (identifier === "sparringspar") {
+            this.enemy = new StaticEnemy(Resources.sparringspar.toSprite(), 1000, 300, "sparringspar", this);
         }
         this.add(this.enemy);
 
@@ -128,40 +132,30 @@ export class EnemyFight extends Scene {
             case "Blast":
                 hitChance = 0.8; // 80% chance to hit
                 if (Math.random() < hitChance) {
-                    if (this.enemy && this.enemy.identifier === "incinerose") {
-                        damage = Math.floor(Math.random() * 5) + 5 + PlayerData.attackDamage;
-                    } else if (this.enemy && this.enemy.identifier === "chomperdaisy") {
-                        damage = Math.floor(Math.random() * 5) + 5 + PlayerData.attackDamage;
-                    } else if (this.enemy && this.enemy.identifier === "bazookerlilly") {
-                        damage = Math.floor(Math.random() * 5) + 5 + PlayerData.attackDamage;
-                    }
+
+                    damage = Math.floor(Math.random() * 5) + 5 + PlayerData.attackDamage;
+
                     this.enemy.shake(); // Shake the enemy on hit
                     this.enemy.emitParticles(); // Emit particles on hit
                     this.enemy.health -= damage;
                     this.attackMessage = `Player attacked with ${identifier} and dealt ${damage} damage!`;
                 } else {
-                    this.attackMessage = 'Attack 1 missed!';
+                    this.attackMessage = `${identifier} missed!`;
                 }
                 break;
             case "Obliterate":
                 hitChance = 0.6; // 60% chance to hit
                 if (Math.random() < hitChance) {
-                    if (this.enemy && this.enemy.identifier === "incinerose") {
-                        damage = Math.floor(Math.random() * 30) + 1 + PlayerData.attackDamage;
-                    } else if (this.enemy && this.enemy.identifier === "chomperdaisy") {
-                        damage = Math.floor(Math.random() * 30) + 1 + PlayerData.attackDamage;
-                    } else if (this.enemy && this.enemy.identifier === "bazookerlilly") {
-                        damage = Math.floor(Math.random() * 30) + 1 + PlayerData.attackDamage;
-                    }
+
+                    damage = Math.floor(Math.random() * 20) + PlayerData.attackDamage;
+
                     this.enemy.shake(); // Shake the enemy on hit
                     this.enemy.emitParticles(); // Emit particles on hit
                     this.enemy.health -= damage;
                     this.attackMessage = `Player attacked with ${identifier} and dealt ${damage} damage!`;
                 } else {
-                    this.attackMessage = 'Attack 2 missed!';
+                    this.attackMessage = `${identifier} missed!`;
                 }
-                // setTimeout(() => this.enemyAttack(), 1000); // Delay for 1 second before enemy attacks
-
                 break;
             default:
                 break;
@@ -182,6 +176,7 @@ export class EnemyFight extends Scene {
             setTimeout(() => {
                 let damage;
                 let hitChance = 0.7; // 70% chance for enemy to hit
+                let otherHitChance = 0.3;
                 if (Math.random() < hitChance) {
                     if (this.enemy.identifier === "incinerose") {
                         damage = Math.floor(Math.random() * 10) + 5;
@@ -189,6 +184,15 @@ export class EnemyFight extends Scene {
                         damage = Math.floor(Math.random() * 20) + 10;
                     } else if (this.enemy.identifier === "bazookerlilly") {
                         damage = Math.floor(Math.random() * 30) + 10;
+                    } else if (this.enemy.identifier === "thegnome") {
+                        if(Math.random() < otherHitChance){
+                            damage = Math.floor(Math.random() * 50) + 40;
+                        } else {
+                            damage = 1;
+                        }
+    
+                    } else if (this.enemy.identifier === "sparringspar") {
+                        damage = Math.floor(Math.random() * 25) + 25;
                     }
                     PlayerData.health -= damage;
                     this.attackMessage = `${this.enemy.identifier} attacked and dealt ${damage} damage!`;
@@ -220,6 +224,10 @@ export class EnemyFight extends Scene {
             xpGained = 50; // XP for defeating a chomperdaisy
         } else if (this.enemy.identifier === "bazookerlilly") {
             xpGained = 150;
+        } else if (this.enemy.identifier === "thegnome") {
+            xpGained = 500;
+        } else if (this.enemy.identifier === "sparringspar") {
+            xpGained = 600;
         }
 
         PlayerData.addXP(xpGained);
@@ -297,6 +305,12 @@ export class Level1 extends Scene {
             this.chomperdaisy = new Enemy(Resources.Chomperdaisy.toSprite(), Math.floor(Math.random() * 1000) + 100, Math.floor(Math.random() * 1000) + 100, Resources.Chomperdaisy.width - 100, Resources.Chomperdaisy.height - 100, "chomperdaisy");
             this.add(this.chomperdaisy);
         }
+        
+        this.thegnome = new Boss(Resources.thegnome.toSprite(), -1310, -1140, Resources.thegnome.width - 100, Resources.thegnome.height - 100, "thegnome");
+        this.add(this.thegnome);
+
+        this.sparringspar = new Boss(Resources.sparringspar.toSprite(), 2800, 950, Resources.sparringspar.width - 100, Resources.sparringspar.height - 100, "sparringspar");
+        this.add(this.sparringspar);
     }
 
     onPreUpdate(engine, delta) {

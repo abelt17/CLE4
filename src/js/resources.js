@@ -5,7 +5,7 @@ import { PlayerInfo } from './playerInfo'
 const Resources = {
     Fish: new ImageSource('images/fish.png'),
     WindowsHills: new ImageSource('images/windows-hills.jpg'),
-    BridgeHome: new ImageSource('images/bridge_home.jpg'),
+    BridgeHome: new ImageSource('images/storyimg.png'),
     PixelArtBridge: new ImageSource('images/level1-bridge.png'),
     Spider: new ImageSource('images/spider.png'),
     Cursor: new ImageSource('images/black-dot.png'),
@@ -34,9 +34,11 @@ const Resources = {
     sparringsparsparringpartner:new ImageSource('images/sparringsparsparringpartner.png'),
     symphonyofroses:new ImageSource('images/symphonyofroses.png'),
     thegardener:new ImageSource('images/thegardener.png'),
+    thegnome:new ImageSource('images/thegnome.png'),
     toblowuupmate:new ImageSource('images/toblowuupmate-os.png'),
     obliterate: new ImageSource('images/obliterate.png'),
     blast: new ImageSource('images/blastattack.png'),
+    sparringspar: new ImageSource('images/sparringspar.png'),
 }
 
 

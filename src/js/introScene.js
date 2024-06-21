@@ -4,10 +4,10 @@ import { Background } from "./background.js";
 
 export class IntroScene extends Scene {
     onInitialize(engine) {
-        this.background = new Background(Resources.BridgeHome.toSprite(), 750, 370, 0.4, 0.25);
+        this.background = new Background(Resources.BridgeHome.toSprite(), 750, 370, 0.8, 0.5);
         this.add(this.background);
 
-        this.scrollSpeed = 300; // Pixels per second (Put back to 30)
+        this.scrollSpeed = 30; // Pixels per second (Put back to 30)
         this.labels = [];
         this.scrollingComplete = false;
 
@@ -18,7 +18,7 @@ export class IntroScene extends Scene {
             "from someone poking you.",
             "You open your eyes and see it's professor Baobab.",
             "",
-            "Professor Acacia is a known Critter researcher,",
+            "Professor Baobab is a known Critter researcher,",
             "but he isn't that great in combat, so his",
             "research is limited.",
             "",

@@ -1,5 +1,18 @@
 import { Actor, Vector, CollisionType, Timer, ParticleEmitter, Color } from "excalibur";
 
+export class Boss extends Actor {
+    constructor(sprite, x, y, width, height, identifier) {
+        super({
+            pos: new Vector(x, y),
+            collisionType: CollisionType.Passive, // Set collision type if needed
+            width: width,
+            height: height
+        });
+        this.graphics.use(sprite);
+        this.identifier = identifier; // Add an identifier property
+    }
+}
+
 export class Enemy extends Actor {
     constructor(sprite, x, y, width, height, identifier) {
         super({
@@ -51,8 +64,14 @@ export class StaticEnemy extends Actor {
             this.health = 200;
         } else if (identifier === "chomperdaisy") {
             this.health = 100;
+        } else if(identifier === "thegnome") {
+            this.health = 400;
+        } else if(identifier === "sparringspar") {
+            this.health = 500;
         } else if (identifier === "bazookerlilly") {
             this.health = 300;
+        } else if (identifier === "sparringspar") {
+            this.health = 600;
         }
         this.particleEmitter = this.createParticleEmitter(scene);
     }

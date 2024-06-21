@@ -9,9 +9,9 @@ export class PlayerInfo extends Scene {
         this.background = new Background(Resources.PlayerInfoBG.toSprite(), 650, 350, 1.4, 1.2);
         this.add(this.background);
 
-        this.player = new StaticPlayer(400, 300);
-        this.player.scale = new Vector(2, 2);
-        this.add(this.player);
+        // this.player = new StaticPlayer(400, 300);
+        // this.player.scale = new Vector(2, 2);
+        // this.add(this.player);
 
         // Create and add labels for player data
         this.healthLabel = new Label({
