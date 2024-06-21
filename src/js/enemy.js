@@ -1,4 +1,4 @@
-import { Actor, Vector, CollisionType, Timer } from "excalibur";
+import { Actor, Vector, CollisionType, Timer, ParticleEmitter, Color } from "excalibur";
 
 export class Enemy extends Actor {
     constructor(sprite, x, y, width, height, identifier) {
@@ -40,7 +40,7 @@ export class Enemy extends Actor {
 }
 
 export class StaticEnemy extends Actor {
-    constructor(sprite, x, y, identifier) {
+    constructor(sprite, x, y, identifier, scene) {
         super({
             pos: new Vector(x, y),
         });
@@ -54,11 +54,69 @@ export class StaticEnemy extends Actor {
         } else if (identifier === "bazookerlilly") {
             this.health = 300;
         }
+        this.particleEmitter = this.createParticleEmitter(scene);
     }
     
+    createParticleEmitter(scene) {
+        const emitter = new ParticleEmitter({
+            pos: new Vector(1000, 300),
+            width: 5,
+            height: 5,
+            minVel: 50,
+            maxVel: 100,
+            minAngle: 0,
+            maxAngle: 6.28, // 2 * Math.PI
+            isEmitting: false,
+            emitRate: 50,
+            opacity: 0.6,
+            fadeFlag: true,
+            particleLife: 200,
+            maxSize: 2,    // Increase maximum size to 20 pixels
+            minSize: 1,    // Increase minimum size to 10 pixels
+            startSize: 40,  // Initial size of particles
+            endSize: 5,     // Final size of particles after fade out
+            acceleration: new Vector(0, 0),
+            beginColor: Color.Red,
+            endColor: Color.DarkRed
+        });
+    
+        // Add emitter to the scene
+        if (scene) {
+            scene.add(emitter);
+        } else {
+            console.warn("StaticEnemy: Scene reference not provided; emitter not added to scene.");
+        }
+        return emitter;
+    }
+
+    emitParticles() {
+        this.particleEmitter.isEmitting = true;
+        setTimeout(() => {
+            this.particleEmitter.isEmitting = false;
+        }, 400); // Emit particles for 200 milliseconds
+    }
+
+
     attack(player) {
         const damage = Math.floor(Math.random() * 20) + 1; // Random damage between 1 and 20
         player.takeDamage(damage);
+    }
+
+    shake() {
+        const shakeDuration = 500; // Duration of the shake effect in milliseconds
+        const shakeIntensity = 5; // Intensity of the shake effect
+        const originalPos = this.pos.clone();
+
+        const shakeInterval = setInterval(() => {
+            const offsetX = Math.random() * shakeIntensity - shakeIntensity / 2;
+            const offsetY = Math.random() * shakeIntensity - shakeIntensity / 2;
+            this.pos = originalPos.add(new Vector(offsetX, offsetY));
+        }, 50);
+
+        setTimeout(() => {
+            clearInterval(shakeInterval);
+            this.pos = originalPos;
+        }, shakeDuration);
     }
 
 }

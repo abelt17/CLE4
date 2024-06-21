@@ -1,4 +1,4 @@
-import { Actor, Scene, Vector, Color, BoundingBox, Sound, Timer, Keys, EasingFunctions, Label, TextAlign, Shape, CollisionType } from "excalibur";
+import { Actor, Scene, Vector, Color, BoundingBox, Sound, Font, Keys, EasingFunctions, Label, TextAlign, Shape, CollisionType, CompositeCollider } from "excalibur";
 import { Resources, ResourceLoader } from './resources.js';
 import { Player, StaticPlayer, PlayerData, Cursor, previousScene } from './player.js'
 import { Background } from "./background.js";
@@ -8,19 +8,19 @@ import { Attacks } from "./fightOverlay.js";
 import { eventEmitter } from './eventEmitter.js';
 
 // ColliderGroup class definition
-// export class ColliderGroup extends Actor {
-//     onInitialize(engine) {
-//         let landscape = new CompositeCollider([
-//             Shape.Edge(new Vector(51, -327), new Vector(1447, -327)),
-//             Shape.Edge(new Vector(1447, -327), new Vector(1447, 1066)),
-//             Shape.Edge(new Vector(1447, 1066), new Vector(51, 1066)),
-//             Shape.Edge(new Vector(51, 1066), new Vector(51, -327))
-//         ]);
-//         this.body.collisionType = CollisionType.Fixed;
-//         this.collider.set(landscape);
-//         this.pos = new Vector(400, 350);
-//     }
-// }
+export class ColliderGroup extends Actor {
+    onInitialize(engine) {
+        let landscape = new CompositeCollider([
+            Shape.Edge(new Vector(0, 0), new Vector(2000, 100)),
+            Shape.Edge(new Vector(1447, -327), new Vector(1447, 1066)),
+            Shape.Edge(new Vector(1447, 1066), new Vector(51, 1066)),
+            Shape.Edge(new Vector(51, 1066), new Vector(51, -327))
+        ]);
+        this.body.collisionType = CollisionType.Fixed;
+        this.collider.set(landscape);
+        this.pos = new Vector(400, 350);
+    }
+}
 
 export class EnemyFight extends Scene {
     constructor() {
@@ -34,35 +34,41 @@ export class EnemyFight extends Scene {
         // Create labels
         this.attackMessageLabel = new Label({
             text: '',
-            pos: new Vector(500, 600),
-            fontSize: 36,
-            color: Color.White,
+            pos: new Vector(120, 350),
+            font: new Font({
+                family: 'Arial',
+                size: 30,
+                color: Color.White
+            }),
             textAlign: TextAlign.Center
         });
 
         this.enemyHealthLabel = new Label({
             text: '',
             pos: new Vector(900, 50),
-            fontSize: 48,
-            color: Color.White,
+            font: new Font({
+                family: 'Arial',
+                size: 20,
+                color: Color.White
+            }),
             textAlign: TextAlign.Center
         });
 
         this.playerHealthLabel = new Label({
             text: '',
             pos: new Vector(350, 700),
-            fontSize: 48,
-            color: Color.White,
+            font: new Font({
+                family: 'Arial',
+                size: 20,
+                color: Color.White
+            }),
             textAlign: TextAlign.Center
         });
 
-        this.add(this.attackMessageLabel);
-        this.add(this.enemyHealthLabel);
-        this.add(this.playerHealthLabel);
     }
 
     onInitialize(engine) {
-        this.player = new StaticPlayer(400, 600, engine.selectedCritter);
+        this.player = new StaticPlayer(400, 500, engine.selectedCritter);
         this.add(this.player);
     }
 
@@ -81,14 +87,17 @@ export class EnemyFight extends Scene {
         this.background = new Background(Resources.FightScene.toSprite(), 640, 360, 1, 1);
         this.add(this.background);
 
+        this.add(this.attackMessageLabel);
+        this.add(this.enemyHealthLabel);
+        this.add(this.playerHealthLabel);
 
 
         if (identifier === "incinerose") {
-            this.enemy = new StaticEnemy(Resources.Incinerose.toSprite(), 1000, 300, "incinerose");
+            this.enemy = new StaticEnemy(Resources.Incinerose.toSprite(), 1000, 300, "incinerose", this);
         } else if (identifier === "chomperdaisy") {
-            this.enemy = new StaticEnemy(Resources.Chomperdaisy.toSprite(), 1000, 300, "chomperdaisy");
+            this.enemy = new StaticEnemy(Resources.Chomperdaisy.toSprite(), 1000, 300, "chomperdaisy", this);
         } else if (identifier === "bazookerlilly") {
-            this.enemy = new StaticEnemy(Resources.Bazookerlilly.toSprite(), 1000, 300, "bazookerlilly");
+            this.enemy = new StaticEnemy(Resources.Bazookerlilly.toSprite(), 1000, 300, "bazookerlilly", this);
         }
         this.add(this.enemy);
 
@@ -117,6 +126,8 @@ export class EnemyFight extends Scene {
                     } else if (this.enemy && this.enemy.identifier === "bazookerlilly") {
                         damage = Math.floor(Math.random() * 5) + 5 + PlayerData.attackDamage;
                     }
+                    this.enemy.shake(); // Shake the enemy on hit
+                    this.enemy.emitParticles(); // Emit particles on hit
                     this.enemy.health -= damage;
                     this.attackMessage = `Player attacked with ${identifier} and dealt ${damage} damage!`;
                 } else {
@@ -133,6 +144,8 @@ export class EnemyFight extends Scene {
                     } else if (this.enemy && this.enemy.identifier === "bazookerlilly") {
                         damage = Math.floor(Math.random() * 30) + 1 + PlayerData.attackDamage;
                     }
+                    this.enemy.shake(); // Shake the enemy on hit
+                    this.enemy.emitParticles(); // Emit particles on hit
                     this.enemy.health -= damage;
                     this.attackMessage = `Player attacked with ${identifier} and dealt ${damage} damage!`;
                 } else {
@@ -217,6 +230,9 @@ export class Level1 extends Scene {
             this.engine.enemyState = false;
         }
 
+        this.collider = new ColliderGroup();
+        this.add(this.collider);
+
         previousScene.scene = 'level1'
 
         this.background = new Background(Resources.Level1bg.toSprite(), 0, 0, 2, 2);
@@ -228,7 +244,7 @@ export class Level1 extends Scene {
         this.villa = new Bridge(Resources.Villa.toSprite(), -780, -600, 1, 1, 100, 100, "villa-baobab");
         this.add(this.villa);
 
-        this.addBorders();
+        // this.addBorders();
 
         this.spawnEnemies();
 
@@ -247,41 +263,41 @@ export class Level1 extends Scene {
         this.add(this.fadeInActor);
     }
 
-    addBorders() {
-        const borders = [
-            // Top edge
-            new Actor({
-                pos: new Vector(0, -2000),
-                collider: Shape.Edge(new Vector(-2000, 0), new Vector(2000, 0)),
-                collisionType: CollisionType.Fixed,
-                color: Color.Red // Color or Transparency
-            }),
-            // Bottom edge
-            new Actor({
-                pos: new Vector(0, 2000),
-                collider: Shape.Edge(new Vector(-2000, 0), new Vector(2000, 0)),
-                collisionType: CollisionType.Fixed,
-                color: Color.Red // Color or Transparency
-            }),
-            // Left edge
-            new Actor({
-                pos: new Vector(-2000, 0),
-                collider: Shape.Edge(new Vector(0, -2000), new Vector(0, 2000)),
-                collisionType: CollisionType.Fixed,
-                color: Color.Red // Color or Transparency
-            }),
-            // Right edge
-            new Actor({
-                pos: new Vector(2000, 0),
-                collider: Shape.Edge(new Vector(0, -2000), new Vector(0, 2000)),
-                collisionType: CollisionType.Fixed,
-                color: Color.Red // Color or Transparency
-            })
-        ];
+    // addBorders() {
+    //     const borders = [
+    //         // Top edge
+    //         new Actor({
+    //             pos: new Vector(0, -2000),
+    //             collider: Shape.Edge(new Vector(-2000, 0), new Vector(2000, 0)),
+    //             collisionType: CollisionType.Fixed,
+    //             color: Color.Red // Color or Transparency
+    //         }),
+    //         // Bottom edge
+    //         new Actor({
+    //             pos: new Vector(0, 2000),
+    //             collider: Shape.Edge(new Vector(-2000, 0), new Vector(2000, 0)),
+    //             collisionType: CollisionType.Fixed,
+    //             color: Color.Red // Color or Transparency
+    //         }),
+    //         // Left edge
+    //         new Actor({
+    //             pos: new Vector(-2000, 0),
+    //             collider: Shape.Edge(new Vector(0, -2000), new Vector(0, 2000)),
+    //             collisionType: CollisionType.Fixed,
+    //             color: Color.Red // Color or Transparency
+    //         }),
+    //         // Right edge
+    //         new Actor({
+    //             pos: new Vector(2000, 0),
+    //             collider: Shape.Edge(new Vector(0, -2000), new Vector(0, 2000)),
+    //             collisionType: CollisionType.Fixed,
+    //             color: Color.Red // Color or Transparency
+    //         })
+    //     ];
 
-        // Add all borders to the scene
-        borders.forEach(border => this.add(border));
-    }
+    //     // Add all borders to the scene
+    //     borders.forEach(border => this.add(border));
+    // }
 
     onActivate() {
         if (this.engine.enemyState) {

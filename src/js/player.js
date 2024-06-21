@@ -1,4 +1,4 @@
-import { Actor, Vector, Keys, SpriteSheet, CollisionType } from "excalibur";
+import { Actor, Vector, Keys, SpriteSheet, CollisionType, Shape } from "excalibur";
 import { Bridge } from "./bridge.js";
 import { Enemy } from "./enemy.js";
 import { Attacks } from './fightOverlay.js';
@@ -112,8 +112,6 @@ export class Player extends Actor {
             width: width,
             height: height,
         });
-
-        this.collider.type = CollisionType.Active;
 
         if (selectedCritter === 'critter1') {
             this.graphics.use(critter1.getSprite(0, 0));
