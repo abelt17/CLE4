@@ -240,7 +240,7 @@ export class Level1 extends Scene {
         }
 
         this.collider = new ColliderGroup();
-        this.add(this.collider)
+        this.add(this.collider);
 
         previousScene.scene = 'level1'
 
@@ -329,7 +329,7 @@ export class Level2 extends Scene {
 
         this.spawnEnemies()
 
-        this.player = new Player(400, 400, engine.selectedCritter);
+        this.player = new Player(180, 200, engine.selectedCritter);
         this.add(this.player);
 
         // Create the fade-in actor
