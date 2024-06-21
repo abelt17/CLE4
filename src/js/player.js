@@ -123,6 +123,8 @@ export class Player extends Actor {
         };
 
         this.currentAnimationFrame = 0;
+        this.frameDelay = 7;
+        this.frameCount = 2;
         this.setSpriteByDirection('backward');
         this.body.collisionType = CollisionType.Active;
     }
@@ -143,6 +145,11 @@ export class Player extends Actor {
     }
 
     updateAnimation(direction) {
+        this.frameCount++;
+        if (this.frameCount < this.frameDelay) {
+            return;
+        }
+        this.frameCount = 0;
         this.currentAnimationFrame++;
         if (this.currentAnimationFrame >= this.animationFrames[direction].length) {
             this.currentAnimationFrame = 0;
