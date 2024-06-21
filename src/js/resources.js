@@ -22,6 +22,19 @@ const Resources = {
     Villa: new ImageSource('images/villa-baobab.png'),
     FightScene: new ImageSource('images/Placeholder_FightScene_Background.png'),
     PlayerInfoBG: new ImageSource('images/bg-playerinfo.png'),
+    // ambushbattle: new ImageSource('images/ambushbatlle.png'),
+    ambushengage:new ImageSource('images/ambushengage.png'),
+    bmxbrainiac:new ImageSource('images/bmxbrainiac.png'),
+    crittercamono:new ImageSource('images/crittercamono.png'),
+    // critterpunk:new ImageSource('images/critterpunk.png'),
+    critterzumbi:new ImageSource('images/critterzumbi.png'),
+    petuninja:new ImageSource('images/petuninja.png'),
+    profacacia:new ImageSource('images/profacacia.png'),
+    scarecrow:new ImageSource('images/scarecrow.png'),
+    sparringsparsparringpartner:new ImageSource('images/sparringsparsparringpartner.png'),
+    symphonyofroses:new ImageSource('images/symphonyofroses.png'),
+    thegardener:new ImageSource('images/thegardener.png'),
+    toblowuupmate:new ImageSource('images/toblowuupmate-os.png'),
 }
 
 

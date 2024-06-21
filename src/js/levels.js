@@ -1,6 +1,6 @@
 import { Actor, Scene, Vector, Color, BoundingBox, Sound, Font, Keys, EasingFunctions, Label, TextAlign, Shape, CollisionType, CompositeCollider } from "excalibur";
 import { Resources, ResourceLoader } from './resources.js';
-import { Player, StaticPlayer, PlayerData, Cursor, previousScene } from './player.js'
+import { Player, StaticPlayer, PlayerData, Cursor, previousScene } from './player.js';
 import { Background } from "./background.js";
 import { Bridge } from "./bridge.js";
 import { Enemy, StaticEnemy } from "./enemy.js";
@@ -84,6 +84,9 @@ export class EnemyFight extends Scene {
         this.remove(this.attack1);
         this.remove(this.attack2);
         this.remove(this.background);
+        this.remove(this.attackMessageLabel);
+        this.remove(this.enemyHealthLabel);
+        this.remove(this.playerHealthLabel);
 
         this.background = new Background(Resources.FightScene.toSprite(), 640, 360, 1, 1);
         this.add(this.background);
