@@ -1,4 +1,4 @@
-import { Actor, Vector, Keys, SpriteSheet, CollisionType } from "excalibur";
+import { Actor, Vector, Keys, SpriteSheet, CollisionType, Shape } from "excalibur";
 import { Bridge } from "./bridge.js";
 import { Enemy } from "./enemy.js";
 import { Attacks } from './fightOverlay.js';
