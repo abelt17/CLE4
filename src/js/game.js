@@ -27,9 +27,9 @@ export class Game extends Engine {
         this.add('playerInfo', new PlayerInfo());
         this.add('mainmenu', new MainMenuScene());
         this.add('intro', new IntroScene());
+        this.add('selectScene', new SelectScene());
         this.add('deathScreen', new DeathScreen());
         this.add('enemyFight', new EnemyFight());
-        this.add('selectScene', new SelectScene());
         this.add('level1', new Level1());
         this.add('level2', new Level2());
 
