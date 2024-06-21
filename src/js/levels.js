@@ -1,4 +1,4 @@
-import { Actor, Scene, Vector, Color, BoundingBox, Sound, Timer, Keys, EasingFunctions, Label, TextAlign } from "excalibur";
+import { Actor, Scene, Vector, Color, BoundingBox, Sound, Timer, Keys, EasingFunctions, Label, TextAlign, CompositeCollider } from "excalibur";
 import { Resources, ResourceLoader } from './resources.js';
 import { Player, StaticPlayer, PlayerData, Cursor, previousScene } from './player.js'
 import { Background } from "./background.js";
@@ -8,19 +8,19 @@ import { Attacks } from "./fightOverlay.js";
 import { eventEmitter } from './eventEmitter.js';
 
 // ColliderGroup class definition
-// export class ColliderGroup extends Actor {
-//     onInitialize(engine) {
-//         let landscape = new CompositeCollider([
-//             Shape.Edge(new Vector(51, -327), new Vector(1447, -327)),
-//             Shape.Edge(new Vector(1447, -327), new Vector(1447, 1066)),
-//             Shape.Edge(new Vector(1447, 1066), new Vector(51, 1066)),
-//             Shape.Edge(new Vector(51, 1066), new Vector(51, -327))
-//         ]);
-//         this.body.collisionType = CollisionType.Fixed;
-//         this.collider.set(landscape);
-//         this.pos = new Vector(400, 350);
-//     }
-// }
+export class ColliderGroup extends Actor {
+    onInitialize(engine) {
+        let landscape = new CompositeCollider([
+            Shape.Edge(new Vector(-2400, 1650), new Vector(1600, 1650)),
+            Shape.Edge(new Vector(1600, 1650), new Vector(1600, -2350)),
+            Shape.Edge(new Vector(1600, -2350), new Vector(-2400, -2350)),
+            Shape.Edge(new Vector(-2400, -2350), new Vector(-2400, 1650))
+        ]);
+        this.body.collisionType = CollisionType.Fixed;
+        this.collider.set(landscape);
+        this.pos = new Vector(400, 350);
+    }
+}
 
 export class EnemyFight extends Scene {
     constructor() {
@@ -217,6 +217,9 @@ export class Level1 extends Scene {
         if (this.engine.enemyState === undefined) {
             this.engine.enemyState = false;
         }
+
+        this.collider = new ColliderGroup();
+        this.add(this.collider)
 
         previousScene.scene = 'level1'
 

@@ -113,7 +113,7 @@ export class Player extends Actor {
             height: height,
         });
 
-        this.collider.type = CollisionType.Active;
+        this.body.collisionType = CollisionType.Active;
 
         if (selectedCritter === 'critter1') {
             this.graphics.use(critter1.getSprite(0, 0));
