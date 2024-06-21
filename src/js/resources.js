@@ -5,6 +5,7 @@ import { PlayerInfo } from './playerInfo'
 const Resources = {
     Fish: new ImageSource('images/fish.png'),
     WindowsHills: new ImageSource('images/windows-hills.jpg'),
+    Level2bg: new ImageSource('images/Template_bg_level_3'),
     BridgeHome: new ImageSource('images/bridge_home.jpg'),
     PixelArtBridge: new ImageSource('images/level1-bridge.png'),
     Spider: new ImageSource('images/spider.png'),
