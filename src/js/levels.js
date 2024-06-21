@@ -1,4 +1,4 @@
-import { Actor, Scene, Vector, Color, BoundingBox, Sound, Timer, Keys, EasingFunctions, Label, TextAlign, Shape, CollisionType } from "excalibur";
+import { Actor, Scene, Vector, Color, BoundingBox, Sound, Timer, Keys, EasingFunctions, Label, TextAlign } from "excalibur";
 import { Resources, ResourceLoader } from './resources.js';
 import { Player, StaticPlayer, PlayerData, Cursor, previousScene } from './player.js'
 import { Background } from "./background.js";
@@ -61,13 +61,14 @@ export class EnemyFight extends Scene {
         this.add(this.playerHealthLabel);
     }
 
-    onInitialize(engine) {
-        this.player = new StaticPlayer(400, 600, engine.selectedCritter);
-        this.add(this.player);
+    onActivate() {
+        this.updatePlayer(this.engine);
+        this.updateLabels(); // Update labels when the scene activates
     }
 
-    onActivate() {
-        this.updateLabels(); // Update labels when the scene activates
+    updatePlayer(engine) {
+        this.player = new StaticPlayer(400, 600, engine.selectedCritter);
+        this.add(this.player);
     }
 
     updateEnemy(identifier) {
@@ -228,8 +229,6 @@ export class Level1 extends Scene {
         this.villa = new Bridge(Resources.Villa.toSprite(), -780, -600, 1, 1, 100, 100, "villa-baobab");
         this.add(this.villa);
 
-        this.addBorders();
-
         this.spawnEnemies();
 
         this.player = new Player(400, 400, engine.selectedCritter);
@@ -247,49 +246,13 @@ export class Level1 extends Scene {
         this.add(this.fadeInActor);
     }
 
-    addBorders() {
-        const borders = [
-            // Top edge
-            new Actor({
-                pos: new Vector(0, -2000),
-                collider: Shape.Edge(new Vector(-2000, 0), new Vector(2000, 0)),
-                collisionType: CollisionType.Fixed,
-                color: Color.Red // Color or Transparency
-            }),
-            // Bottom edge
-            new Actor({
-                pos: new Vector(0, 2000),
-                collider: Shape.Edge(new Vector(-2000, 0), new Vector(2000, 0)),
-                collisionType: CollisionType.Fixed,
-                color: Color.Red // Color or Transparency
-            }),
-            // Left edge
-            new Actor({
-                pos: new Vector(-2000, 0),
-                collider: Shape.Edge(new Vector(0, -2000), new Vector(0, 2000)),
-                collisionType: CollisionType.Fixed,
-                color: Color.Red // Color or Transparency
-            }),
-            // Right edge
-            new Actor({
-                pos: new Vector(2000, 0),
-                collider: Shape.Edge(new Vector(0, -2000), new Vector(0, 2000)),
-                collisionType: CollisionType.Fixed,
-                color: Color.Red // Color or Transparency
-            })
-        ];
-
-        // Add all borders to the scene
-        borders.forEach(border => this.add(border));
-    }
-
     onActivate() {
         if (this.engine.enemyState) {
             this.removeEnemies();
             this.spawnEnemies();
             this.engine.enemyState = false; // Reset the respawn flag
         }
-            previousScene.scene = 'level1'
+        previousScene.scene = 'level1'
         // Fade in the scene when activated
         this.fadeInActor.actions.fade(0, 1000, EasingFunctions.EaseInOutCubic);
     }
