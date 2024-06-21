@@ -97,7 +97,6 @@ export class EnemyFight extends Scene {
         this.add(this.background);
 
         this.add(this.attackMessageLabel);
-        this.add(this.enemyHealthLabel);
         this.add(this.playerHealthLabel);
 
 
@@ -108,11 +107,12 @@ export class EnemyFight extends Scene {
         } else if (identifier === "bazookerlilly") {
             this.enemy = new StaticEnemy(Resources.Bazookerlilly.toSprite(), 1000, 300, "bazookerlilly", this);
         } else if (identifier === "thegnome") {
-            this.enemy = new StaticEnemy(Resources.thegnome.toSprite(), 1000, 300, "thegnome", this);
+            this.enemy = new StaticEnemy(Resources.thegnome.toSprite(), 950, 200, "thegnome", this);
         } else if (identifier === "sparringspar") {
-            this.enemy = new StaticEnemy(Resources.sparringspar.toSprite(), 1000, 300, "sparringspar", this);
+            this.enemy = new StaticEnemy(Resources.sparringspar.toSprite(), 1000, 180, "sparringspar", this);
         }
         this.add(this.enemy);
+        this.add(this.enemyHealthLabel);
 
         this.attack1 = new Attacks(Resources.blast.toSprite(), 200, 200, "Blast");
         this.attack2 = new Attacks(Resources.obliterate.toSprite(), 500, 200, "Obliterate");
