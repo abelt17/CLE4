@@ -110,8 +110,8 @@ export class EnemyFight extends Scene {
         }
         this.add(this.enemy);
 
-        this.attack1 = new Attacks(200, 200, "Blast");
-        this.attack2 = new Attacks(500, 200, "Obliterate");
+        this.attack1 = new Attacks(Resources.blast.toSprite(), 200, 200, "Blast");
+        this.attack2 = new Attacks(Resources.obliterate.toSprite(), 500, 200, "Obliterate");
         this.add(this.attack1);
         this.add(this.attack2);
 

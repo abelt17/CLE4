@@ -35,6 +35,8 @@ const Resources = {
     symphonyofroses:new ImageSource('images/symphonyofroses.png'),
     thegardener:new ImageSource('images/thegardener.png'),
     toblowuupmate:new ImageSource('images/toblowuupmate-os.png'),
+    obliterate: new ImageSource('images/obliterate.png'),
+    blast: new ImageSource('images/blastattack.png'),
 }
 
 
