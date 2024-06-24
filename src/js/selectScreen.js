@@ -3,15 +3,15 @@ import { Resources } from './resources.js';
 import { Background } from "./background.js";
 import { Player } from './player.js';
 
-export let selectedCritter = '';
+export let selectedPlayer = '';
 
 export class SelectScene extends Scene {
     onInitialize(engine) {
         this.background = new Background(Resources.Podiums.toSprite(), 640, 370, 2.2, 2.1);
         this.add(this.background);
 
-        const critter1 = SpriteSheet.fromImageSource({
-            image: Resources.Critter1,
+        const player1 = SpriteSheet.fromImageSource({
+            image: Resources.Player1,
             grid: {
                 rows: 6,
                 columns: 8,
@@ -20,8 +20,8 @@ export class SelectScene extends Scene {
             }
         });
 
-        const critter2 = SpriteSheet.fromImageSource({
-            image: Resources.Critter2,
+        const player2 = SpriteSheet.fromImageSource({
+            image: Resources.Player2,
             grid: {
                 rows: 6,
                 columns: 8,
@@ -30,8 +30,8 @@ export class SelectScene extends Scene {
             }
         });
 
-        const critter3 = SpriteSheet.fromImageSource({
-            image: Resources.Critter3,
+        const player3 = SpriteSheet.fromImageSource({
+            image: Resources.Player3,
             grid: {
                 rows: 6,
                 columns: 8,
@@ -47,19 +47,19 @@ export class SelectScene extends Scene {
             scale: scale
         });
 
-        sprite1.graphics.use(critter1.getSprite(0, 0));
+        sprite1.graphics.use(player1.getSprite(0, 0));
 
         const sprite2 = new Actor({
             pos: new Vector(630, 420),
             scale: scale
         });
-        sprite2.graphics.use(critter2.getSprite(0, 0));
+        sprite2.graphics.use(player2.getSprite(0, 0));
 
         const sprite3 = new Actor({
             pos: new Vector(1000, 480),
             scale: scale
         });
-        sprite3.graphics.use(critter3.getSprite(0, 0));
+        sprite3.graphics.use(player3.getSprite(0, 0));
 
         const label1 = new Label({
             text: "A",
@@ -110,28 +110,28 @@ export class SelectScene extends Scene {
 
         this.on('preupdate', (evt) => {
             if (engine.input.keyboard.wasPressed(Keys.A) || engine.input.keyboard.wasPressed(Keys.Left)) {
-                console.log("Critter1 selected");
+                console.log("Player1 selected");
                 this.fadeOutActor.actions.fade(1, 1000, EasingFunctions.EaseInOutCubic).callMethod(() => {
-                    engine.selectedCritter = 'critter1';
+                    engine.selectedPlayer = 'player1';
                     engine.goToScene('level1');
                 });
             } else if (engine.input.keyboard.wasPressed(Keys.W) || engine.input.keyboard.wasPressed(Keys.Up)) {
-                console.log("Critter2 selected");
+                console.log("Player2 selected");
                 this.fadeOutActor.actions.fade(1, 1000, EasingFunctions.EaseInOutCubic).callMethod(() => {
-                    engine.selectedCritter = 'critter2';
+                    engine.selectedPlayer = 'player2';
                     engine.goToScene('level1');
                 });
             } else if (engine.input.keyboard.wasPressed(Keys.D) || engine.input.keyboard.wasPressed(Keys.Right)) {
-                console.log("Critter3 selected");
+                console.log("Player3 selected");
                 this.fadeOutActor.actions.fade(1, 1000, EasingFunctions.EaseInOutCubic).callMethod(() => {
-                    engine.selectedCritter = 'critter3';
+                    engine.selectedPlayer = 'player3';
                     engine.goToScene('level1');
                 });
             }
         });
     }
-    selectCritterAndGoToLevel(engine, critterKey) {
-        engine.selectedCritter = critterKey;
+    selectplayerAndGoToLevel(engine, playerKey) {
+        engine.selectedPlayer = playerKey;
         engine.goToScene('villaBaobab');
     }
 }

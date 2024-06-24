@@ -4,14 +4,14 @@ import { Enemy, Boss } from "./enemy.js";
 import { Attacks } from './fightOverlay.js';
 import { eventEmitter } from './eventEmitter.js';
 
-let critter1, critter2, critter3, Resources;
+let player1, player2, player3, Resources;
 
 async function initializeSpriteSheets() {
     const res = await import('./resources.js');
     Resources = res.Resources;
 
-    critter1 = SpriteSheet.fromImageSource({
-        image: Resources.Critter1,
+    player1 = SpriteSheet.fromImageSource({
+        image: Resources.Player1,
         grid: {
             rows: 6,
             columns: 8,
@@ -20,8 +20,8 @@ async function initializeSpriteSheets() {
         }
     });
 
-    critter2 = SpriteSheet.fromImageSource({
-        image: Resources.Critter2,
+    player2 = SpriteSheet.fromImageSource({
+        image: Resources.Player2,
         grid: {
             rows: 6,
             columns: 8,
@@ -30,8 +30,8 @@ async function initializeSpriteSheets() {
         }
     });
 
-    critter3 = SpriteSheet.fromImageSource({
-        image: Resources.Critter3,
+    player3 = SpriteSheet.fromImageSource({
+        image: Resources.Player3,
         grid: {
             rows: 6,
             columns: 8,
@@ -81,21 +81,21 @@ export const PlayerData = {
 };
 
 export class StaticPlayer extends Actor {
-    constructor(width, height, selectedCritter) {
+    constructor(width, height, selectedPlayer) {
         super({
             width: width,
             height: height,
-            pos: new Vector(390, 585),
+            pos: new Vector(390, 545),
         });
 
-        if (selectedCritter === 'critter1') {
-            this.graphics.use(critter1.getSprite(1, 0));
-        } else if (selectedCritter === 'critter2') {
-            this.graphics.use(critter2.getSprite(1, 0));
-        } else if (selectedCritter === 'critter3') {
-            this.graphics.use(critter3.getSprite(1, 0));
+        if (selectedPlayer === 'player1') {
+            this.graphics.use(Resources.punkcritter.toSprite());
+        } else if (selectedPlayer === 'player2') {
+            this.graphics.use(Resources.crittercamono.toSprite());
+        } else if (selectedPlayer === 'player3') {
+            this.graphics.use(Resources.critterzumbi.toSprite());
         } else {
-            this.graphics.use(Resources.Critter1.toSprite());
+            this.graphics.use(Resources.Player1.toSprite());
             console.log("StaticPlayer actor failed to select");
         }
     }
@@ -107,15 +107,16 @@ export class StaticPlayer extends Actor {
 }
 
 export class Player extends Actor {
-    constructor(width, height, selectedCritter) {
+    constructor(width, height, selectedPlayer) {
         super({
             width: width,
             height: height,
         });
 
-        this.selectedCritter = selectedCritter;
+        this.selectedPlayer = selectedPlayer;
 
         this.animationFrames = {
+            spin: [{ row: 4, column: 0 }, { row: 1, column: 0 }, { row: 2, column: 0 }, { row: 3, column: 0 }],
             backward: [{ row: 4, column: 0 }, { row: 5, column: 0 }, { row: 6, column: 0 }, { row: 7, column: 0 }],
             forward: [{ row: 0, column: 1 }, { row: 1, column: 1 }, { row: 2, column: 1 }, { row: 3, column: 1 }],
             right: [{ row: 4, column: 1 }, { row: 5, column: 1 }, { row: 6, column: 1 }, { row: 7, column: 1 }],
@@ -132,15 +133,15 @@ export class Player extends Actor {
     setSpriteByDirection(direction) {
         let frame = this.animationFrames[direction][this.currentAnimationFrame];
 
-        if (this.selectedCritter === 'critter1') {
-            this.graphics.use(critter1.getSprite(frame.row, frame.column));
-        } else if (this.selectedCritter === 'critter2') {
-            this.graphics.use(critter2.getSprite(frame.row, frame.column));
-        } else if (this.selectedCritter === 'critter3') {
-            this.graphics.use(critter3.getSprite(frame.row, frame.column));
+        if (this.selectedPlayer === 'player1') {
+            this.graphics.use(player1.getSprite(frame.row, frame.column));
+        } else if (this.selectedPlayer === 'player2') {
+            this.graphics.use(player2.getSprite(frame.row, frame.column));
+        } else if (this.selectedPlayer === 'player3') {
+            this.graphics.use(player3.getSprite(frame.row, frame.column));
         } else {
-            this.graphics.use(Resources.Critter3.toSprite());
-            console.log("Player actor failed to select critter");
+            this.graphics.use(Resources.Player3.toSprite());
+            console.log("Player actor failed to select player");
         }
     }
 
@@ -181,6 +182,11 @@ export class Player extends Actor {
             xspeed = -200;
             direction = 'left';
         }
+
+        if (engine.input.keyboard.isHeld(Keys.Space)) {
+            direction = 'spin';
+        }
+
         if (direction !== '') {
             this.updateAnimation(direction);
         }

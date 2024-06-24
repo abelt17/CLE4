@@ -21,7 +21,7 @@ export class Game extends Engine {
         })
         this.defeatedBosses = {}; // Track defeated bosses
         this.backgroundColor = Color.Black;
-        this.selectedCritter = 'critter1';
+        this.selectedPlayer = 'player1';
         this.start(ResourceLoader).then(() => this.startGame())
     }
 
