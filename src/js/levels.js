@@ -276,7 +276,7 @@ export class Level1 extends Scene {
         // Create the fade-in actor
         this.fadeInActor = new Actor({
             pos: new Vector(640, 360),
-            width: 4000,
+            width: 4500,
             height: 3000,
             color: Color.Black,
             opacity: 1
@@ -364,7 +364,7 @@ export class Level2 extends Scene {
         // Create the fade-in actor
         this.fadeInActor = new Actor({
             pos: new Vector(640, 360),
-            width: 4000,
+            width: 4500,
             height: 3000,
             color: Color.Black,
             opacity: 1
@@ -425,7 +425,7 @@ export class Level3 extends Scene {
         // Create the fade-in actor
         this.fadeInActor = new Actor({
             pos: new Vector(640, 360),
-            width: 4000,
+            width: 4500,
             height: 3000,
             color: Color.Black,
             opacity: 1
