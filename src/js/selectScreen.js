@@ -153,6 +153,6 @@ export class SelectScene extends Scene {
     }
     selectplayerAndGoToLevel(engine, playerKey) {
         engine.selectedPlayer = playerKey;
-        engine.goToScene('level1');
+        engine.goToScene('villaBaobab');
     }
 }

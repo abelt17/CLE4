@@ -3,7 +3,7 @@ import { Resources, ResourceLoader } from './resources.js';
 import { Player, StaticPlayer, PlayerData, Cursor, previousScene } from './player.js';
 import { Background } from "./background.js";
 import { Bridge } from "./bridge.js";
-import { Boss, Enemy, StaticEnemy } from "./enemy.js";
+import { Boss, Enemy, Prof, StaticEnemy } from "./enemy.js";
 import { Attacks } from "./fightOverlay.js";
 import { eventEmitter } from './eventEmitter.js';
 
@@ -83,16 +83,16 @@ export class EnemyFight extends Scene {
     }
 
     updateEnemy(identifier) {
-        this.remove(this.cursor);
-        this.remove(this.enemy);
-        this.remove(this.player);
-        this.remove(this.attack1);
-        this.remove(this.attack2);
-        this.remove(this.background);
-        this.remove(this.attackMessageLabel);
-        this.remove(this.enemyHealthLabel);
-        this.remove(this.playerHealthLabel);
-
+        if (this.cursor) this.remove(this.cursor);
+        if (this.enemy) this.remove(this.enemy);
+        if (this.player) this.remove(this.player);
+        if (this.attack1) this.remove(this.attack1);
+        if (this.attack2) this.remove(this.attack2);
+        if (this.background) this.remove(this.background);
+        if (this.attackMessageLabel) this.remove(this.attackMessageLabel);
+        if (this.enemyHealthLabel) this.remove(this.enemyHealthLabel);
+        if (this.playerHealthLabel) this.remove(this.playerHealthLabel);
+    
         this.background = new Background(Resources.FightScene.toSprite(), 640, 360, 1, 1);
         this.add(this.background);
 
@@ -226,13 +226,15 @@ export class EnemyFight extends Scene {
             xpGained = 150;
         } else if (this.enemy.identifier === "thegnome") {
             xpGained = 500;
+            this.engine.defeatedBosses["thegnome"] = true; // Mark thegnome as defeated
         } else if (this.enemy.identifier === "sparringspar") {
             xpGained = 600;
+            this.engine.defeatedBosses["sparringspar"] = true; // Mark sparringspar as defeated
         }
 
         PlayerData.addXP(xpGained);
 
-        this.engine.goToScene('level1');
+        this.engine.goToScene(previousScene.scene);
         this.engine.defeatedEnemy = this.engine.currentEnemy; // Track the defeated enemy
     }
 
@@ -258,7 +260,7 @@ export class Level1 extends Scene {
         this.bridge = new Bridge(Resources.PixelArtBridge.toSprite(), 3600, 1200, 2, 2, 500, 500, "level1_bridge");
         this.add(this.bridge);
 
-        this.villa = new Bridge(Resources.Villa.toSprite(), -780, -600, 1, 1, 100, 100, "villa-baobab");
+        this.villa = new Bridge(Resources.Villa.toSprite(), -780, -600, 1, 1, 100, 100, "villaBaobab");
         this.add(this.villa);
 
         this.spawnEnemies();
@@ -306,12 +308,16 @@ export class Level1 extends Scene {
             this.add(this.chomperdaisy);
         }
 
-        this.thegnome = new Boss(Resources.thegnome.toSprite(), -1310, -1140, Resources.thegnome.width - 100, Resources.thegnome.height - 100, "thegnome");
-        this.add(this.thegnome);
-
-        this.sparringspar = new Boss(Resources.sparringspar.toSprite(), 2800, 950, Resources.sparringspar.width - 100, Resources.sparringspar.height - 100, "sparringspar");
-        this.add(this.sparringspar);
-    }
+        if (!this.engine.defeatedBosses["thegnome"]) {
+            this.thegnome = new Boss(Resources.thegnome.toSprite(), -1310, -1140, Resources.thegnome.width - 100, Resources.thegnome.height - 100, "thegnome");
+            this.add(this.thegnome);
+        }
+    
+        if (!this.engine.defeatedBosses["sparringspar"]) {
+            this.sparringspar = new Boss(Resources.sparringspar.toSprite(), 2800, 950, Resources.sparringspar.width - 100, Resources.sparringspar.height - 100, "sparringspar");
+            this.add(this.sparringspar);
+        }
+        }
 
     onPreUpdate(engine, delta) {
         super.onPreUpdate(engine, delta);
@@ -382,5 +388,45 @@ export class Level2 extends Scene {
         const playerPos = this.player.pos;
 
         this.camera.pos = playerPos;
+
+        if (engine.defeatedEnemy) {
+            this.remove(engine.defeatedEnemy);
+            engine.defeatedEnemy = null; // Reset after removal
+        }
     }
+}
+
+export class VillaBaobab extends Scene {
+    onInitialize(engine) {
+
+        previousScene.scene = 'villaBaobab'
+
+        this.background = new Background(Resources.VillaBaobabInside.toSprite(), 0, 0, 1, 1);
+        this.add(this.background);
+
+        this.baobab = new Prof(Resources.profacacia.toSprite(), 0,-150, 100, 100, "baobab");
+        this.add(this.baobab);
+
+        this.door = new Bridge(Resources.Bazookerlilly.toSprite(), 0, 400, 1, 1, 100, 100, "baobab_door");
+        this.add(this.door);
+
+        this.player = new Player(180, 200, engine.selectedCritter);
+        this.add(this.player);
+    }
+
+    onActivate() {
+        if (this.engine.enemyState !== undefined) {
+            this.engine.enemyState = true;
+        }
+    }
+
+
+    onPreUpdate(engine, delta) {
+        super.onPreUpdate(engine, delta);
+
+        const playerPos = this.player.pos;
+
+        this.camera.pos = playerPos;
+    }
+
 }

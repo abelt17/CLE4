@@ -1,5 +1,6 @@
 import { ImageSource, Sound, Resource, Loader } from 'excalibur'
 import { PlayerInfo } from './playerInfo'
+import { VillaBaobab } from './levels'
 
 // voeg hier jouw eigen resources toe
 const Resources = {
@@ -41,6 +42,7 @@ const Resources = {
     obliterate: new ImageSource('images/obliterate.png'),
     blast: new ImageSource('images/blastattack.png'),
     sparringspar: new ImageSource('images/sparringspar.png'),
+    VillaBaobabInside: new ImageSource('images/villa-baobab-inside.png'),
 }
 
 
