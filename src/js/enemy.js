@@ -13,6 +13,20 @@ export class Boss extends Actor {
     }
 }
 
+export class Prof extends Actor {
+    constructor(sprite, x, y, width, height, identifier) {
+        super({
+            pos: new Vector(x, y),
+            collisionType: CollisionType.Passive, // Set collision type if needed
+            width: width,
+            height: height
+        });
+        this.graphics.use(sprite);
+        this.identifier = identifier; // Add an identifier property
+    }
+
+}
+
 export class Enemy extends Actor {
     constructor(sprite, x, y, width, height, identifier) {
         super({

@@ -132,6 +132,6 @@ export class SelectScene extends Scene {
     }
     selectCritterAndGoToLevel(engine, critterKey) {
         engine.selectedCritter = critterKey;
-        engine.goToScene('level1');
+        engine.goToScene('villaBaobab');
     }
 }

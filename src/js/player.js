@@ -53,7 +53,7 @@ export const PlayerData = {
     xp: 0,
     level: 1,
     xpThreshold: 100,
-    attackDamage: 10,
+    attackDamage: 200,
     previousHealth: 100,
 
     addXP(amount) {
@@ -200,21 +200,20 @@ export class Player extends Actor {
 
     hitSomething(event) {
         if (event.other instanceof Bridge) {
-            if (event.other.identifier === "level1_bridge") {
-                this.scene.engine.goToScene('level2');
-                PlayerData.previousScene = 'level2';
-            } else if (event.other.identifier === "level2_bridge") {
-                this.scene.engine.goToScene('level1');
-                PlayerData.previousScene = 'level1';
-            } else if (event.other.identifier === "level3_bridge") {
-                this.scene.engine.goToScene('level3');
-                PlayerData.previousScene = 'level3';
-            } else if (event.other.identifier === "level4_bridge") {
-                this.scene.engine.goToScene('level2');
-                PlayerData.previousScene = 'level2';
-            } else if (event.other.identifier === "villa-baobab") {
-                this.scene.engine.goToScene('villa-baobab');
-                PlayerData.previousScene = 'villa-baobab';
+            const bridge = event.other.identifier;
+            const sceneMapping = {
+                "level1_bridge": "level2",
+                "level2_bridge": "level1",
+                "level3_bridge": "level3",
+                "level4_bridge": "level2",
+                "villaBaobab": "villaBaobab",
+                "baobab_door": "level1"
+            };
+
+            const newScene = sceneMapping[bridge];
+            if (newScene) {
+                this.scene.engine.goToScene(newScene);
+                PlayerData.previousScene = newScene;
             }
         }
 
@@ -245,19 +244,19 @@ export class Cursor extends Actor {
         let yspeed = 0;
 
         if (engine.input.keyboard.isHeld(Keys.W) || engine.input.keyboard.isHeld(Keys.Up)) {
-            yspeed = -200;
+            yspeed = -300;
         }
 
         if (engine.input.keyboard.isHeld(Keys.S) || engine.input.keyboard.isHeld(Keys.Down)) {
-            yspeed = 200;
+            yspeed = 300;
         }
 
         if (engine.input.keyboard.isHeld(Keys.D) || engine.input.keyboard.isHeld(Keys.Right)) {
-            xspeed = 200;
+            xspeed = 300;
         }
 
         if (engine.input.keyboard.isHeld(Keys.A) || engine.input.keyboard.isHeld(Keys.Left)) {
-            xspeed = -200;
+            xspeed = -300;
         }
         this.vel = new Vector(xspeed, yspeed);
     }

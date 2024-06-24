@@ -1,9 +1,9 @@
 import '../css/style.css'
-import { Actor, Engine, Vector, DisplayMode } from "excalibur"
+import { Actor, Engine, Vector, DisplayMode, Color } from "excalibur"
 import { Resources, ResourceLoader } from './resources.js'
 import { MainMenuScene } from './mainMenu.js';
 import { IntroScene } from './introScene.js';
-import { EnemyFight, Level1, Level2 } from './levels.js';
+import { EnemyFight, Level1, Level2, VillaBaobab } from './levels.js';
 import { DeathScreen } from './deathScreen.js';
 import { SelectScene } from './selectScreen.js';
 import { PlayerInfo } from './playerInfo.js';
@@ -19,6 +19,8 @@ export class Game extends Engine {
             maxFps: 60,
             displayMode: DisplayMode.FitScreen
         })
+        this.defeatedBosses = {}; // Track defeated bosses
+        this.backgroundColor = Color.Black;
         this.selectedCritter = 'critter1';
         this.start(ResourceLoader).then(() => this.startGame())
     }
@@ -30,6 +32,7 @@ export class Game extends Engine {
         this.add('selectScene', new SelectScene());
         this.add('deathScreen', new DeathScreen());
         this.add('enemyFight', new EnemyFight());
+        this.add('villaBaobab', new VillaBaobab());
         this.add('level1', new Level1());
         this.add('level2', new Level2());
 
