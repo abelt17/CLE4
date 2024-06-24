@@ -94,10 +94,13 @@ export class StaticPlayer extends Actor {
 
         if (selectedPlayer === 'player1') {
             this.graphics.use(Resources.punkcritter.toSprite());
+            this.identifier = "T-punk";
         } else if (selectedPlayer === 'player2') {
             this.graphics.use(Resources.crittercamono.toSprite());
+            this.identifier = "Camono";
         } else if (selectedPlayer === 'player3') {
             this.graphics.use(Resources.critterzumbi.toSprite());
+            this.identifier = "Zumbi";
         } else {
             this.graphics.use(Resources.Player1.toSprite());
             console.log("StaticPlayer actor failed to select");

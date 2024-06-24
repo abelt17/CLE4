@@ -4,16 +4,29 @@ import { PlayerData, StaticPlayer, previousScene } from "./player.js";
 import { Background } from "./background.js";
 
 export class PlayerInfo extends Scene {
-    onInitialize() {
+    onInitialize(engine) {
         // Initialize player
         this.background = new Background(Resources.PlayerInfoBG.toSprite(), 650, 350, 1.4, 1.2);
         this.add(this.background);
 
-        // this.player = new StaticPlayer(400, 300);
-        // this.player.scale = new Vector(2, 2);
-        // this.add(this.player);
+        this.player = new StaticPlayer(400, 300, engine.selectedPlayer);
+        this.player.scale = new Vector(2, 2);
+        this.player.pos = new Vector (360, 350)
+        this.add(this.player);
 
         // Create and add labels for player data
+        this.Name = new Label({
+            text: `${this.player.identifier}`,
+            pos: new Vector(800, 150),
+            font: new Font({
+                family: 'Trebuchet MS',
+                size: 24,
+                unit: FontUnit.Px,
+                color: Color.Black
+            })
+        });
+
+
         this.healthLabel = new Label({
             text: `Health: ${PlayerData.health}`,
             pos: new Vector(800, 250),
@@ -50,6 +63,7 @@ export class PlayerInfo extends Scene {
         this.add(this.levelLabel);
         this.add(this.healthLabel);
         this.add(this.xpLabel);
+        this.add(this.Name);
     }
 
     onPreUpdate(engine, delta) {
