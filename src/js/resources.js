@@ -43,6 +43,8 @@ const Resources = {
     blast: new ImageSource('images/blastattack.png'),
     sparringspar: new ImageSource('images/sparringspar.png'),
     VillaBaobabInside: new ImageSource('images/villa-baobab-inside.png'),
+    BaobabDoor: new ImageSource('images/baobab-door.png'),
+    TitleScreen: new ImageSource('images/title.png'),
 }
 
 

@@ -53,19 +53,21 @@ export class EnemyFight extends Scene {
             pos: new Vector(900, 50),
             font: new Font({
                 family: 'Arial',
-                size: 20,
-                color: Color.White
+                size: 25,
+                color: Color.Red,
+                bold: true
             }),
             textAlign: TextAlign.Center
         });
 
         this.playerHealthLabel = new Label({
             text: '',
-            pos: new Vector(350, 700),
+            pos: new Vector(300, 690),
             font: new Font({
                 family: 'Arial',
-                size: 20,
-                color: Color.White
+                size: 25,
+                color: Color.Red,
+                bold: true
             }),
             textAlign: TextAlign.Center
         });
@@ -88,13 +90,14 @@ export class EnemyFight extends Scene {
         if (this.player) this.remove(this.player);
         if (this.attack1) this.remove(this.attack1);
         if (this.attack2) this.remove(this.attack2);
-        if (this.background) this.remove(this.background);
         if (this.attackMessageLabel) this.remove(this.attackMessageLabel);
         if (this.enemyHealthLabel) this.remove(this.enemyHealthLabel);
         if (this.playerHealthLabel) this.remove(this.playerHealthLabel);
-    
-        this.background = new Background(Resources.FightScene.toSprite(), 640, 360, 1, 1);
-        this.add(this.background);
+        
+        if(!this.background) {
+            this.background = new Background(Resources.FightScene.toSprite(), 640, 360, 1, 1);
+            this.add(this.background);    
+        }
 
         this.add(this.attackMessageLabel);
         this.add(this.playerHealthLabel);
@@ -130,10 +133,10 @@ export class EnemyFight extends Scene {
         let damage;
         switch (identifier) {
             case "Blast":
-                hitChance = 0.8; // 80% chance to hit
+                hitChance = 0.9; // 90% chance to hit
                 if (Math.random() < hitChance) {
 
-                    damage = Math.floor(Math.random() * 5) + 5 + PlayerData.attackDamage;
+                    damage = Math.floor(Math.random() * PlayerData.blast) + 5 + PlayerData.attackDamage;
 
                     this.enemy.shake(); // Shake the enemy on hit
                     this.enemy.emitParticles(); // Emit particles on hit
@@ -147,7 +150,7 @@ export class EnemyFight extends Scene {
                 hitChance = 0.6; // 60% chance to hit
                 if (Math.random() < hitChance) {
 
-                    damage = Math.floor(Math.random() * 20) + PlayerData.attackDamage;
+                    damage = Math.floor(Math.random() * PlayerData.obliterate) + PlayerData.attackDamage;
 
                     this.enemy.shake(); // Shake the enemy on hit
                     this.enemy.emitParticles(); // Emit particles on hit
@@ -181,7 +184,7 @@ export class EnemyFight extends Scene {
                     if (this.enemy.identifier === "incinerose") {
                         damage = Math.floor(Math.random() * 10) + 5;
                     } else if (this.enemy.identifier === "chomperdaisy") {
-                        damage = Math.floor(Math.random() * 20) + 10;
+                        damage = Math.floor(Math.random() * 10) + 10;
                     } else if (this.enemy.identifier === "bazookerlilly") {
                         damage = Math.floor(Math.random() * 30) + 10;
                     } else if (this.enemy.identifier === "thegnome") {
@@ -240,6 +243,7 @@ export class EnemyFight extends Scene {
 
     onPlayerDefeated() {
         this.engine.goToScene('deathScreen');
+        PlayerData.xp = 0;
     }
 }
 
@@ -266,6 +270,7 @@ export class Level1 extends Scene {
         this.spawnEnemies();
 
         this.player = new Player(180, 200, engine.selectedPlayer);
+        this.player.pos = new Vector(-780, -370);
         this.add(this.player);
 
         // Create the fade-in actor
@@ -287,6 +292,10 @@ export class Level1 extends Scene {
             this.engine.enemyState = false; // Reset the respawn flag
         }
         previousScene.scene = 'level1'
+        if (this.engine.playerPos) {
+            this.player.pos = new Vector(-780, -370);
+            this.engine.playerPos = false;
+        }
         // Fade in the scene when activated
         this.fadeInActor.actions.fade(0, 1000, EasingFunctions.EaseInOutCubic);
     }
@@ -397,6 +406,12 @@ export class Level2 extends Scene {
 }
 
 export class VillaBaobab extends Scene {
+    constructor() {
+        super();
+        this.infoLabel = null; // Initialize infoLabel as null
+        this.removeMeter = 0;
+    }
+
     onInitialize(engine) {
 
         previousScene.scene = 'villaBaobab'
@@ -407,16 +422,42 @@ export class VillaBaobab extends Scene {
         this.baobab = new Prof(Resources.profacacia.toSprite(), 0,-150, 100, 100, "baobab");
         this.add(this.baobab);
 
-        this.door = new Bridge(Resources.Bazookerlilly.toSprite(), 0, 400, 1, 1, 100, 100, "baobab_door");
+        this.door = new Bridge(Resources.BaobabDoor.toSprite(), 0, 650, 1, 1, 100, 100, "baobab_door");
         this.add(this.door);
 
-        this.player = new Player(180, 200, engine.selectedCritter);
+        this.infoLabel = new Label({
+            text: 'Welcome to Villa Baobab!\n\nI am professor Baobab.\n\nYou can attack monsters by walking in them.\nThen choose blast, \nlower damage more hitchance,\nor obliterate, \nhigher damage lower hitchance.\n\nPress control to see the stats of your critter.\n\nWhen hurt in battle you can return to me\nand heal yourself by walking thru me\n\n have fun beating monsters!',
+            pos: new Vector(120, -300),
+            font: new Font({
+                family: 'Arial',
+                size: 24,
+                color: Color.White
+            }),
+            textAlign: TextAlign.Center
+        });
+        this.add(this.infoLabel);
+
+        this.player = new Player(180, 200, engine.selectedPlayer);
         this.add(this.player);
+    }
+    
+    onDeactivate() {
+        this.removeMeter++;
+        // Check if removeMeter has reached 2 (or any desired number)
+        if (this.removeMeter === 2) {
+            // Remove the info label from the scene
+            this.remove(this.infoLabel);
+        }
     }
 
     onActivate() {
         if (this.engine.enemyState !== undefined) {
             this.engine.enemyState = true;
+        }
+        previousScene.scene = 'villaBaobab'
+
+        if (!this.engine.playerPos) {
+            this.engine.playerPos = true;
         }
     }
 

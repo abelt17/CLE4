@@ -1,6 +1,6 @@
 import { Actor, Vector, Keys, SpriteSheet, CollisionType, Shape } from "excalibur";
 import { Bridge } from "./bridge.js";
-import { Enemy, Boss } from "./enemy.js";
+import { Enemy, Boss, Prof } from "./enemy.js";
 import { Attacks } from './fightOverlay.js';
 import { eventEmitter } from './eventEmitter.js';
 
@@ -53,8 +53,10 @@ export const PlayerData = {
     xp: 0,
     level: 1,
     xpThreshold: 100,
-    attackDamage: 200,
+    attackDamage: 10,
     previousHealth: 100,
+    obliterate: 20,
+    blast: 5,
 
     addXP(amount) {
         this.xp += amount;
@@ -75,6 +77,8 @@ export const PlayerData = {
         this.maxHealth += 20; // Increase max health
         this.health = this.maxHealth; // Restore health to max
         this.attackDamage += 5; // Increase attack damage
+        this.obliterate += 5;
+        this.blast += 2;
 
         console.log(`Leveled up to level ${this.level}! Health: ${this.health}, Attack Damage: ${this.attackDamage}, Next Level XP: ${this.xpThreshold}`);
     },
@@ -221,6 +225,10 @@ export class Player extends Actor {
                 this.scene.engine.goToScene(newScene);
                 PlayerData.previousScene = newScene;
             }
+        }
+
+        if (event.other instanceof Prof) {
+            PlayerData.health = PlayerData.maxHealth;
         }
 
         if (event.other instanceof Enemy || event.other instanceof Boss) {

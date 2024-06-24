@@ -64,6 +64,6 @@ export class DeathScreen extends Scene {
         PlayerData.health = PlayerData.maxHealth;
 
         // Go back to the game scene (replace 'GameScene' with your actual game scene class)
-        this.engine.goToScene('level1');
+        this.engine.goToScene('villaBaobab');
     }
 }
