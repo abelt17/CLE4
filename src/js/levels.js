@@ -368,7 +368,7 @@ export class Level2 extends Scene {
         this.bridge = new Bridge(Resources.PixelArtBridge.toSprite(), -1800, 0, 2, 2, 500, 500, "level2_bridge");
         this.add(this.bridge);
 
-        this.bridge = new Bridge(Resources.PixelArtBridge.toSprite(), 3600, 0, 2, 2, 500, 500, "level3_bridge");
+        this.bridge = new Bridge(Resources.StoneBridge.toSprite(), 3600, 0, 2, 2, 500, 500, "level3_bridge");
         this.add(this.bridge);
 
 
