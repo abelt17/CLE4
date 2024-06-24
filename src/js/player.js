@@ -53,7 +53,7 @@ export const PlayerData = {
     xp: 0,
     level: 1,
     xpThreshold: 100,
-    attackDamage: 10,
+    attackDamage: 200,
     previousHealth: 100,
     obliterate: 20,
     blast: 5,

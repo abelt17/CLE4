@@ -113,7 +113,11 @@ export class EnemyFight extends Scene {
             this.enemy = new StaticEnemy(Resources.thegnome.toSprite(), 950, 200, "thegnome", this);
         } else if (identifier === "sparringspar") {
             this.enemy = new StaticEnemy(Resources.sparringspar.toSprite(), 1000, 180, "sparringspar", this);
-        }
+        } else if (identifier === "bmxbrainiac") {
+            this.enemy = new StaticEnemy(Resources.bmxbrainiac.toSprite(), 1000, 180, "bmxbrainiac", this);
+        } else if (identifier === "symphonyofroses") {
+            this.enemy = new StaticEnemy(Resources.symphonyofroses.toSprite(), 1000, 180, "symphonyofroses", this);
+        }   
         this.add(this.enemy);
         this.add(this.enemyHealthLabel);
 
@@ -196,6 +200,10 @@ export class EnemyFight extends Scene {
 
                     } else if (this.enemy.identifier === "sparringspar") {
                         damage = Math.floor(Math.random() * 25) + 25;
+                    } else if (this.enemy.identifier === "bmxbrainiac") {
+                        damage = Math.floor(Math.random() * 50) + 20;
+                    } else if (this.enemy.identifier === "symphonyofroses") {
+                        damage = Math.floor(Math.random() * 45) + 30;
                     }
                     PlayerData.health -= damage;
                     this.attackMessage = `${this.enemy.identifier} attacked and dealt ${damage} damage!`;
@@ -233,8 +241,13 @@ export class EnemyFight extends Scene {
         } else if (this.enemy.identifier === "sparringspar") {
             xpGained = 600;
             this.engine.defeatedBosses["sparringspar"] = true; // Mark sparringspar as defeated
+        } else if (this.enemy.identifier === "bmxbrainiac") {
+            xpGained = 600;
+            this.engine.defeatedBosses["bmxbrainiac"] = true; 
+        } else if (this.enemy.identifier === "symphonyofroses") {
+            xpGained = 600;
+            this.engine.defeatedBosses["symphonyofroses"] = true; 
         }
-
         PlayerData.addXP(xpGained);
 
         this.engine.goToScene(previousScene.scene);
@@ -378,6 +391,16 @@ export class Level2 extends Scene {
             this.bazookerlilly = new Enemy(Resources.Bazookerlilly.toSprite(), Math.floor(Math.random() * 1000), Math.floor(Math.random() * 1000), Resources.Bazookerlilly.width - 100, Resources.Bazookerlilly.height - 100, "bazookerlilly")
             this.add(this.bazookerlilly)
         }
+        if (!this.engine.defeatedBosses["bmxbrainiac"]) {
+            this.bmxbrainiac = new Boss(Resources.bmxbrainiac.toSprite(), -1310, -1140, Resources.bmxbrainiac.width - 100, Resources.bmxbrainiac.height - 100, "bmxbrainiac");
+            this.add(this.bmxbrainiac);
+        }
+    
+        if (!this.engine.defeatedBosses["symphonyofroses"]) {
+            this.symphonyofroses = new Boss(Resources.symphonyofroses.toSprite(), 670, -1490, Resources.symphonyofroses.width - 100, Resources.symphonyofroses.height - 100, "symphonyofroses");
+            this.add(this.symphonyofroses);
+        }
+
     }
 
     onActivate() {
