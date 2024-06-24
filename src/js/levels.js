@@ -92,7 +92,7 @@ export class EnemyFight extends Scene {
         if (this.attackMessageLabel) this.remove(this.attackMessageLabel);
         if (this.enemyHealthLabel) this.remove(this.enemyHealthLabel);
         if (this.playerHealthLabel) this.remove(this.playerHealthLabel);
-    
+
         this.background = new Background(Resources.FightScene.toSprite(), 640, 360, 1, 1);
         this.add(this.background);
 
@@ -312,12 +312,12 @@ export class Level1 extends Scene {
             this.thegnome = new Boss(Resources.thegnome.toSprite(), -1310, -1140, Resources.thegnome.width - 100, Resources.thegnome.height - 100, "thegnome");
             this.add(this.thegnome);
         }
-    
+
         if (!this.engine.defeatedBosses["sparringspar"]) {
             this.sparringspar = new Boss(Resources.sparringspar.toSprite(), 2800, 950, Resources.sparringspar.width - 100, Resources.sparringspar.height - 100, "sparringspar");
             this.add(this.sparringspar);
         }
-        }
+    }
 
     onPreUpdate(engine, delta) {
         super.onPreUpdate(engine, delta);
@@ -343,7 +343,7 @@ export class Level2 extends Scene {
         this.background = new Background(Resources.Level2bg.toSprite(), 0, 0, 2, 2);
         this.add(this.background);
 
-        this.bridge = new Bridge(Resources.PixelArtBridge.toSprite(), 1000, 370, 0.3, 0.3, 500, 500, "level2_bridge");
+        this.bridge = new Bridge(Resources.PixelArtBridge.toSprite(), -1800, 0, 2, 2, 500, 500, "level2_bridge");
         this.add(this.bridge);
 
 
@@ -404,7 +404,7 @@ export class VillaBaobab extends Scene {
         this.background = new Background(Resources.VillaBaobabInside.toSprite(), 0, 0, 1, 1);
         this.add(this.background);
 
-        this.baobab = new Prof(Resources.profacacia.toSprite(), 0,-150, 100, 100, "baobab");
+        this.baobab = new Prof(Resources.profacacia.toSprite(), 0, -150, 100, 100, "baobab");
         this.add(this.baobab);
 
         this.door = new Bridge(Resources.Bazookerlilly.toSprite(), 0, 400, 1, 1, 100, 100, "baobab_door");
