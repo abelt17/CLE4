@@ -50,7 +50,7 @@ export class EnemyFight extends Scene {
 
         this.enemyHealthLabel = new Label({
             text: '',
-            pos: new Vector(900, 50),
+            pos: new Vector(900, 460),
             font: new Font({
                 family: 'Arial',
                 size: 25,
@@ -117,6 +117,14 @@ export class EnemyFight extends Scene {
             this.enemy = new StaticEnemy(Resources.bmxbrainiac.toSprite(), 1000, 180, "bmxbrainiac", this);
         } else if (identifier === "symphonyofroses") {
             this.enemy = new StaticEnemy(Resources.symphonyofroses.toSprite(), 1000, 180, "symphonyofroses", this);
+        } else if (identifier === "petuninja") {
+            this.enemy = new StaticEnemy(Resources.petuninja.toSprite(), 1000, 300, "petuninja", this);
+        } else if (identifier === "ambushengage") {
+            this.enemy = new StaticEnemy(Resources.battleambush.toSprite(), 1000, 300, "ambushengage", this);
+        } else if (identifier === "scarecrow") {
+            this.enemy = new StaticEnemy(Resources.scarecrow.toSprite(), 1000, 180, "scarecrow", this);
+        } else if (identifier === "sparringsparsparringpartner") {
+            this.enemy = new StaticEnemy(Resources.sparringsparsparringpartner.toSprite(), 1000, 180, "sparringsparsparringpartner", this);
         }
         this.add(this.enemy);
         this.add(this.enemyHealthLabel);
@@ -204,6 +212,14 @@ export class EnemyFight extends Scene {
                         damage = Math.floor(Math.random() * 50) + 20;
                     } else if (this.enemy.identifier === "symphonyofroses") {
                         damage = Math.floor(Math.random() * 45) + 30;
+                    } else if (this.enemy.identifier === "petuninja") {
+                        damage = Math.floor(Math.random() * 45) + 30;
+                    } else if (this.enemy.identifier === "ambushengage") {
+                        damage = Math.floor(Math.random() * 45) + 30;
+                    } else if (this.enemy.identifier === "scarecrow") {
+                        damage = Math.floor(Math.random() * 45) + 30;
+                    } else if (this.enemy.identifier === "sparringsparsparringpartner") {
+                        damage = Math.floor(Math.random() * 45) + 30;
                     }
                     PlayerData.health -= damage;
                     this.attackMessage = `${this.enemy.identifier} attacked and dealt ${damage} damage!`;
@@ -247,6 +263,16 @@ export class EnemyFight extends Scene {
         } else if (this.enemy.identifier === "symphonyofroses") {
             xpGained = 600;
             this.engine.defeatedBosses["symphonyofroses"] = true;
+        } else if (this.enemy.identifier === "petuninja") {
+            xpGained = 250;
+        } else if (this.enemy.identifier === "ambushengage") {
+            xpGained = 300;
+        } else if (this.enemy.identifier === "scarecrow") {
+            xpGained = 700;
+            this.engine.defeatedBosses["scarecrow"] = true;
+        } else if (this.enemy.identifier === "sparringsparsparringpartner") {
+            xpGained = 2000;
+            this.engine.defeatedBosses["sparringsparsparringpartner"] = true;
         }
         PlayerData.addXP(xpGained);
 
