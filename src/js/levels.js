@@ -93,10 +93,10 @@ export class EnemyFight extends Scene {
         if (this.attackMessageLabel) this.remove(this.attackMessageLabel);
         if (this.enemyHealthLabel) this.remove(this.enemyHealthLabel);
         if (this.playerHealthLabel) this.remove(this.playerHealthLabel);
-        
-        if(!this.background) {
+
+        if (!this.background) {
             this.background = new Background(Resources.FightScene.toSprite(), 640, 360, 1, 1);
-            this.add(this.background);    
+            this.add(this.background);
         }
 
         this.add(this.attackMessageLabel);
@@ -289,7 +289,7 @@ export class Level1 extends Scene {
         // Create the fade-in actor
         this.fadeInActor = new Actor({
             pos: new Vector(640, 360),
-            width: 4000,
+            width: 4500,
             height: 3000,
             color: Color.Black,
             opacity: 1
@@ -334,12 +334,12 @@ export class Level1 extends Scene {
             this.thegnome = new Boss(Resources.thegnome.toSprite(), -1310, -1140, Resources.thegnome.width - 100, Resources.thegnome.height - 100, "thegnome");
             this.add(this.thegnome);
         }
-    
+
         if (!this.engine.defeatedBosses["sparringspar"]) {
             this.sparringspar = new Boss(Resources.sparringspar.toSprite(), 2800, 950, Resources.sparringspar.width - 100, Resources.sparringspar.height - 100, "sparringspar");
             this.add(this.sparringspar);
         }
-        }
+    }
 
     onPreUpdate(engine, delta) {
         super.onPreUpdate(engine, delta);
@@ -365,7 +365,7 @@ export class Level2 extends Scene {
         this.background = new Background(Resources.Level2bg.toSprite(), 0, 0, 2, 2);
         this.add(this.background);
 
-        this.bridge = new Bridge(Resources.PixelArtBridge.toSprite(), 1000, 370, 0.3, 0.3, 500, 500, "level2_bridge");
+        this.bridge = new Bridge(Resources.PixelArtBridge.toSprite(), -1800, 0, 2, 2, 500, 500, "level2_bridge");
         this.add(this.bridge);
 
 
@@ -377,7 +377,7 @@ export class Level2 extends Scene {
         // Create the fade-in actor
         this.fadeInActor = new Actor({
             pos: new Vector(640, 360),
-            width: 4000,
+            width: 4500,
             height: 3000,
             color: Color.Black,
             opacity: 1
@@ -428,6 +428,82 @@ export class Level2 extends Scene {
     }
 }
 
+export class Level3 extends Scene {
+    onInitialize(engine) {
+
+        previousScene.scene = 'level3'
+
+        this.background = new Background(Resources.Level3bg.toSprite(), 0, 0, 2, 2);
+        this.add(this.background);
+
+        this.bridge = new Bridge(Resources.PixelArtBridge.toSprite(), 1000, 370, 0.3, 0.3, 500, 500, "level3_bridge");
+        this.add(this.bridge);
+
+
+        this.spawnEnemies()
+
+        this.player = new Player(180, 200, engine.selectedPlayer);
+        this.add(this.player);
+
+        // Create the fade-in actor
+        this.fadeInActor = new Actor({
+            pos: new Vector(640, 360),
+            width: 4500,
+            height: 3000,
+            color: Color.Black,
+            opacity: 1
+        });
+        this.fadeInActor.anchor.setTo(0.5, 0.5);
+        this.add(this.fadeInActor);
+    }
+
+    spawnEnemies() {
+        for (let i = 0; i < 4; i++) {
+            this.petuninja = new Enemy(Resources.petuninja.toSprite(), Math.floor(Math.random() * 1000), Math.floor(Math.random() * 1000), Resources.petuninja.width - 100, Resources.petuninja.height - 100, "petuninja")
+            this.add(this.petuninja)
+        }
+
+        for (let i = 0; i < 6; i++) {
+            this.ambushengage = new Enemy(Resources.ambushengage.toSprite(), Math.floor(Math.random() * 1000) + 100, Math.floor(Math.random() * 1000) + 100, Resources.ambushengage.width - 100, Resources.ambushengage.height - 100, "ambushengage");
+            this.add(this.ambushengage);
+        }
+
+        if (!this.engine.defeatedBosses["scarecrow"]) {
+            this.scarecrow = new Boss(Resources.scarecrow.toSprite(), -1310, -1140, Resources.scarecrow.width - 100, Resources.scarecrow.height - 100, "scarecrow");
+            this.add(this.scarecrow);
+        }
+    
+        if (!this.engine.defeatedBosses["sparringsparsparringpartner"]) {
+            this.sparringsparsparringpartner = new Boss(Resources.sparringsparsparringpartner.toSprite(), 2800, 950, Resources.sparringsparsparringpartner.width - 100, Resources.sparringsparsparringpartner.height - 100, "sparringsparsparringpartner");
+            this.add(this.sparringsparsparringpartner);
+        }
+    }
+
+    onActivate() {
+        if (this.engine.enemyState !== undefined) {
+            this.engine.enemyState = true;
+        }
+
+        // Fade in the scene when activated
+        this.fadeInActor.actions.fade(0, 1000, EasingFunctions.EaseInOutCubic);
+        previousScene.scene = 'level3'
+
+    }
+
+    onPreUpdate(engine, delta) {
+        super.onPreUpdate(engine, delta);
+
+        const playerPos = this.player.pos;
+
+        this.camera.pos = playerPos;
+
+        if (engine.defeatedEnemy) {
+            this.remove(engine.defeatedEnemy);
+            engine.defeatedEnemy = null; // Reset after removal
+        }
+    }
+}
+
 export class VillaBaobab extends Scene {
     constructor() {
         super();
@@ -442,14 +518,14 @@ export class VillaBaobab extends Scene {
         this.background = new Background(Resources.VillaBaobabInside.toSprite(), 0, 0, 1, 1);
         this.add(this.background);
 
-        this.baobab = new Prof(Resources.profacacia.toSprite(), 0,-150, 100, 100, "baobab");
+        this.baobab = new Prof(Resources.profacacia.toSprite(), 0, -150, 100, 100, "baobab");
         this.add(this.baobab);
 
         this.door = new Bridge(Resources.BaobabDoor.toSprite(), 0, 650, 1, 1, 100, 100, "baobab_door");
         this.add(this.door);
 
         this.infoLabel = new Label({
-            text: 'Welcome to Villa Baobab!\n\nI am professor Baobab.\n\nYou can attack monsters by walking in them.\nThen choose blast, \nlower damage more hitchance,\nor obliterate, \nhigher damage lower hitchance.\n\nPress control to see the stats of your critter.\n\nWhen hurt in battle you can return to me\nand heal yourself by walking thru me\n\n have fun beating monsters!',
+            text: 'Welcome to Villa Baobab!\n\nI am professor Baobab.\n\nYou can attack monsters by walking to them.\nThen choose blast, \nlower damage more hitchance,\nor obliterate, \nhigher damage lower hitchance.\n\nPress control to see the stats of your critter.\n\nWhen hurt in battle you can return to me\nand heal yourself by walking to me\n\n have fun beating monsters!',
             pos: new Vector(120, -300),
             font: new Font({
                 family: 'Arial',
@@ -463,7 +539,7 @@ export class VillaBaobab extends Scene {
         this.player = new Player(180, 200, engine.selectedPlayer);
         this.add(this.player);
     }
-    
+
     onDeactivate() {
         this.removeMeter++;
         // Check if removeMeter has reached 2 (or any desired number)
