@@ -91,6 +91,27 @@ export class SelectScene extends Scene {
             })
         });
 
+        const punkcritter = new Actor({
+            pos: new Vector(360, 470),
+            scale: scale
+        });
+        punkcritter.graphics.use(Resources.punkcritter.toSprite());
+
+        const crittercamono = new Actor({
+            pos: new Vector(730, 440),
+            scale: scale
+        });
+        crittercamono.graphics.use(Resources.crittercamono.toSprite());
+
+        const critterzumbi = new Actor({
+            pos: new Vector(1100, 480),
+            scale: scale
+        });
+        critterzumbi.graphics.use(Resources.critterzumbi.toSprite());
+
+        this.add(punkcritter);
+        this.add(crittercamono);
+        this.add(critterzumbi);
         this.add(sprite1);
         this.add(sprite2);
         this.add(sprite3);
