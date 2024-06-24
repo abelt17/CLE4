@@ -116,6 +116,7 @@ export class Player extends Actor {
         this.selectedCritter = selectedCritter;
 
         this.animationFrames = {
+            spin: [{ row: 4, column: 0 }, { row: 1, column: 0 }, { row: 2, column: 0 }, { row: 3, column: 0 }],
             backward: [{ row: 4, column: 0 }, { row: 5, column: 0 }, { row: 6, column: 0 }, { row: 7, column: 0 }],
             forward: [{ row: 0, column: 1 }, { row: 1, column: 1 }, { row: 2, column: 1 }, { row: 3, column: 1 }],
             right: [{ row: 4, column: 1 }, { row: 5, column: 1 }, { row: 6, column: 1 }, { row: 7, column: 1 }],
@@ -181,6 +182,11 @@ export class Player extends Actor {
             xspeed = -200;
             direction = 'left';
         }
+
+        if (engine.input.keyboard.isHeld(Keys.Space)) {
+            direction = 'spin';
+        }
+
         if (direction !== '') {
             this.updateAnimation(direction);
         }
