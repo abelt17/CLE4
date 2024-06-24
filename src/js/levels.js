@@ -78,7 +78,7 @@ export class EnemyFight extends Scene {
     }
 
     updatePlayer(engine) {
-        this.player = new StaticPlayer(400, 600, engine.selectedCritter);
+        this.player = new StaticPlayer(800, 600, engine.selectedPlayer);
         this.add(this.player);
     }
 
@@ -185,12 +185,12 @@ export class EnemyFight extends Scene {
                     } else if (this.enemy.identifier === "bazookerlilly") {
                         damage = Math.floor(Math.random() * 30) + 10;
                     } else if (this.enemy.identifier === "thegnome") {
-                        if(Math.random() < otherHitChance){
+                        if (Math.random() < otherHitChance) {
                             damage = Math.floor(Math.random() * 50) + 40;
                         } else {
                             damage = 1;
                         }
-    
+
                     } else if (this.enemy.identifier === "sparringspar") {
                         damage = Math.floor(Math.random() * 25) + 25;
                     }
@@ -263,7 +263,7 @@ export class Level1 extends Scene {
 
         this.spawnEnemies();
 
-        this.player = new Player(180, 200, engine.selectedCritter);
+        this.player = new Player(180, 200, engine.selectedPlayer);
         this.add(this.player);
 
         // Create the fade-in actor
@@ -305,7 +305,7 @@ export class Level1 extends Scene {
             this.chomperdaisy = new Enemy(Resources.Chomperdaisy.toSprite(), Math.floor(Math.random() * 1000) + 100, Math.floor(Math.random() * 1000) + 100, Resources.Chomperdaisy.width - 100, Resources.Chomperdaisy.height - 100, "chomperdaisy");
             this.add(this.chomperdaisy);
         }
-        
+
         this.thegnome = new Boss(Resources.thegnome.toSprite(), -1310, -1140, Resources.thegnome.width - 100, Resources.thegnome.height - 100, "thegnome");
         this.add(this.thegnome);
 
@@ -334,7 +334,7 @@ export class Level2 extends Scene {
 
         previousScene.scene = 'level2'
 
-        this.background = new Background(Resources.WindowsHills.toSprite(), 750, 370, 1.1, 1);
+        this.background = new Background(Resources.Level2bg.toSprite(), 0, 0, 2, 2);
         this.add(this.background);
 
         this.bridge = new Bridge(Resources.PixelArtBridge.toSprite(), 1000, 370, 0.3, 0.3, 500, 500, "level2_bridge");
@@ -343,7 +343,7 @@ export class Level2 extends Scene {
 
         this.spawnEnemies()
 
-        this.player = new Player(180, 200, engine.selectedCritter);
+        this.player = new Player(180, 200, engine.selectedPlayer);
         this.add(this.player);
 
         // Create the fade-in actor
