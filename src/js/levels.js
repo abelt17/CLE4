@@ -117,7 +117,7 @@ export class EnemyFight extends Scene {
             this.enemy = new StaticEnemy(Resources.bmxbrainiac.toSprite(), 1000, 180, "bmxbrainiac", this);
         } else if (identifier === "symphonyofroses") {
             this.enemy = new StaticEnemy(Resources.symphonyofroses.toSprite(), 1000, 180, "symphonyofroses", this);
-        }   
+        }
         this.add(this.enemy);
         this.add(this.enemyHealthLabel);
 
@@ -243,10 +243,10 @@ export class EnemyFight extends Scene {
             this.engine.defeatedBosses["sparringspar"] = true; // Mark sparringspar as defeated
         } else if (this.enemy.identifier === "bmxbrainiac") {
             xpGained = 600;
-            this.engine.defeatedBosses["bmxbrainiac"] = true; 
+            this.engine.defeatedBosses["bmxbrainiac"] = true;
         } else if (this.enemy.identifier === "symphonyofroses") {
             xpGained = 600;
-            this.engine.defeatedBosses["symphonyofroses"] = true; 
+            this.engine.defeatedBosses["symphonyofroses"] = true;
         }
         PlayerData.addXP(xpGained);
 
@@ -368,6 +368,9 @@ export class Level2 extends Scene {
         this.bridge = new Bridge(Resources.PixelArtBridge.toSprite(), -1800, 0, 2, 2, 500, 500, "level2_bridge");
         this.add(this.bridge);
 
+        this.bridge = new Bridge(Resources.PixelArtBridge.toSprite(), 3600, 0, 2, 2, 500, 500, "level3_bridge");
+        this.add(this.bridge);
+
 
         this.spawnEnemies()
 
@@ -395,7 +398,7 @@ export class Level2 extends Scene {
             this.bmxbrainiac = new Boss(Resources.bmxbrainiac.toSprite(), -1310, -1140, Resources.bmxbrainiac.width - 100, Resources.bmxbrainiac.height - 100, "bmxbrainiac");
             this.add(this.bmxbrainiac);
         }
-    
+
         if (!this.engine.defeatedBosses["symphonyofroses"]) {
             this.symphonyofroses = new Boss(Resources.symphonyofroses.toSprite(), 670, -1490, Resources.symphonyofroses.width - 100, Resources.symphonyofroses.height - 100, "symphonyofroses");
             this.add(this.symphonyofroses);
@@ -472,7 +475,7 @@ export class Level3 extends Scene {
             this.scarecrow = new Boss(Resources.scarecrow.toSprite(), -1310, -1140, Resources.scarecrow.width - 100, Resources.scarecrow.height - 100, "scarecrow");
             this.add(this.scarecrow);
         }
-    
+
         if (!this.engine.defeatedBosses["sparringsparsparringpartner"]) {
             this.sparringsparsparringpartner = new Boss(Resources.sparringsparsparringpartner.toSprite(), 2800, 950, Resources.sparringsparsparringpartner.width - 100, Resources.sparringsparsparringpartner.height - 100, "sparringsparsparringpartner");
             this.add(this.sparringsparsparringpartner);
