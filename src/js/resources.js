@@ -45,6 +45,7 @@ const Resources = {
     VillaBaobabInside: new ImageSource('images/villa-baobab-inside.png'),
     BaobabDoor: new ImageSource('images/baobab-door.png'),
     TitleScreen: new ImageSource('images/title.png'),
+    StoneBridge: new ImageSource('images/stone-bridge.png'),
 }
 
 

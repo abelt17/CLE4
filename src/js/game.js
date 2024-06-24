@@ -3,7 +3,7 @@ import { Actor, Engine, Vector, DisplayMode, Color } from "excalibur"
 import { Resources, ResourceLoader } from './resources.js'
 import { MainMenuScene } from './mainMenu.js';
 import { IntroScene } from './introScene.js';
-import { EnemyFight, Level1, Level2, VillaBaobab } from './levels.js';
+import { EnemyFight, Level1, Level2, Level3, VillaBaobab } from './levels.js';
 import { DeathScreen } from './deathScreen.js';
 import { SelectScene } from './selectScreen.js';
 import { PlayerInfo } from './playerInfo.js';
@@ -35,6 +35,7 @@ export class Game extends Engine {
         this.add('villaBaobab', new VillaBaobab());
         this.add('level1', new Level1());
         this.add('level2', new Level2());
+        this.add('level3', new Level3());
 
 
         this.goToScene('mainmenu');
