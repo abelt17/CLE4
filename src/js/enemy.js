@@ -87,17 +87,21 @@ export class StaticEnemy extends Actor {
         } else if (identifier === "sparringspar") {
             this.health = 600;
         } else if (identifier === "symphonyofroses") {
-            this.health = 800
+            this.health = 800;
         } else if (identifier === "bmxbrainiac") {
-            this.health = 500
+            this.health = 500;
         } else if (identifier === "petuninja") {
             this.health = 500;
         } else if (identifier === "ambushengage") {
             this.health = 700;
         } else if (identifier === "scarecrow") {
-            this.health = 1000;
+            this.health = 2300;
         } else if (identifier === "sparringsparsparringpartner") {
+            this.health = 5000;
+        } else if (identifier === "thegardener") {
             this.health = 2000;
+        } else if(identifier === "toblowupmate-os") {
+            this.health = 1200;
         }
         this.particleEmitter = this.createParticleEmitter(scene);
     }

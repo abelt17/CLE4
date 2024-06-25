@@ -125,6 +125,10 @@ export class EnemyFight extends Scene {
             this.enemy = new StaticEnemy(Resources.scarecrow.toSprite(), 1000, 180, "scarecrow", this);
         } else if (identifier === "sparringsparsparringpartner") {
             this.enemy = new StaticEnemy(Resources.sparringsparsparringpartner.toSprite(), 1000, 180, "sparringsparsparringpartner", this);
+        } else if (identifier === "thegardener") {
+            this.enemy = new StaticEnemy(Resources.thegardener.toSprite(), 1000, 180, "thegardener", this);
+        } else if (identifier === "toblowupmate-os") {
+            this.enemy = new StaticEnemy(Resources.toblowupmate-os.toSprite(), 1000, 180, "toblowupmate-os", this);
         }
         this.add(this.enemy);
         this.add(this.enemyHealthLabel);
@@ -220,6 +224,10 @@ export class EnemyFight extends Scene {
                         damage = Math.floor(Math.random() * 45) + 30;
                     } else if (this.enemy.identifier === "sparringsparsparringpartner") {
                         damage = Math.floor(Math.random() * 45) + 30;
+                    } else if (this.enemy.identifier === "thegardener") {
+                        damage = Math.floor(Math.random() * 45) + 30;
+                    } else if (this.enemy.identifier === "toblowupmate-os") {
+                        damage = Math.floor(Math.random() * 45) + 30;
                     }
                     PlayerData.health -= damage;
                     this.attackMessage = `${this.enemy.identifier} attacked and dealt ${damage} damage!`;
@@ -273,6 +281,12 @@ export class EnemyFight extends Scene {
         } else if (this.enemy.identifier === "sparringsparsparringpartner") {
             xpGained = 2000;
             this.engine.defeatedBosses["sparringsparsparringpartner"] = true;
+        } else if (this.enemy.identifier === "toblowupmate-os") {
+            xpGained = 2000;
+            this.engine.defeatedBosses["toblowupmate-os"] = true;
+        } else if (this.enemy.identifier === "thegardener") {
+            xpGained = 2000;
+            this.engine.defeatedBosses["thegardener"] = true;
         }
         PlayerData.addXP(xpGained);
 
@@ -391,7 +405,7 @@ export class Level2 extends Scene {
         this.background = new Background(Resources.Level2bg.toSprite(), 0, 0, 2, 2);
         this.add(this.background);
 
-        this.bridge = new Bridge(Resources.PixelArtBridge.toSprite(), -1800, 0, 2, 2, 500, 500, "level2_bridge");
+        this.bridge = new Bridge(Resources.PixelArtBridge.toSprite(), -1800, 0, 2, 2, 10, 500, "level2_bridge");
         this.add(this.bridge);
 
         this.bridge = new Bridge(Resources.StoneBridge.toSprite(), 3600, 0, 2, 2, 500, 500, "level3_bridge");
@@ -401,6 +415,7 @@ export class Level2 extends Scene {
         this.spawnEnemies()
 
         this.player = new Player(180, 200, engine.selectedPlayer);
+        this.player.pos = new Vector(-1600, 0);
         this.add(this.player);
 
         // Create the fade-in actor
@@ -430,17 +445,20 @@ export class Level2 extends Scene {
             this.add(this.symphonyofroses);
         }
 
+        if (!this.engine.defeatedBosses["thegardener"]) {
+            this.thegardener = new Boss(Resources.thegardener.toSprite(), 2600, -40, Resources.thegardener.width - 100, Resources.thegardener.height - 100, "thegardener");
+            this.add(this.thegardener);
+        }
+
     }
 
     onActivate() {
         if (this.engine.enemyState !== undefined) {
             this.engine.enemyState = true;
         }
-
         // Fade in the scene when activated
         this.fadeInActor.actions.fade(0, 1000, EasingFunctions.EaseInOutCubic);
         previousScene.scene = 'level2'
-
     }
 
     onPreUpdate(engine, delta) {
@@ -465,13 +483,17 @@ export class Level3 extends Scene {
         this.background = new Background(Resources.Level3bg.toSprite(), 0, 0, 2, 2);
         this.add(this.background);
 
-        this.bridge = new Bridge(Resources.PixelArtBridge.toSprite(), 1000, 370, 0.3, 0.3, 500, 500, "level3_bridge");
+        this.hefbrug = new Background(Resources.Hefbrug.toSprite(), 2500, 0, 1, 1);
+        this.add(this.hefbrug);
+
+        this.bridge = new Bridge(Resources.StoneBridge.toSprite(), -1800, 370, 2, 2, 10, 500, "level4_bridge");
         this.add(this.bridge);
 
 
-        this.spawnEnemies()
+        this.spawnEnemies();
 
         this.player = new Player(180, 200, engine.selectedPlayer);
+        this.player.pos = new Vector(-1600, 0);
         this.add(this.player);
 
         // Create the fade-in actor
@@ -503,8 +525,13 @@ export class Level3 extends Scene {
         }
 
         if (!this.engine.defeatedBosses["sparringsparsparringpartner"]) {
-            this.sparringsparsparringpartner = new Boss(Resources.sparringsparsparringpartner.toSprite(), 2800, 950, Resources.sparringsparsparringpartner.width - 100, Resources.sparringsparsparringpartner.height - 100, "sparringsparsparringpartner");
+            this.sparringsparsparringpartner = new Boss(Resources.sparringsparsparringpartner.toSprite(), 2600, -10, Resources.sparringsparsparringpartner.width - 100, Resources.sparringsparsparringpartner.height - 100, "sparringsparsparringpartner");
             this.add(this.sparringsparsparringpartner);
+        }
+
+        if (!this.engine.defeatedBosses["toblowupmate-os"]) {
+            this.toblowupmate = new Boss(Resources.toblowuupmate.toSprite(), 2800, 700, Resources.toblowuupmate.width - 100, Resources.toblowuupmate.height - 100, "toblowupmate-os");
+            this.add(this.toblowupmate);
         }
     }
 

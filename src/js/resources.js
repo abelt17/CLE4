@@ -46,6 +46,7 @@ const Resources = {
     BaobabDoor: new ImageSource('images/baobab-door.png'),
     TitleScreen: new ImageSource('images/title.png'),
     StoneBridge: new ImageSource('images/stone-bridge.png'),
+    Hefbrug: new ImageSource('images/hefbrug.png'),
 }
 
 
