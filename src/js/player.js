@@ -53,7 +53,7 @@ export const PlayerData = {
     xp: 0,
     level: 1,
     xpThreshold: 100,
-    attackDamage: 200,
+    attackDamage: 10,
     previousHealth: 100,
     obliterate: 20,
     blast: 5,
@@ -76,9 +76,9 @@ export const PlayerData = {
         this.xpThreshold += 100; // Increase the XP threshold for the next level
         this.maxHealth += 20; // Increase max health
         this.health = this.maxHealth; // Restore health to max
-        this.attackDamage += 5; // Increase attack damage
-        this.obliterate += 5;
-        this.blast += 2;
+        this.attackDamage += 6; // Increase attack damage
+        this.obliterate += 6;
+        this.blast += 3;
 
         console.log(`Leveled up to level ${this.level}! Health: ${this.health}, Attack Damage: ${this.attackDamage}, Next Level XP: ${this.xpThreshold}`);
     },
@@ -171,22 +171,22 @@ export class Player extends Actor {
         let direction = '';
 
         if (engine.input.keyboard.isHeld(Keys.W) || engine.input.keyboard.isHeld(Keys.Up)) {
-            yspeed = -200;
+            yspeed = -220;
             direction = 'forward';
         }
 
         if (engine.input.keyboard.isHeld(Keys.S) || engine.input.keyboard.isHeld(Keys.Down)) {
-            yspeed = 200;
+            yspeed = 220;
             direction = 'backward';
         }
 
         if (engine.input.keyboard.isHeld(Keys.D) || engine.input.keyboard.isHeld(Keys.Right)) {
-            xspeed = 200;
+            xspeed = 220;
             direction = 'right';
         }
 
         if (engine.input.keyboard.isHeld(Keys.A) || engine.input.keyboard.isHeld(Keys.Left)) {
-            xspeed = -200;
+            xspeed = -220;
             direction = 'left';
         }
 

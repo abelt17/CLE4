@@ -128,7 +128,9 @@ export class EnemyFight extends Scene {
         } else if (identifier === "thegardener") {
             this.enemy = new StaticEnemy(Resources.thegardener.toSprite(), 1000, 180, "thegardener", this);
         } else if (identifier === "toblowupmate-os") {
-            this.enemy = new StaticEnemy(Resources.toblowupmate-os.toSprite(), 1000, 180, "toblowupmate-os", this);
+            this.enemy = new StaticEnemy(Resources.toblowuupmate.toSprite(), 1000, 180, "toblowupmate-os", this);
+        } else if (identifier === "baobab") {
+            this.enemy = new StaticEnemy(Resources.profacacia.toSprite(), 1000, 180, "baobab", this);
         }
         this.add(this.enemy);
         this.add(this.enemyHealthLabel);
@@ -205,7 +207,7 @@ export class EnemyFight extends Scene {
                         damage = Math.floor(Math.random() * 30) + 10;
                     } else if (this.enemy.identifier === "thegnome") {
                         if (Math.random() < otherHitChance) {
-                            damage = Math.floor(Math.random() * 50) + 40;
+                            damage = Math.floor(Math.random() * 80) + 40;
                         } else {
                             damage = 1;
                         }
@@ -217,17 +219,19 @@ export class EnemyFight extends Scene {
                     } else if (this.enemy.identifier === "symphonyofroses") {
                         damage = Math.floor(Math.random() * 45) + 30;
                     } else if (this.enemy.identifier === "petuninja") {
-                        damage = Math.floor(Math.random() * 45) + 30;
+                        damage = Math.floor(Math.random() * 30) + 30;
                     } else if (this.enemy.identifier === "ambushengage") {
-                        damage = Math.floor(Math.random() * 45) + 30;
+                        damage = Math.floor(Math.random() * 20) + 35;
                     } else if (this.enemy.identifier === "scarecrow") {
-                        damage = Math.floor(Math.random() * 45) + 30;
+                        damage = Math.floor(Math.random() * 50) + 13;
                     } else if (this.enemy.identifier === "sparringsparsparringpartner") {
-                        damage = Math.floor(Math.random() * 45) + 30;
+                        damage = Math.floor(Math.random() * 80) + 45;
                     } else if (this.enemy.identifier === "thegardener") {
-                        damage = Math.floor(Math.random() * 45) + 30;
+                        damage = Math.floor(Math.random() * 69) + 10;
                     } else if (this.enemy.identifier === "toblowupmate-os") {
-                        damage = Math.floor(Math.random() * 45) + 30;
+                        damage = Math.floor(Math.random() * 70) + 30;
+                    } else if (this.enemy.identifier === "baobab") {
+                        damage = Math.floor(Math.random() * 100) + 100;
                     }
                     PlayerData.health -= damage;
                     this.attackMessage = `${this.enemy.identifier} attacked and dealt ${damage} damage!`;
@@ -287,9 +291,12 @@ export class EnemyFight extends Scene {
         } else if (this.enemy.identifier === "thegardener") {
             xpGained = 2000;
             this.engine.defeatedBosses["thegardener"] = true;
+        } else if (this.enemy.identifier === "baobab") {
+            xpGained = 2000;
+            this.engine.defeatedBosses["baobab"] = true;
         }
         PlayerData.addXP(xpGained);
-
+        
         this.engine.goToScene(previousScene.scene);
         this.engine.defeatedEnemy = this.engine.currentEnemy; // Track the defeated enemy
     }
@@ -446,16 +453,29 @@ export class Level2 extends Scene {
         }
 
         if (!this.engine.defeatedBosses["thegardener"]) {
-            this.thegardener = new Boss(Resources.thegardener.toSprite(), 2600, -40, Resources.thegardener.width - 100, Resources.thegardener.height - 100, "thegardener");
+            this.thegardener = new Boss(Resources.thegardener.toSprite(), 2600, -100, Resources.thegardener.width - 100, Resources.thegardener.height - 100, "thegardener");
             this.add(this.thegardener);
         }
 
+    }
+
+    removeEnemies() {
+        for (let enemy of this.engine.currentScene.actors.filter(actor => actor instanceof Enemy)) {
+            this.remove(enemy);
+        }
     }
 
     onActivate() {
         if (this.engine.enemyState !== undefined) {
             this.engine.enemyState = true;
         }
+
+        if (this.engine.enemyState) {
+            this.removeEnemies();
+            this.spawnEnemies();
+            this.engine.enemyState = false; // Reset the respawn flag
+        }
+
         // Fade in the scene when activated
         this.fadeInActor.actions.fade(0, 1000, EasingFunctions.EaseInOutCubic);
         previousScene.scene = 'level2'
@@ -520,7 +540,7 @@ export class Level3 extends Scene {
         }
 
         if (!this.engine.defeatedBosses["scarecrow"]) {
-            this.scarecrow = new Boss(Resources.scarecrow.toSprite(), -1310, -1140, Resources.scarecrow.width - 100, Resources.scarecrow.height - 100, "scarecrow");
+            this.scarecrow = new Boss(Resources.scarecrow.toSprite(), 1480, 1500, Resources.scarecrow.width - 100, Resources.scarecrow.height - 100, "scarecrow");
             this.add(this.scarecrow);
         }
 
@@ -530,14 +550,31 @@ export class Level3 extends Scene {
         }
 
         if (!this.engine.defeatedBosses["toblowupmate-os"]) {
-            this.toblowupmate = new Boss(Resources.toblowuupmate.toSprite(), 2800, 700, Resources.toblowuupmate.width - 100, Resources.toblowuupmate.height - 100, "toblowupmate-os");
+            this.toblowupmate = new Boss(Resources.toblowuupmate.toSprite(), 1140, -1600, Resources.toblowuupmate.width - 100, Resources.toblowuupmate.height - 100, "toblowupmate-os");
             this.add(this.toblowupmate);
+        }
+        
+        if (!this.engine.defeatedBosses["baobab"]) {
+            this.baobab = new Boss(Resources.profacacia.toSprite(), -1400, -1550, Resources.profacacia.width - 100, Resources.profacacia.height - 100, "baobab");
+            this.add(this.baobab);
+        }
+    }
+
+    removeEnemies() {
+        for (let enemy of this.engine.currentScene.actors.filter(actor => actor instanceof Enemy)) {
+            this.remove(enemy);
         }
     }
 
     onActivate() {
         if (this.engine.enemyState !== undefined) {
             this.engine.enemyState = true;
+        }
+
+        if (this.engine.enemyState) {
+            this.removeEnemies();
+            this.spawnEnemies();
+            this.engine.enemyState = false; // Reset the respawn flag
         }
 
         // Fade in the scene when activated

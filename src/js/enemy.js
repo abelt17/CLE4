@@ -102,6 +102,8 @@ export class StaticEnemy extends Actor {
             this.health = 2000;
         } else if(identifier === "toblowupmate-os") {
             this.health = 1200;
+        } else if(identifier === "baobab") {
+            this.health = 10000;
         }
         this.particleEmitter = this.createParticleEmitter(scene);
     }

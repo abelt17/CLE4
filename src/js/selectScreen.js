@@ -134,25 +134,25 @@ export class SelectScene extends Scene {
                 console.log("Player1 selected");
                 this.fadeOutActor.actions.fade(1, 1000, EasingFunctions.EaseInOutCubic).callMethod(() => {
                     engine.selectedPlayer = 'player1';
-                    engine.goToScene('level3');
+                    engine.goToScene('villaBaobab');
                 });
             } else if (engine.input.keyboard.wasPressed(Keys.W) || engine.input.keyboard.wasPressed(Keys.Up)) {
                 console.log("Player2 selected");
                 this.fadeOutActor.actions.fade(1, 1000, EasingFunctions.EaseInOutCubic).callMethod(() => {
                     engine.selectedPlayer = 'player2';
-                    engine.goToScene('level3');
+                    engine.goToScene('villaBaobab');
                 });
             } else if (engine.input.keyboard.wasPressed(Keys.D) || engine.input.keyboard.wasPressed(Keys.Right)) {
                 console.log("Player3 selected");
                 this.fadeOutActor.actions.fade(1, 1000, EasingFunctions.EaseInOutCubic).callMethod(() => {
                     engine.selectedPlayer = 'player3';
-                    engine.goToScene('level3');
+                    engine.goToScene('villaBaobab');
                 });
             }
         });
     }
     selectplayerAndGoToLevel(engine, playerKey) {
         engine.selectedPlayer = playerKey;
-        engine.goToScene('level3');
+        engine.goToScene('villaBaobab');
     }
 }
