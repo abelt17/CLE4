@@ -8,7 +8,7 @@ const Resources = {
     WindowsHills: new ImageSource('images/windows-hills.jpg'),
     Level1bg: new ImageSource('images/bg-level1.png'),
     Level2bg: new ImageSource('images/bg-level2.png'),
-    Level3bg: new ImageSource('images/Placeholder_bg_level_3.png'),
+    Level3bg: new ImageSource('images/bg_level3.png'),
     BridgeHome: new ImageSource('images/storyimg.png'),
     PixelArtBridge: new ImageSource('images/level1-bridge.png'),
     Spider: new ImageSource('images/spider.png'),
